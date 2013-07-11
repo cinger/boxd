@@ -77,9 +77,12 @@ $pad: 0px;
 	bottom: 17px;
 	left: 300px;
 	overflow: auto;
+	z-index: 0;
 }
-.col-rght {
-	width: 43%;
+.cold-right {
+	position: absolute;
+	z-index: 1;
+	top=50%;
 }
 
 .module {
@@ -96,9 +99,6 @@ $pad: 0px;
   }
 }
 
-.foryou {
-
-}
 body {
 	padding: 10px 50px 200px;
   background: #FFFFFF;
@@ -193,21 +193,24 @@ $pad: 0px;
     width: 13%;
 }
 .col-midd {
-	width: 53%;
 	position: absolute;
-	top: 17px;
-	bottom: 17px;
+	width: 53%;
+	top: 0px;
+	bottom: 0px;
 	left: 300px;
-	overflow: auto;
+	overflow: hidden;
 }
 .col-rght {
 	width: 43%;
 }
+.cold-right {
+	position: absolute;
+	left:750px;	
+	z-index: 1;
+}
 
 .module {
   padding: $pad;
-
-
 }
 
 /* Opt-in outside padding */
@@ -217,10 +220,14 @@ $pad: 0px;
     padding-right: $pad;
   }
 }
-
-.foryou {
-
+.scrolld {
+	height: 100%;
+	width: 104%;
+	overflow: auto;
 }
+
+
+
 body {
 	padding: 10px 50px 200px;
   background: #FFFFFF;

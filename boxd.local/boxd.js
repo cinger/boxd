@@ -3,7 +3,6 @@ var vald = 17;  //used to nullify consecutive clicks on an already focused textb
 	$('p.padittop').css('padding-top',boxheight+'px');
 	$('p.paditbot').css('padding-bottom',boxheight+'px');
 
-
 $(document).on('click','textarea',function() {
 	$('p.padittop').css('padding-top',boxheight+'px');
 	$('p.paditbot').css('padding-bottom',boxheight+'px');
@@ -18,8 +17,8 @@ $(document).on('click','textarea',function() {
 					  var hlfbox = totbox/2;
 						var offbox = hlfbox+postop;
 						var offwin = hlfwin-offbox;
-						var centd = $('#foryou.col-midd').scrollTop()-offwin;
-						$('#foryou.col-midd').animate({ scrollTop: centd },700);
+						var centd = $('#foryou.scrolld').scrollTop()-offwin;
+						$('#foryou.scrolld').animate({ scrollTop: centd },700);
 						
 						});
 					}	
@@ -72,7 +71,7 @@ function thesets() { //uses boxheight, shrunkheight
 	} // this way at least a single line is visible
 	
 	$('p.dyhei').text('hei : '+ boxheight);
-	$('#foryou.col-midd').css('height',(boxheight*2-33)+'px');
+	$('#foryou.scrolld').css('height',(boxheight*2-33)+'px');
 } // thesets(), sets textarea dimensions
 
 

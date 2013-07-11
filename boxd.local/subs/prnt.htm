@@ -1,0 +1,31 @@
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>boxd</title>
+	</head>
+
+<body>
+			
+	<div class='sheet' style="width: 75%; white-space: -moz-pre-wrap; word-wrap: break-word; overflow: auto; ">
+					<p id='print'> </p>
+	</div>
+
+</body>
+
+</html>
+
+<script>
+		function sani(s) {
+    	s = s.replace(/\&/gi, "&amp");
+    	s = s.replace(/\</gi, "&lt");
+    	s = s.replace(/\>/gi, "&gt");
+			return s;
+		} //sani()
+				var printd = "";
+	for ( key in localStorage ){
+					cleand = sani(localStorage[key]);
+					printd=printd+"<br />"+key+" :: <br />"+cleand+"</br>";
+	}
+	document.getElementById('print').innerHTML = printd;
+</script>
