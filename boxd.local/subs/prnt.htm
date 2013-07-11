@@ -7,8 +7,8 @@
 
 <body>
 			
-	<div class='sheet' style="width: 75%; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; overflow: auto; ">
-					<p id='print'> </p>
+	<div style="width: 75%; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; overflow: auto; ">
+		<p id='print'> </p>
 	</div>
 
 </body>
@@ -17,18 +17,18 @@
 
 <script>
 		function sani(s) {
-    	s = s.replace(/\&/gi, "&amp");
-    	s = s.replace(/\</gi, "&lt");
-    	s = s.replace(/\>/gi, "&gt");
+    	s = s.replace(/\&/gi, "&amp"); // & symbol
+    	s = s.replace(/\</gi, "&lt"); // < symbol
+			s = s.replace(/\>/gi, "&gt"); // > symbol
 			return s;
-		} //sani()
-		var printd = "{";
+		} //sani() .. replaces symbols necessary to run arbitrary html code on (print), light security measure
+	var printd = "{";
 	for ( key in localStorage ){
-					if (localStorage[key] ){
-						cleand = sani(localStorage[key]);
-						printd=printd+'<br /> "'+key+'" : <br />"'+cleand+'",</br>';
-					}
+		if (localStorage[key] ){
+			cleand = sani(localStorage[key]);
+			printd=printd+'<br /> "'+key+'" : <br />"'+cleand+'",</br>';
+		}
 	}
-	printd = printd.substring(0,printd.length-6)+'}';
+	printd = printd.substring(0,printd.length-6)+'<br />}';
 	document.getElementById('print').innerHTML = printd;
 </script>
