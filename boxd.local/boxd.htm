@@ -1,0 +1,84 @@
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="./sty/sty.css" />		
+	<script src="./jquery.js"></script>
+<script>
+	$().ready(function() {
+		//retrieve			
+ 		$('textarea#boxa').val(localStorage["boxa"]);
+ 		$('textarea#boxb').val(localStorage["boxb"]);
+ 		$('textarea#boxc').val(localStorage["boxc"]);
+ 		$('textarea#boxd').val(localStorage["boxd"]);
+					
+	  var $scrollingDiv = $("#scrollingDiv");
+		$(window).scroll(function(){			
+			$scrollingDiv
+				.stop()
+				//.animate({"marginTop": ($(window).scrollTop() + 30) + "px"}, "slow" );			
+				.animate({"marginTop": ($(window).scrollTop() + 30) + "px"}, "fast" );			
+		});
+	});
+</script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>boxd</title>
+</head>
+<body onresize="thesets()">
+				<!--input type="hidden" value="0" id="theValue"/--!>
+	<div class="grid">
+					
+		<div class="col-left" id="left">
+				<div class="module" id="scrollingDiv">
+					<input type="button" value="add" onclick="addele()" />
+					<input type="button" value="rem" onclick="remele()" />
+					<input type="button" value="store" onclick="store()" />
+					<p class="display">The value of the text input is: </p>
+					<p class="dyhei">hei : </p>
+					<p class="dispy">scroll : </p>
+				</div>
+				
+					<p class="display">The value of the text input is: </p>
+						<!--div class="module" id="scrollingDiv">
+			<input type="button" value="add" onclick="addele()" />
+			<input type="button" value="rem" onclick="remele()" />
+			<p class="display">The value of the text input is: </p>
+			<p class="dyhei">hei : </p>
+			</div--!>
+ 	  </div> <!--div class="col-left"-->
+
+   
+		<div class="col-midd" id="foryou">
+					<p class="padittop"></p>
+				<div class="module" id="theflow">
+					<textarea class="tecksd" placeholder="boxa" id="boxa" ></textarea>
+					<textarea class="tecksd" placeholder="boxb" id="boxb"></textarea>
+					<textarea class="tecksd" placeholder="boxc" id="boxc"></textarea>
+					<textarea class="tecksd" placeholder="boxd" id="boxd"></textarea>
+				</div>
+					<p class="paditbot"></p>
+ 	 	</div> <!--div class="col-midd"-->
+	</div> <!--div class="grid"-->
+
+</body>
+</html>
+
+<!-- 
+sans sin: without sin, or without without; you are always right in whatever it is you are doing
+
+last is the first: live every year remembering great times spent together
+
+anagram: of first word of sentence; hello, everyone left lovely ornaments
+
+expressing positives: completely disallows negatives
+
+expelling negatives: highlights negative constructions as you write refusing to save while any are left
+
+multiple boxes, boxes a, b, c, d, then roman numerals (i)
+
+box d is whatever rule set i use, prohibiting negatives, all lowercase, fullstops are new lines, only commas, colon ends with semicolon, without parenthesis, 
+
+box (xvii) is a friendly message i will update regularly.
+
+--!>
+
+	<script type="text/javascript" src="cent.js"></script> 
+	<script type="text/javascript" src="boxd.js"></script> 
