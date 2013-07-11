@@ -24,8 +24,10 @@
 		} //sani()
 				var printd = "";
 	for ( key in localStorage ){
-					cleand = sani(localStorage[key]);
-					printd=printd+"<br />"+key+" :: <br />"+cleand+"</br>";
+					if (localStorage[key] ){
+						cleand = sani(localStorage[key]);
+						printd=printd+"<br />"+key+" :: <br />"+cleand+"</br>";
+					}
 	}
 	document.getElementById('print').innerHTML = printd;
 </script>
