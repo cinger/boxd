@@ -75,12 +75,12 @@ function store() {
 				
 	console.log($('#theflow').children().length-4);
 	
+	
   $('#theflow > textarea').each(function() {
 	console.log(this.id);
 	console.log(this.value);
   localStorage[this.id]=this.value;		
-	});
-
+	})
 }
 
 
@@ -100,6 +100,11 @@ function addele() {    //uses +numb,DOM
   flow.appendChild(newbox);
 	
 	numb = num;
+	
+	if ( localStorage[newboxid] ){
+  	newbox.value=localStorage[newboxid];		
+	}
+	
 } //addele(), add element
 
 function remele(){ //uses DOM
