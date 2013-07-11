@@ -30,7 +30,7 @@
 	for ( key in localStorage ){
 		if (localStorage[key] ){
 			cleand = sani(localStorage[key]);
-			printd=printd+'<br /> "'+key+'" : <br />"'+cleand+'",</br>'; //just some output formatting, again in the hopes that it will 
+			printd=printd+'<br /> "'+key+'" : <br />"'+cleand+'",</br>'; //just some output formatting for the sake of a json object output, the <br /> newlines are just so it is more readable at time of (print)
 		}
 	} // for(), localStorage is stored as an object so this loop iterates through all of the keys of the object
 	
