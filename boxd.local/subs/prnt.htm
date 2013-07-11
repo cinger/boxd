@@ -7,7 +7,7 @@
 
 <body>
 			
-	<div class='sheet' style="width: 75%; white-space: -moz-pre-wrap; word-wrap: break-word; overflow: auto; ">
+	<div class='sheet' style="width: 75%; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; overflow: auto; ">
 					<p id='print'> </p>
 	</div>
 
@@ -22,12 +22,13 @@
     	s = s.replace(/\>/gi, "&gt");
 			return s;
 		} //sani()
-				var printd = "";
+		var printd = "{";
 	for ( key in localStorage ){
 					if (localStorage[key] ){
 						cleand = sani(localStorage[key]);
-						printd=printd+"<br />"+key+" :: <br />"+cleand+"</br>";
+						printd=printd+'<br /> "'+key+'" : <br />"'+cleand+'",</br>';
 					}
 	}
+	printd = printd.substring(0,printd.length-6)+'}';
 	document.getElementById('print').innerHTML = printd;
 </script>
