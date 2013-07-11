@@ -9,7 +9,7 @@
  		$('textarea#boxb').val(localStorage["boxb"]);
  		$('textarea#boxc').val(localStorage["boxc"]);
  		$('textarea#boxd').val(localStorage["boxd"]);
-					
+		stord();
 	  var $scrollingDiv = $("#scrollingDiv");
 		$(window).scroll(function(){			
 			$scrollingDiv
@@ -32,6 +32,7 @@
 					<input type="button" value="rem" onclick="remele()" />
 					<input type="button" value="store" onclick="store()" />
 					<p class="display">The value of the text input is: </p>
+					<p class="stord">stord: </p>
 					<p class="dyhei">hei : </p>
 					<p class="dispy">scroll : </p>
 				</div>

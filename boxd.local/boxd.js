@@ -41,7 +41,14 @@ $(document).on('blur','textarea',function() {
 
 $(document).on('keyup change','textarea', function() {
 		$('p.display').text('boxy: ' + $('#'+boxfoc.id).position().top);
-	});
+});
+
+
+function stord() {
+		var stord = unescape(encodeURIComponent(JSON.stringify(localStorage))).length/1024/1024;
+		var shortd = stord.toFixed(3);
+		$('p.stord').text('store: ' + shortd + 'mb');
+}
 
 
 var numb = 0;
@@ -71,7 +78,7 @@ function thesets() { //uses boxheight, shrunkheight
 
 function store() {
 
-	localStorage.clear();
+	//localStorage.clear();
 				
 	console.log($('#theflow').children().length-4);
 	
@@ -79,7 +86,8 @@ function store() {
   $('#theflow > textarea').each(function() {
 	console.log(this.id);
 	console.log(this.value);
-  localStorage[this.id]=this.value;		
+  localStorage[this.id]=this.value;	
+	stord();
 	})
 }
 
