@@ -1,0 +1,255 @@
+
+@media (max-width:480px) 
+{
+
+.tecksd {
+	padding: 3px;
+	margin: 1px;
+	width: 97%;
+	height: 51;
+	resize: none;
+	outline: none;
+ 	border: none;
+	font-family: "Lucida Console", Monaco, monospace;
+	font-weight: 100;
+	font-size: 70%;
+	background: white;
+/*	box-shadow: 1px 2px 7px 1px #0044FF;*/
+}
+
+.tecksded {
+	width: 97%;
+	resize: none;
+	outline: none;
+ 	border: none;
+	overflow: auto;
+	position: relative;
+	font-family: "Lucida Console", Monaco, monospace;
+	font-weight: 100;
+	font-size: 70%;
+	background: white;
+/*	box-shadow: 1px 2px 7px #FFDD00;*/
+}
+
+
+/*#postcomp {
+	width: 500px;
+}*/
+
+
+* {
+  @include box-sizing(border-box);
+}
+
+$pad: 0px;
+
+.grid {
+  background: white;
+  margin: 0 0 $pad 0;
+  position: absolute;
+	top: 0px;
+	bottom: 0px;
+	&:after {
+    /* Or @extend clearfix */
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+[class*='col-'] {
+	float: left;
+  padding-right: $pad;
+  .grid &:last-of-type {
+  	padding-right: 0;
+  }
+}
+.col-left {
+		top: 0px;
+		position: absolute;
+		height: 17px;
+    width: 100%;
+}
+.col-midd {
+	width: 100%;
+	position: absolute;
+	top: 17px;
+	bottom: 17px;
+	left: 300px;
+	overflow: auto;
+	z-index: 0;
+}
+.cold-right {
+	position: absolute;
+	z-index: 1;
+	top=50%;
+}
+
+.module {
+  padding: $pad;
+
+
+}
+
+/* Opt-in outside padding */
+.grid-pad {
+  padding: $pad 0 $pad $pad;
+  [class*='col-']:last-of-type {
+    padding-right: $pad;
+  }
+}
+
+body {
+	padding: 10px 50px 200px;
+  background: #FFFFFF;
+  background-image: url('./backgrid.png');
+
+}
+h1 {
+  color: black;
+	font-size: 11px;
+	font-family: "Lucida Console", Monaco, monospace;
+	font-weight: 100;
+}
+.padittop {
+	padding-top: 0px;
+}
+.paditbot {
+	padding-bottom: 0px;
+}
+p {
+  color: white;
+	font-size: 11px;
+	font-family: "Lucida Console", Monaco, monospace;
+	font-weight: 100;
+}
+}
+@media (min-width:484px) 
+{
+
+.tecksd {
+	padding: 3px;
+	margin: 1px;
+	width: 97%;
+	height: 51;
+	resize: none;
+	outline: none;
+ 	border: none;
+	font-family: "Lucida Console", Monaco, monospace;
+	font-weight: 100;
+	font-size: 70%;
+	background: white;
+/*	box-shadow: 1px 2px 7px 1px #0044FF;*/
+}
+
+.tecksded {
+	width: 97%;
+	resize: none;
+	outline: none;
+ 	border: none;
+	overflow: auto;
+	position: relative;
+	font-family: "Lucida Console", Monaco, monospace;
+	font-weight: 100;
+	font-size: 70%;
+	background: white;
+/*	box-shadow: 1px 2px 7px #FFDD00;*/
+}
+
+
+/*#postcomp {
+	width: 500px;
+}*/
+
+
+* {
+  @include box-sizing(border-box);
+}
+
+$pad: 0px;
+
+.grid {
+  background: white;
+  margin: 0 0 $pad 0;
+  position: absolute;
+	top: 0px;
+	bottom: 0px;
+	&:after {
+    /* Or @extend clearfix */
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+[class*='col-'] {
+	float: left;
+  padding-right: $pad;
+  .grid &:last-of-type {
+  	padding-right: 0;
+  }
+}
+.col-left {
+    width: 13%;
+}
+.col-midd {
+	position: absolute;
+	width: 53%;
+	top: 0px;
+	bottom: 0px;
+	left: 300px;
+	overflow: hidden;
+}
+.col-rght {
+	width: 43%;
+}
+.cold-right {
+	position: absolute;
+	left:750px;	
+	z-index: 1;
+}
+
+.module {
+  padding: $pad;
+}
+
+/* Opt-in outside padding */
+.grid-pad {
+  padding: $pad 0 $pad $pad;
+  [class*='col-']:last-of-type {
+    padding-right: $pad;
+  }
+}
+.scrolld {
+	height: 100%;
+	width: 104%;
+	overflow: auto;
+}
+
+
+
+body {
+	padding: 10px 50px 200px;
+  background: #FFFFFF;
+  background-image: url('./backgrid.png');
+
+}
+h1 {
+  color: black;
+	font-size: 11px;
+	font-family: "Lucida Console", Monaco, monospace;
+	font-weight: 100;
+}
+.padittop {
+	padding-top: 0px;
+}
+.paditbot {
+	padding-bottom: 0px;
+}
+p {
+  color: white;
+	font-size: 11px;
+	font-family: "Lucida Console", Monaco, monospace;
+	font-weight: 100;
+}
+}

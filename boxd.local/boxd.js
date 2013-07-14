@@ -1,3 +1,14 @@
+var numb = 0;
+var boxheight = window.outerHeight/2;   //focusd box
+var shrunkheight = boxheight/7;         //unfocusd box
+	if ( shrunkheight < 17 ){
+		shrunkheight = 17;
+	} // this way at least a single line is visible
+
+var boxfoc = "";
+var olebox = "";
+
+
 var vald = 17;  //used to nullify consecutive clicks on an already focused textbox,17 or undf
 	boxheight=window.innerHeight/2;
 	$('p.padittop').css('padding-top',boxheight+'px');
@@ -6,10 +17,11 @@ var vald = 17;  //used to nullify consecutive clicks on an already focused textb
 $(document).on('click','textarea',function() {
 	$('p.padittop').css('padding-top',boxheight+'px');
 	$('p.paditbot').css('padding-bottom',boxheight+'px');
+
 					if ( vald ) {
 						$(this).animate({ height: boxheight }, 1000,function(){
-						$('p.display').text($('#'+this.id).position().top+".."+vald+',.,'+(numb+4)+";box: "+boxheight+";shrunk: "+shrunkheight);
-						
+						$('p.anot').text($('#'+this.id).position().top+".."+vald+',.,'+(numb+4)+";box: "+boxheight+";shrunk: "+shrunkheight);
+
 						var postop = $('#'+this.id).position().top;
 					  var totwin = boxheight*2;
 						var hlfwin = totwin/2;
@@ -19,12 +31,13 @@ $(document).on('click','textarea',function() {
 						var offwin = hlfwin-offbox;
 						var centd = $('#foryou.scrolld').scrollTop()-offwin;
 						$('#foryou.scrolld').animate({ scrollTop: centd },700);
-						
+
 						});
-					}	
+					}
 						olebox = boxfoc;
 						boxfoc = this;
 						vald='';
+    $('p.boxy').text('boxy: ' + $('#'+boxfoc.id).position().top);
 });
 
 $('#foryou').scroll(function() {
@@ -32,91 +45,91 @@ $('#foryou').scroll(function() {
 });
 
 $(document).on('blur','textarea',function() {
-					vald=17;	
+					vald=17;
 					$(this).animate({ height: shrunkheight }, 980);  // 17*3=51
 	//$('p.padittop').css('padding-top',0+'px');
 	//$('p.paditbot').css('padding-bottom',0+'px');
 });
 
 $(document).on('keyup change','textarea', function() {
-		$('p.display').text('boxy: ' + $('#'+boxfoc.id).position().top);
+var n = 17;
+		//$('p.display').text(this.value);
 });
 
 
 function stord() {
-		var stord = unescape(encodeURIComponent(JSON.stringify(localStorage))).length/1024/1024;
-		var shortd = stord.toFixed(3);
-		$('p.stord').text('store: ' + shortd + 'mb');
+                var stord = unescape(encodeURIComponent(JSON.stringify(localStorage))).length/1024/1024;
+                var shortd = stord.toFixed(3);
+                $('p.stord').text('store: ' + shortd + 'mb');
+                var fivemegworthchars = 5000000;
+                var fivemegworthlines = 65000;
+                var liney=fivemegworthlines - shortd*fivemegworthlines;
+                var chardy=fivemegworthchars - shortd*fivemegworthchars;
+                $('p.tona').text('lines left: ' + liney + '..characters left: ' + chardy);
 }
 
 
-var numb = 0;
-var boxheight = window.outerHeight/2;   //focusd box
-var shrunkheight = boxheight/7;         //unfocusd box
-	if ( shrunkheight < 17 ){
-		shrunkheight = 17; 
-	} // this way at least a single line is visible
-
-var boxfoc = "";
-var olebox = "";
 
 function thesets() { //uses boxheight, shrunkheight
-	boxheight=window.innerHeight/2;
-	$('p.padittop').css('padding-top',boxheight+'px');
-	$('p.paditbot').css('padding-bottom',boxheight+'px');
-	
-	shrunkheight = boxheight/7;
-	if ( shrunkheight < 17 ){
-		shrunkheight = 17; 
-	} // this way at least a single line is visible
-	
-	$('p.dyhei').text('hei : '+ boxheight);
-	$('#foryou.scrolld').css('height',(boxheight*2-33)+'px');
+                boxheight=window.innerHeight/2;
+                $('p.padittop').css('padding-top',boxheight+'px');
+                $('p.paditbot').css('padding-bottom',boxheight+'px');
+
+                shrunkheight = boxheight/7;
+                if ( shrunkheight < 17 ){
+                  shrunkheight = 17;
+                } // this way at least a single line is visible
+
+                $('p.dyhei').text('hei : '+ boxheight);
+
+                $('#foryou.scrolld').css('height',(boxheight*2-33)+'px');
 } // thesets(), sets textarea dimensions
 
 
 function store() {
 
-	//localStorage.clear();
-				
-	console.log($('#theflow').children().length-4);
-	
-	
-  $('#theflow > textarea').each(function() {
-	console.log(this.id);
-	console.log(this.value);
-  localStorage[this.id]=this.value;	
-	stord();
-	})
+                //localStorage.clear();
+
+                console.log($('#theflow').children().length-4);
+
+
+                $('#theflow > textarea').each(function() {
+                console.log(this.id);
+                console.log(this.value);
+                localStorage[this.id]=this.value;
+                stord();
+                })
 }
 
 
 function addele() {    //uses +numb,DOM
 
-  var flow = document.getElementById('theflow');
-	var num = ( numb ) + 1;
-	var romu = romanise(num);
-  
-  var newbox = document.createElement('textarea');
-  var newboxid ='box'+num;
+                var flow = document.getElementById('theflow');
+                var num = ( numb ) + 1;
+                var romu = romanise(num);
 
-  newbox.setAttribute('id',newboxid);
-	newbox.setAttribute('class','tecksd');
-	newbox.setAttribute('placeholder','('+romu+')');
+                var newbox = document.createElement('textarea');
+                var newboxid ='box'+num;
 
-  flow.appendChild(newbox);
-	
-	numb = num;
-	
-	if ( localStorage[newboxid] ){
-  	newbox.value=localStorage[newboxid];		
-	}
-	
+                newbox.setAttribute('id',newboxid);
+                newbox.setAttribute('class','tecksd');
+                newbox.setAttribute('placeholder','('+romu+')');
+
+                flow.appendChild(newbox);
+
+                numb = num;
+
+                if ( localStorage[newboxid] ){
+                  newbox.value=localStorage[newboxid];
+                }
+
 } //addele(), add element
 
+
+
 function remele(){ //uses DOM
-  var flow = document.getElementById('theflow');
-  flow.removeChild(boxfoc);
+                var flow = document.getElementById('theflow');
+                flow.removeChild(boxfoc);
 } // remele(), remove element
 
 
@@ -124,17 +137,17 @@ function remele(){ //uses DOM
 
 
 function romanise (num) { //inde
-    if (!+num)
-        return false;
-    var digits = String(+num).split(""),
-        key = ["","c","cc","ccc","cd","d","dc","dcc","dccc","cm",
-               "","x","xx","xxx","xl","l","lx","lxx","lxxx","xc",
-               "","i","ii","iii","iv","v","vi","vii","viii","ix"],
-        roman = "",
-        i = 3;
-    while (i--)
-        roman = (key[+digits.pop() + (i * 10)] || "") + roman;
-    return Array(+digits.join("") + 1).join("M") + roman;
+                if (!+num)
+                    return false;
+                var digits = String(+num).split(""),
+                    key = ["","c","cc","ccc","cd","d","dc","dcc","dccc","cm",
+                           "","x","xx","xxx","xl","l","lx","lxx","lxxx","xc",
+                           "","i","ii","iii","iv","v","vi","vii","viii","ix"],
+                    roman = "",
+                    i = 3;
+                while (i--)
+                    roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+                return Array(+digits.join("") + 1).join("M") + roman;
 } // romanise(), turn numbers into roman numerals
 
 
@@ -188,7 +201,7 @@ function romanise (num) { //inde
 			return s;
 		}
 
-/////	
+/////
 		function clear() {
 			document.getElementById('postcomp').innerHTML = "";
     			document.getElementById('helpbox').innerHTML = "";
@@ -203,23 +216,23 @@ function romanise (num) { //inde
 		} //sani()
 		function trim(s) {
     	s = s.replace(/(^\s*)|(\s*$)/gi,"");
-    	s = s.replace(/[ ]{2,}/gi," "); 
-    	s = s.replace(/\n /,"\n"); 
+    	s = s.replace(/[ ]{2,}/gi," ");
+    	s = s.replace(/\n /,"\n");
 			return s;
 		} //trim()
-	
+
 
 function interpret() {   //uses sani(),trim(),implementation(),recognise()
 		clear();
     var text = document.getElementById('my_text');
     var div = document.getElementById('postcomp');
     var helpbox = document.getElementById('helpbox');
-  
-    var hippo=""; 
-  
+
+    var hippo="";
+
     var fulltext = trim(sani(text.value));
 
-		var sentences = fulltext.split(";");	
+		var sentences = fulltext.split(";");
 			var howmanysentences = sentences.length;
 		alert(howmanysentences);
 		var i = 0; //sentences[1..n]
@@ -233,7 +246,7 @@ function interpret() {   //uses sani(),trim(),implementation(),recognise()
 
 		//hippo=sansaccent(fulltext);
 		div.innerHTML = hippo;
-		
+
 		//div.innerHTML = stringer;
 		//div.innerHTML = hitems;
 		//div.innerHTML = stringer+"</br></br></br>"+hitems;

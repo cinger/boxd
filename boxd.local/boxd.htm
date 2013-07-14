@@ -1,21 +1,23 @@
 <html>
+<meta id="viewport" name="viewport" content="initial-scale=1.0, user-scalable=0,
+minimum-scale=1.0, maximum-scale=1.0" />
 <head>
-	<link rel="stylesheet" type="text/css" href="./sty/sty.css" />		
-	<script src="./jquery.js"></script>
-<script>
+	<link rel="stylesheet" type="text/css" href="./sty/sty.css" />
+
+<script defer="defer">
 	$().ready(function() {
-		//retrieve			
+		//retrieve
  		$('textarea#boxa').val(localStorage["boxa"]);
  		$('textarea#boxb').val(localStorage["boxb"]);
  		$('textarea#boxc').val(localStorage["boxc"]);
  		$('textarea#boxd').val(localStorage["boxd"]);
 		stord();
 	  var $scrollingDiv = $("#scrollingDiv");
-		$(window).scroll(function(){			
-			$scrollingDiv
+		$(window).scroll(function(){
+			$crollingDiv
 				.stop()
-				//.animate({"marginTop": ($(window).scrollTop() + 30) + "px"}, "slow" );			
-				.animate({"marginTop": ($(window).scrollTop() + 30) + "px"}, "fast" );			
+				//.animate({"marginTop": ($(window).scrollTop() + 30) + "px"}, "slow" );
+				.animate({"marginTop": ($(window).scrollTop() + 30) + "px"}, "fast" );
 		});
 	});
 </script>
@@ -23,54 +25,53 @@
 	<title>boxd</title>
 </head>
 <body onresize="thesets()">
-				<!--input type="hidden" value="0" id="theValue"/--!>
-	<div class="grid">
-					
-		<div class="col-left" id="left">
-				<div class="module" id="scrollingDiv">
-					<input type="button" value="add" onclick="addele()" />
-					<input type="button" value="rem" onclick="remele()" />
-					<input type="button" value="store" onclick="store()" />
-					<a href="subs/prnt.htm" style="text-decoration: none"><input type="button" value="print" onclick="store()" /></a>
-					<p class="display">The value of the text input is: </p>
-					<p class="stord">stord: </p>
-					<p class="dyhei">hei : </p>
-					<p class="dispy">scroll : </p>
-				</div>
-				
-					<p class="display">The value of the text input is: </p>
-						<!--div class="module" id="scrollingDiv">
-			<input type="button" value="add" onclick="addele()" />
-			<input type="button" value="rem" onclick="remele()" />
-			<p class="display">The value of the text input is: </p>
-			<p class="dyhei">hei : </p>
-			</div--!>
- 	  </div> <!--div class="col-left"-->
+				<!--input type="hidden" value="0" id="theValue"/-->
 
-   
-		<div class="col-midd">
-			<div class="scrolld" id="foryou">	
-				<p class="padittop"></p>
-				<div class="module" id="theflow">
-					<textarea class="tecksd" placeholder="boxa" id="boxa" ></textarea>
-					<textarea class="tecksd" placeholder="boxb" id="boxb"></textarea>
-					<textarea class="tecksd" placeholder="boxc" id="boxc"></textarea>
-					<textarea class="tecksd" placeholder="boxd" id="boxd"></textarea>
-				</div>
-				<p class="paditbot"></p>
-			</div>
-		</div> <!--div class="col-midd"-->
-	
+				<div class="control">
+					<!--input type="button" value="add" onclick="addele()" /-->
+							<input type="image" src="sty/add.png" width="30" height="30" class="clicks" onclick="addele()" />
+							<br />	<input type="image" src="sty/rem.png" class="clicks"  onclick="remele()" />
+							<br />	<input type="image" src="sty/store.png" class="clicks"  onclick="store()" />
+							<br />	<a href="subs/prnt.htm" style="text-decoration: none"><input type="image" src="sty/print.png" class="clicks"  onclick="printd()" /></a>
+
+				</div> <!-- div class="control" -->
+
+<div class="thelot">
+			
+		<div class="whereitsat">
+					<div class="scrolld" id="foryou">
+						<p class="padittop"></p>
+						<div id="theflow">
+							<textarea class="tecksd" placeholder="boxa" id="boxa" ></textarea>
+							<textarea class="tecksd" placeholder="boxb" id="boxb"></textarea>
+							<textarea class="tecksd" placeholder="boxc" id="boxc"></textarea>
+							<textarea class="tecksd" placeholder="boxd" id="boxd"></textarea>
+						</div><!-- div id="theflow" -->
+						<p class="paditbot"></p>
+					</div><!-- div class="scrolld" -->
+		</div> <!--div class="whereitsat"-->
 		<div class="cold-right">
 			<p>FUCKER</p>
 		</div>
-	
-	</div> <!--div class="grid"-->
+</div><!-- div class="thelot" -->
+				<div class="hip">	
+        	<p class="display">The value of the text input is: </p>
+					<p class="stord">stord: </p>
+	        <p class="anot">stord: </p>
+        	<p class="tona">stord: </p>
+          <p class="boxy">stord: </p>
+					<p class="dyhei">hei : </p>
+					<p class="dispy">scroll : </p>
+					<p class="display">The value of the text input is: </p>
+				</div>			
 
+	<script async src="./jquery.js"></script>
+	<script async type="text/javascript" src="cent.js"></script>
+	<script async type="text/javascript" src="boxd.js"></script>
 </body>
 </html>
 
-<!-- 
+<!--
 sans sin: without sin, or without without; you are always right in whatever it is you are doing
 
 last is the first: live every year remembering great times spent together
@@ -83,11 +84,9 @@ expelling negatives: highlights negative constructions as you write refusing to 
 
 multiple boxes, boxes a, b, c, d, then roman numerals (i)
 
-box d is whatever rule set i use, prohibiting negatives, all lowercase, fullstops are new lines, only commas, colon ends with semicolon, without parenthesis, 
+box d is whatever rule set i use, prohibiting negatives, all lowercase, fullstops are new lines, only commas, colon ends with semicolon, without parenthesis,
 
 box (xvii) is a friendly message i will update regularly.
 
---!>
+-->
 
-	<script type="text/javascript" src="cent.js"></script> 
-	<script type="text/javascript" src="boxd.js"></script> 
