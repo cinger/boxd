@@ -20,33 +20,18 @@
 /*	box-shadow: 1px 2px 7px 1px #0044FF;*/
 }
 
-.tecksded {
-	width: 90%;
-	resize: none;
-	outline: none;
- 	border: none;
-	overflow: auto;
-	position: relative;
-	font-family: "Lucida Console", Monaco, monospace;
-	font-weight: 100;
-	font-size: 70%;
-	background: white;
-/*	box-shadow: 1px 2px 7px #FFDD00;*/
-}
-
 .control {
 	position:absolute;
 	left: 0%;
 }
-
-.thelot {
-	height: 100%;
-}
-
 .clicks {
 	width: 25px;
 	height: 25px;
 	padding-bottom: 17%;
+}
+
+.thelot {
+	height: 100%;
 }
 
 .whereitsat {
@@ -56,16 +41,28 @@
 	left: 10%;
 }
 
-.cold-right {
-	position: absolute;
-	left:750px;
-}
-
 .scrolld {
 	position:absolute;
 	height: 100%;
 	width: 104%;
 	overflow: auto;
+}
+
+.padittop {
+	padding-top: 0px;
+}
+
+
+.paditbot {
+	padding-bottom: 0px;
+}
+
+
+
+
+.cold-right {
+	position: absolute;
+	left:750px;
 }
 
 html {
@@ -87,12 +84,6 @@ h1 {
 	font-weight: 100;
 }
 
-.padittop {
-	padding-top: 0px;
-}
-.paditbot {
-	padding-bottom: 0px;
-}
 
 p {
   color: #123456;
