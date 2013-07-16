@@ -3,22 +3,17 @@
 minimum-scale=1.0, maximum-scale=1.0" />
 <head>
 	<link rel="stylesheet" type="text/css" href="./sty/sty.css" />
+	<script src="./jquery.js"></script>
 
 <script defer="defer">
 	$().ready(function() {
+		$(window).scroll.disable;			
 		//retrieve
  		$('textarea#boxa').val(localStorage["boxa"]);
  		$('textarea#boxb').val(localStorage["boxb"]);
  		$('textarea#boxc').val(localStorage["boxc"]);
  		$('textarea#boxd').val(localStorage["boxd"]);
 		stord();
-	  var $scrollingDiv = $("#scrollingDiv");
-		$(window).scroll(function(){
-			$crollingDiv
-				.stop()
-				//.animate({"marginTop": ($(window).scrollTop() + 30) + "px"}, "slow" );
-				.animate({"marginTop": ($(window).scrollTop() + 30) + "px"}, "fast" );
-		});
 	});
 </script>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -29,17 +24,18 @@ minimum-scale=1.0, maximum-scale=1.0" />
 
 				<div class="control">
 					<!--input type="button" value="add" onclick="addele()" /-->
-							<input type="image" src="sty/add.png" width="30" height="30" class="clicks" onclick="addele()" />
-							<br />	<input type="image" src="sty/rem.png" class="clicks"  onclick="remele()" />
-							<br />	<input type="image" src="sty/store.png" class="clicks"  onclick="store()" />
-							<br />	<a href="subs/prnt.htm" style="text-decoration: none"><input type="image" src="sty/print.png" class="clicks"  onclick="printd()" /></a>
+							<input type="image" src="sty/imgd/add.png" width="30" height="30" class="clicks" onclick="addele()" />
+							<br />	<input type="image" src="sty/imgd/rem.png" class="clicks"  onclick="remele()" />
+							<br />	<input type="image" src="sty/imgd/store.png" class="clicks"  onclick="store()" />
+							<br />	<a href="subs/prnt.htm" style="text-decoration: none"><input type="image" src="sty/imgd/print.png" class="clicks"  onclick="printd()" /></a>
+							<br />	<input type="image" src="sty/imgd/down.png" class="clicks"  onclick="infd()" />
 
 				</div> <!-- div class="control" -->
 
-<div class="thelot">
+<div class="thelot" id="thelot">
 			
-		<div class="whereitsat">
-					<div class="scrolld" id="foryou">
+		<div class="whereitsat" id="whereitsat">
+					<div class="scrolld" id="foryou" id="scrolld">
 						<p class="padittop"></p>
 						<div id="theflow">
 							<textarea class="tecksd" placeholder="boxa" id="boxa"></textarea>
@@ -55,6 +51,7 @@ minimum-scale=1.0, maximum-scale=1.0" />
 		</div>
 </div><!-- div class="thelot" -->
 				<div class="hip">	
+					<br />	<input type="image" src="sty/imgd/up.png" class="clicks"  onclick="topd()" />
         	<p class="display">The value of the text input is: </p>
 					<p class="stord">stord: </p>
 	        <p class="anot">stord: </p>
@@ -65,7 +62,6 @@ minimum-scale=1.0, maximum-scale=1.0" />
 					<p class="display">The value of the text input is: </p>
 				</div>			
 
-	<script async src="./jquery.js"></script>
 	<script async type="text/javascript" src="cent.js"></script>
 	<script async type="text/javascript" src="boxd.js"></script>
 </body>

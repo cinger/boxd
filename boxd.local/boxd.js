@@ -7,7 +7,12 @@ var shrunkheight = boxheight/7;         //unfocusd box
 
 var boxfoc = "";
 var olebox = "";
-
+$('#whereitsat').scroll(function() {
+				document.body.style.overflow='hidden';
+});
+$('thelot').scroll(function() {
+				document.body.style.overflow='scroll';
+});
 
 var vald = 17;  //used to nullify consecutive clicks on an already focused textbox,17 or undf
 	boxheight=window.innerHeight/2;
@@ -68,7 +73,12 @@ function stord() {
                 $('p.tona').text('lines left: ' + liney + '..characters left: ' + chardy);
 }
 
-
+function infd() {
+					window.scrollTo(0,document.body.scrollHeight);
+}
+function topd() {
+					window.scrollTo(0,0);
+}
 
 function thesets() { //uses boxheight, shrunkheight
                 boxheight=window.innerHeight/2;

@@ -73,6 +73,7 @@ body {
 	height: 100%;
 	padding: 10px 50px 200px;
   background: #FFFFFF;
+	overflow:hidden;
 /*  background-image: url('./backgrid.png');*/
 
 }
