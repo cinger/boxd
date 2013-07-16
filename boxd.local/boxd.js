@@ -79,7 +79,6 @@ function infd() {
 function topd() {
 					window.scrollTo(0,0);
 }
-
 function thesets() { //uses boxheight, shrunkheight
                 boxheight=window.innerHeight/2;
                 $('p.padittop').css('padding-top',boxheight+'px');
