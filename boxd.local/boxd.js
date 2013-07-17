@@ -35,8 +35,6 @@ var vald = 17;  //used to nullify consecutive clicks on an already focused textb
 $(document).on('click','textarea',function() {
 	$('p.padittop').css('padding-top',boxheight+'px');
 	$('p.paditbot').css('padding-bottom',boxheight+'px');
-console.log(boxheight);
-console.log(window.outerHeight);
 					if ( vald ) {
 						$(this).animate({ height: boxheight }, 1000,function(){
 						$('p.anot').text($('#'+this.id).position().top+".."+vald+',.,'+(numb+4)+";box: "+boxheight+";shrunk: "+shrunkheight);
@@ -70,9 +68,64 @@ $(document).on('blur','textarea',function() {
 	//$('p.paditbot').css('padding-bottom',0+'px');
 });
 
-$(document).on('keyup change','textarea', function() {
-var n = 17;
-		//$('p.display').text(this.value);
+
+function getcursor(el) {
+						if (el.selectionStart) {
+							return el.selectionStart;
+							} else if (document.selection) {
+										el.focus();
+	
+										var r = document.selection.createRange();
+										if ( r == null ){
+													return 0;
+										}
+										var re = el.createTextRange(),
+												rc = re.duplicate();
+										re.moveToBookmark(r.getBookmark());
+										rc.setEndPoint('EndToStart',re);
+										return rc.text.length;
+							}
+						 return 0;
+
+}
+
+
+function dispy() {
+				cursdisp=4;
+				return "_-NOT-_";
+ }
+
+var cursdisp=0;
+
+$(document).on('keyup','textarea', function() {
+	  				var n = 17;
+						var gamed=(this.value).substring((this.value).length-1);
+	
+						var scrollpos = this.scrollTop;						//logs the current position of the scrollbar	
+						//alert(getcursor(this.value));
+						var curspos = (getcursor(this));
+
+						this.value=this.value.replace(".","_");
+						//this.value=this.value.replace("not","_-NOT-_");
+						this.value=this.value.replace("not",dispy);
+	
+						curspos=curspos+cursdisp;
+						this.setSelectionRange(curspos,curspos);   //due the replace the cursor position is lost, and so we reset it here
+						cursdisp=0;
+						this.scrollTop=scrollpos;									//due the replace the scroll position is lost, and so we reset it here
+
+
+
+
+						//if ( gamed == "." ){
+						//	this.value=((this.value).slice(0,-1)+",");  //simple replace of last character
+						//}
+	
+	
+	
+	
+						//$('p.display').text(this.value);
+						//$('p.display').text(gamed);
 });
 
 
