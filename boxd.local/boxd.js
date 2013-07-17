@@ -109,8 +109,10 @@ $(document).on('keyup','textarea', function() {
 						//this.value=this.value.replace("not","_-NOT-_");
 						this.value=this.value.replace("not",dispy);
 	
+					if (cursdisp != 0) {
 						curspos=curspos+cursdisp;
 						this.setSelectionRange(curspos,curspos);   //due the replace the cursor position is lost, and so we reset it here
+					}
 						cursdisp=0;
 						this.scrollTop=scrollpos;									//due the replace the scroll position is lost, and so we reset it here
 
