@@ -1,5 +1,5 @@
 var numb = 0;
-var boxfrac = 4;
+var boxfrac = 4;  //determines the ratio in regard the window to size the current box
 
 function boxdheight () {
 											boxheight = (window.outerHeight/(boxfrac))*(boxfrac-1);   //focusd box
@@ -102,7 +102,7 @@ function thesets() { //uses boxheight, shrunkheight
 
                 $('p.dyhei').text('hei : '+ boxheight);
 
-                $('#foryou.scrolld').css('height',(boxheight*2-33)+'px');
+                //$('#foryou.scrolld').css('height',(boxheight*2-33)+'px');
 } // thesets(), sets textarea dimensions
 
 
