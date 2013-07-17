@@ -4,13 +4,23 @@
 	width: 93%;
 	height: 51;
 	resize: none;
-	outline: none;
- 	border: none;
 	font-family: "Lucida Console", Monaco, monospace;
 	font-weight: 100;
 	font-size: 10pt;
+	
+	/*plain
+	 * color: black;
+	 * background: white;
+	 * border: 1px solid grey;
+	 */
+	/*blue*/
 	color: white;
-	background: #123456;
+	/* background: #123456; */
+/*	background: rgba(255,150,20,0.2); */
+/* background: #EFEFEF; */
+background: #126698;
+	border: none;
+
 	overflow:auto;
 	border-bottom-right-radius:1em;
 	border-top-left-radius:1em;
