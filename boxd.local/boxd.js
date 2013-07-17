@@ -1,9 +1,22 @@
 var numb = 0;
-var boxheight = window.outerHeight/2;   //focusd box
+var boxfrac = 4;
+
+function boxdheight () {
+											boxheight = (window.outerHeight/(boxfrac))*(boxfrac-1);   //focusd box
+}
+function shrunkdheight() {
+                shrunkheight = boxheight/7;
+                if ( shrunkheight < 17 ){
+                  shrunkheight = 17;
+                } // this way at least a single line is visible
+}
+
+var boxheight = (window.outerHeight/(boxfrac))*(boxfrac-1);   //focusd box
 var shrunkheight = boxheight/7;         //unfocusd box
 	if ( shrunkheight < 17 ){
 		shrunkheight = 17;
 	} // this way at least a single line is visible
+
 
 var boxfoc = "";
 var olebox = "";
@@ -15,25 +28,26 @@ $('thelot').scroll(function() {
 });
 
 var vald = 17;  //used to nullify consecutive clicks on an already focused textbox,17 or undf
-	boxheight=window.innerHeight/2;
+	//boxheight=window.innerHeight/2;
 	$('p.padittop').css('padding-top',boxheight+'px');
 	$('p.paditbot').css('padding-bottom',boxheight+'px');
 
 $(document).on('click','textarea',function() {
 	$('p.padittop').css('padding-top',boxheight+'px');
 	$('p.paditbot').css('padding-bottom',boxheight+'px');
-
+console.log(boxheight);
+console.log(window.outerHeight);
 					if ( vald ) {
 						$(this).animate({ height: boxheight }, 1000,function(){
 						$('p.anot').text($('#'+this.id).position().top+".."+vald+',.,'+(numb+4)+";box: "+boxheight+";shrunk: "+shrunkheight);
 
 						var postop = $('#'+this.id).position().top;
-					  var totwin = boxheight*2;
-						var hlfwin = totwin/2;
+					  var totwin = window.outerHeight;
+						var fracwin = totwin/(boxfrac);
 						var totbox = boxheight;
-					  var hlfbox = totbox/2;
-						var offbox = hlfbox+postop;
-						var offwin = hlfwin-offbox;
+					  var fracbox = totbox/(boxfrac);
+						var offbox = fracbox+postop;
+						var offwin = fracwin-offbox;
 						var centd = $('#foryou.scrolld').scrollTop()-offwin;
 						$('#foryou.scrolld').animate({ scrollTop: centd },700);
 
@@ -80,14 +94,11 @@ function topd() {
 					window.scrollTo(0,0);
 }
 function thesets() { //uses boxheight, shrunkheight
-                boxheight=window.innerHeight/2;
+								boxdheight();
+								shrunkdheight();
                 $('p.padittop').css('padding-top',boxheight+'px');
                 $('p.paditbot').css('padding-bottom',boxheight+'px');
 
-                shrunkheight = boxheight/7;
-                if ( shrunkheight < 17 ){
-                  shrunkheight = 17;
-                } // this way at least a single line is visible
 
                 $('p.dyhei').text('hei : '+ boxheight);
 
