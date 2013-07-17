@@ -31,12 +31,14 @@
 }
 
 .thelot {
+	top:0px;
 	height: 100%;
 }
 
 .whereitsat {
 	position: absolute;
 	width: 91%;
+	top:0px;
   height: 100%;
 	left: 10%;
 }
@@ -69,11 +71,8 @@ html {
 }
 body {
 	height: 100%;
-	padding: 10px 50px 200px;
   background: #FFFFFF;
 	overflow:hidden;
-/*  background-image: url('./backgrid.png');*/
-
 }
 
 h1 {
