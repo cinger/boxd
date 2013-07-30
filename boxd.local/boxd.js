@@ -38,8 +38,10 @@ $(document).on('click','textarea',function() {
 					if ( vald ) {
 						$(this).animate({ height: boxheight }, 1000,function(){
 						$('p.anot').text($('#'+this.id).position().top+".."+vald+',.,'+(numb+4)+";box: "+boxheight+";shrunk: "+shrunkheight);
-						game = this.id;
+						
+						game = this.id;     //replace this with a get.object.value 'game' from current box
 						console.log(game);
+						
 						var postop = $('#'+this.id).position().top;
 					  var totwin = window.outerHeight;
 						var fracwin = totwin/(boxfrac);
@@ -91,71 +93,65 @@ function getcursor(el) {
 
 }
 
+function boxd(thisbox,keyd,pushd) {
+			
+			var reggy = '[^a-z]'
+			
+			if ( keyd != 8 && keyd != 46 )   // 8 and 46 are backspace and del respectively, just making up for naive regex
+			{
 
-function dispy() {
-				cursdisp=4;
-				return "_-NOT-_";
- }
-
-var cursdisp=0;
-
-function boxd(stringy,keyd,pushd) {
-						var reggy = '[^a-z]'
-						//	if (keyd != 13){ // 13 javascript keycode for enter 
-						if ( new RegExp(reggy,'i').test(pushd) )
-						{		
-						var hinkly = "no";
-console.log(stringy);
-						
-				//this.value=this.value.replace(new RegExp('(^|[^a-z])'+hinkly+'(?=[^a-z])','gi'),"$1_-NI!-_");  //let's talk regex :: 
-				stringy=stringy.replace(new RegExp('(^|[^a-z])'+hinkly+'(?=[^a-z])','gi'),"$1_-Ni!-_");  //let's talk regex :: 
-						//this.value=this.value.replace(/(^|[^a-z])hinkly(?=[^a-z])/gi,"$1_-NI!-_");  //let's talk regex :: 
-																																											//^ beginning of input, 
-																																											// | or, 
-																																											// [^a-z] match everything but a-z, 
-																																											// no is the word, 
-																																											// (?=[^a-z]$) only match if equal to characters other than a-z, 
-																																											// /g global, 
-																																											// i ignore case
-																																											// $1 places last character into this position
-						//this.value=this.value.replace(/(^|[^a-z])not(?=[^a-z])/gi,"$1_-NI!-_");  //let's talk regex :: 
-						//this.value=this.value.replace(/(^|[^a-z])never(?=[^a-z])/gi,"$1_-NI!-_");  //let's talk regex :: 
-	  			
-						stringy=stringy.replace(/(^|[^a-z])not(?=[^a-z])/gi,"$1_-Ni!-_");  //let's talk regex :: 
-						stringy=stringy.replace(/(^|[^a-z])never(?=[^a-z])/gi,"$1_-Ni!-_");  //let's talk regex :: 
-
-						
-						/*var n = 17;
-						
-						var gamed=(this.value).substring((this.value).length-1);
-						var scrollpos = this.scrollTop;						//logs the current position of the scrollbar	
-						alert(getcursor(this.value));
-						var curspos = (getcursor(this));
-	
-					if (cursdisp != 0) {
-						curspos=curspos+cursdisp;
-						this.setSelectionRange(curspos,curspos);   //due the replace the cursor position is lost, and so we reset it here
-					}
-						cursdisp=0;
-						this.scrollTop=scrollpos;		//due the replace the scroll position is lost, and so we reset it here
-						 */
-						}
-return stringy;
-}
+			if ( new RegExp(reggy,'i').test(pushd) )
+			{		
+				
+				var changeref = [ "no", "not", "never","doublenonot" ]; //make an object so you can have both word to change and word to change too associated
+				var repld = "Ni!";
+				
+				for ( var i = 0; i < changeref.length; i++ ) 
+				{
+								
+				if ( new RegExp('(^|[^a-z])'+changeref[i]+'(?=[^a-z])','gi').test(thisbox.value) ) 
+				{
+					
+						var scrollpos = thisbox.scrollTop;						//logs the current position of the scrollbar	
+						var curspos = (getcursor(thisbox));
+								
+						thisbox.value=thisbox.value.replace(changeref[i],repld); 
+						thisbox.value=thisbox.value;
+				
+						var cursdisp=repld.length-changeref[i].length;
+				}
+				
+				}																																						
+				
+				}
+					// let's talk regex :: 
+					// ^ beginning of input, 
+					// | or, 
+					// [^a-z] match everything but a-z, 
+					// (?=[^a-z]$) only match if equal to characters other than a-z, 
+					// /g global, 
+					// i ignore case
+					// $1 places last character into this position
+			}
+			if ( curspos ) {
+				
+				curspos=curspos+cursdisp;
+				
+				thisbox.setSelectionRange(curspos,curspos);   //due the replace the cursor position is lost, and so we reset it here
+				thisbox.scrollTop=scrollpos;		//due the replace the scroll position is lost, and so we reset it here
+			}
+} //boxd(), boxd ruleset
 
 
 $(document).on('keyup','textarea', function(event) {
-				//alert(event.keyCode);
 					
 				var keyd = event.keyCode || event.which;
 				var pushd = String.fromCharCode(keyd);
 				
-				//if ( game == "boxd"){
-				// this.value=boxd(this.value,keyd,pushd);
-				//}
-				this.value=window[game](this.value,keyd,pushd);
-
-});
+				if ( typeof window[game] == 'function'){					
+					window[game](this,keyd,pushd);
+				}
+}); // .on('keyup', when keypress go to current box's ruleset
 
 
 
@@ -168,14 +164,16 @@ function stord() {
                 var liney=fivemegworthlines - shortd*fivemegworthlines;
                 var chardy=fivemegworthchars - shortd*fivemegworthchars;
                 $('p.tona').text('lines left: ' + liney + '..characters left: ' + chardy);
-}
+} // stord(), determine how much is stored in db
 
 function infd() {
 					window.scrollTo(0,document.body.scrollHeight);
-}
+} //infd()
+
 function topd() {
 					window.scrollTo(0,0);
-}
+} //topd(), scroll to top
+
 function thesets() { //uses boxheight, shrunkheight
 								boxdheight();
 								shrunkdheight();
@@ -198,11 +196,10 @@ function store() {
 
                 $('#theflow > textarea').each(function() {
                 console.log(this.id);
-                console.log(this.value);
                 localStorage[this.id]=this.value;
                 stord();
                 })
-}
+} // store(), store the values into db
 
 
 function addele() {    //uses +numb,DOM
