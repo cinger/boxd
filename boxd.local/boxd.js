@@ -17,7 +17,7 @@ var shrunkheight = boxheight/7;         //unfocusd box
 		shrunkheight = 17;
 	} // this way at least a single line is visible
 
-
+var game = "";
 var boxfoc = "";
 var olebox = "";
 $('#whereitsat').scroll(function() {
@@ -38,7 +38,8 @@ $(document).on('click','textarea',function() {
 					if ( vald ) {
 						$(this).animate({ height: boxheight }, 1000,function(){
 						$('p.anot').text($('#'+this.id).position().top+".."+vald+',.,'+(numb+4)+";box: "+boxheight+";shrunk: "+shrunkheight);
-
+						game = this.id;
+						console.log(game);
 						var postop = $('#'+this.id).position().top;
 					  var totwin = window.outerHeight;
 						var fracwin = totwin/(boxfrac);
@@ -63,6 +64,7 @@ $('#foryou').scroll(function() {
 
 $(document).on('blur','textarea',function() {
 					vald=17;
+					game="";
 					$(this).animate({ height: shrunkheight }, 980);  // 17*3=51
 	//$('p.padittop').css('padding-top',0+'px');
 	//$('p.paditbot').css('padding-bottom',0+'px');
@@ -97,38 +99,64 @@ function dispy() {
 
 var cursdisp=0;
 
-$(document).on('keyup','textarea', function() {
-	  				var n = 17;
-						var gamed=(this.value).substring((this.value).length-1);
-	
-						var scrollpos = this.scrollTop;						//logs the current position of the scrollbar	
-						//alert(getcursor(this.value));
-						var curspos = (getcursor(this));
+function boxd(stringy,keyd,pushd) {
+						var reggy = '[^a-z]'
+						//	if (keyd != 13){ // 13 javascript keycode for enter 
+						if ( new RegExp(reggy,'i').test(pushd) )
+						{		
+						var hinkly = "no";
+console.log(stringy);
+						
+				//this.value=this.value.replace(new RegExp('(^|[^a-z])'+hinkly+'(?=[^a-z])','gi'),"$1_-NI!-_");  //let's talk regex :: 
+				stringy=stringy.replace(new RegExp('(^|[^a-z])'+hinkly+'(?=[^a-z])','gi'),"$1_-Ni!-_");  //let's talk regex :: 
+						//this.value=this.value.replace(/(^|[^a-z])hinkly(?=[^a-z])/gi,"$1_-NI!-_");  //let's talk regex :: 
+																																											//^ beginning of input, 
+																																											// | or, 
+																																											// [^a-z] match everything but a-z, 
+																																											// no is the word, 
+																																											// (?=[^a-z]$) only match if equal to characters other than a-z, 
+																																											// /g global, 
+																																											// i ignore case
+																																											// $1 places last character into this position
+						//this.value=this.value.replace(/(^|[^a-z])not(?=[^a-z])/gi,"$1_-NI!-_");  //let's talk regex :: 
+						//this.value=this.value.replace(/(^|[^a-z])never(?=[^a-z])/gi,"$1_-NI!-_");  //let's talk regex :: 
+	  			
+						stringy=stringy.replace(/(^|[^a-z])not(?=[^a-z])/gi,"$1_-Ni!-_");  //let's talk regex :: 
+						stringy=stringy.replace(/(^|[^a-z])never(?=[^a-z])/gi,"$1_-Ni!-_");  //let's talk regex :: 
 
-						this.value=this.value.replace(".","_");
-						//this.value=this.value.replace("not","_-NOT-_");
-						this.value=this.value.replace("not",dispy);
+						
+						/*var n = 17;
+						
+						var gamed=(this.value).substring((this.value).length-1);
+						var scrollpos = this.scrollTop;						//logs the current position of the scrollbar	
+						alert(getcursor(this.value));
+						var curspos = (getcursor(this));
 	
 					if (cursdisp != 0) {
 						curspos=curspos+cursdisp;
 						this.setSelectionRange(curspos,curspos);   //due the replace the cursor position is lost, and so we reset it here
 					}
 						cursdisp=0;
-						this.scrollTop=scrollpos;									//due the replace the scroll position is lost, and so we reset it here
+						this.scrollTop=scrollpos;		//due the replace the scroll position is lost, and so we reset it here
+						 */
+						}
+return stringy;
+}
 
 
+$(document).on('keyup','textarea', function(event) {
+				//alert(event.keyCode);
+					
+				var keyd = event.keyCode || event.which;
+				var pushd = String.fromCharCode(keyd);
+				
+				//if ( game == "boxd"){
+				// this.value=boxd(this.value,keyd,pushd);
+				//}
+				this.value=window[game](this.value,keyd,pushd);
 
-
-						//if ( gamed == "." ){
-						//	this.value=((this.value).slice(0,-1)+",");  //simple replace of last character
-						//}
-	
-	
-	
-	
-						//$('p.display').text(this.value);
-						//$('p.display').text(gamed);
 });
+
 
 
 function stord() {
