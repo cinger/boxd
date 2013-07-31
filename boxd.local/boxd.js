@@ -70,7 +70,7 @@ $(document).on('blur','textarea',function() {
 					$(this).animate({ height: shrunkheight }, 980);  // 17*3=51
 	//$('p.padittop').css('padding-top',0+'px');
 	//$('p.paditbot').css('padding-bottom',0+'px');
-});
+}); // .on('blur', shrink box
 
 
 function getcursor(el) {
@@ -91,38 +91,87 @@ function getcursor(el) {
 							}
 						 return 0;
 
-}
+} // getcursor(), finds cursor location in element
 
 function boxd(thisbox,keyd,pushd) {
+			var cursdisp = 0;
+		  var longestsplit = 40; // smallest possible segment of the input to analyse	
+			var revflag = '[^a-z]'  //revflag is element of ruleset that tells when to review and apply rules during the work flow
 			
-			var reggy = '[^a-z]'
-			
-			if ( keyd != 8 && keyd != 46 )   // 8 and 46 are backspace and del respectively, just making up for naive regex
+			if ( keyd != 8 && keyd != 46 )   // 8 and 46 are backspace and del respectively, just making up for naive regex that would replace nod if correcting by nos,backspace,d
 			{
 
-			if ( new RegExp(reggy,'i').test(pushd) )
+			if ( new RegExp(revflag,'i').test(pushd) )
 			{		
+				var curspos = (getcursor(thisbox));
+				var lastchar = thisbox.value.charAt(curspos-1);
+				var ofimport = (thisbox.value.substring(curspos-longestsplit,curspos+40));
+				console.log(ofimport);
+				var bulkd = thisbox.value.split(ofimport);
+				console.log(bulkd.length);
+				console.log(lastchar);
+				console.log(bulkd[0]);
+				console.log(bulkd[1]);
+				console.log(',,'+thisbox.value+',,');
+				console.log('..'+bulkd[0]+ofimport+bulkd[1]+'..');
+				/// full word replace
+					var changeref = [ "no", "not", "never","doublenonot" ]; //make an object so you can have both word to change and word to change too associated
+					var repld = "Ni!";
 				
-				var changeref = [ "no", "not", "never","doublenonot" ]; //make an object so you can have both word to change and word to change too associated
-				var repld = "Ni!";
-				
-				for ( var i = 0; i < changeref.length; i++ ) 
-				{
+					for ( var i = 0; i < changeref.length; i++ ) 
+					{
 								
-				if ( new RegExp('(^|[^a-z])'+changeref[i]+'(?=[^a-z])','gi').test(thisbox.value) ) 
-				{
+						if ( new RegExp('(^|[^a-z])'+changeref[i]+'(?=[^a-z])','gi').test(thisbox.value) ) 
+						{
+				//oldcursdisp	
+								var scrollpos = thisbox.scrollTop;						//logs the current position of the scrollbar	
+								
+								thisbox.value=thisbox.value.replace(changeref[i],repld); 
+								thisbox.value=thisbox.value;
+								
+
+								cursdisp=repld.length-changeref[i].length;
+						}
+				
+					} // full word replace																	
 					
-						var scrollpos = thisbox.scrollTop;						//logs the current position of the scrollbar	
-						var curspos = (getcursor(thisbox));
-								
-						thisbox.value=thisbox.value.replace(changeref[i],repld); 
-						thisbox.value=thisbox.value;
-				
-						var cursdisp=repld.length-changeref[i].length;
-				}
-				
-				}																																						
-				
+				///prefix  ... i need it working for any cursor position, BAH! could just do with regex
+					var preref = [ "non", "un" ];
+					var repld = "Ni!";
+					var splitonchange = thisbox.value.split(new RegExp(revflag,'gi'));
+						var lasttyped = splitonchange[splitonchange.length-1];
+					
+				//since it works in snippets of entire this.value, have button that allows for one time full scan of entire document in case of copy and paste text
+
+				// create communicable api that allows POST box creation, first argument sent to api should be number of boxes adding, if number is too big, return error of too big and suggest smaller size, ie 10000 is too large try only 100... then limit number allowed from each ip by day by storing the ip in database with amount submitted and add or subtract that value, remove ip from db as the track expires
+
+
+						/*if ( new RegExp('(^|[^a-z])'+preref[i]+'(?=[a-z])','gi').test(thisbox.value) ) 
+						{
+								thisbox.value=thisbox.value.replace(,); 
+
+						}
+*/
+
+						/*
+						if ( lasttyped == "" ) 
+						{
+							lasttyped = splitonchange[splitonchange.length-2]; // some keys add extra empty elements to array due to split
+						}	
+					for ( var i = 0; i < preref.length; i++ )
+					{
+						var prelen = preref[i].length;
+						if ( lasttyped.substring(0,prelen) == preref[i] )
+						{ 
+						 cursdisp = -3;
+							thisbox.value=thisbox.value.substring(0,thisbox.value.length-lasttyped.length-1)+(lasttyped.substring(preref[i].length,lasttyped.length+1)+lastchar);
+						}
+					} // prefix removal
+					*/
+					
+					///suffix
+
+					
 				}
 					// let's talk regex :: 
 					// ^ beginning of input, 
@@ -195,10 +244,10 @@ function store() {
 
 
                 $('#theflow > textarea').each(function() {
-                console.log(this.id);
-                localStorage[this.id]=this.value;
-                stord();
-                })
+                	console.log(this.id);
+                	localStorage[this.id]=this.value;
+                	stord();
+                });
 } // store(), store the values into db
 
 
