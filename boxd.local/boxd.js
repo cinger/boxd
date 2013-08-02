@@ -39,8 +39,6 @@ $(document).on('click','textarea',function() {
 						$(this).animate({ height: boxheight }, 1000,function(){
 						$('p.anot').text($('#'+this.id).position().top+".."+vald+',.,'+(numb+4)+";box: "+boxheight+";shrunk: "+shrunkheight);
 						
-						game = this.id;     //replace this with a get.object.value 'game' from current box
-						console.log(game);
 						
 						var postop = $('#'+this.id).position().top;
 					  var totwin = window.outerHeight;
@@ -98,22 +96,16 @@ function boxd(thisbox,keyd,pushd) {
 		  var longestsplit = 40; // smallest possible segment of the input to analyse	
 			var revflag = '[^a-z]'  //revflag is element of ruleset that tells when to review and apply rules during the work flow
 			
-			if ( keyd != 8 && keyd != 46 )   // 8 and 46 are backspace and del respectively, just making up for naive regex that would replace nod if correcting by nos,backspace,d
+			if ( keyd != 8 && keyd != 46 )   // 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d
 			{
 
 			if ( new RegExp(revflag,'i').test(pushd) )
 			{		
 				var curspos = (getcursor(thisbox));
-				var lastchar = thisbox.value.charAt(curspos-1);
-				var ofimport = (thisbox.value.substring(curspos-longestsplit,curspos+40));
-				console.log(ofimport);
-				var bulkd = thisbox.value.split(ofimport);
-				console.log(bulkd.length);
-				console.log(lastchar);
-				console.log(bulkd[0]);
-				console.log(bulkd[1]);
-				console.log(',,'+thisbox.value+',,');
-				console.log('..'+bulkd[0]+ofimport+bulkd[1]+'..');
+				var lastchar = thisbox.value.charAt(curspos-1); // last character typed
+				var ofimport = (thisbox.value.substring(curspos-longestsplit,curspos+longestsplit)); // snippet to limit text iterated over
+				var bulkd = thisbox.value.split(ofimport);  //entire work surrounding important bit
+
 				/// full word replace
 					var changeref = [ "no", "not", "never","doublenonot" ]; //make an object so you can have both word to change and word to change too associated
 					var repld = "Ni!";
@@ -121,13 +113,11 @@ function boxd(thisbox,keyd,pushd) {
 					for ( var i = 0; i < changeref.length; i++ ) 
 					{
 								
-						if ( new RegExp('(^|[^a-z])'+changeref[i]+'(?=[^a-z])','gi').test(thisbox.value) ) 
+						if ( new RegExp('(^|[^a-z])'+changeref[i]+'(?=[^a-z])','gi').test(ofimport) ) 
 						{
-				//oldcursdisp	
 								var scrollpos = thisbox.scrollTop;						//logs the current position of the scrollbar	
 								
-								thisbox.value=thisbox.value.replace(changeref[i],repld); 
-								thisbox.value=thisbox.value;
+								ofimport=ofimport.replace(changeref[i],repld); 
 								
 
 								cursdisp=repld.length-changeref[i].length;
@@ -135,42 +125,50 @@ function boxd(thisbox,keyd,pushd) {
 				
 					} // full word replace																	
 					
-				///prefix  ... i need it working for any cursor position, BAH! could just do with regex
+					/// prefix
 					var preref = [ "non", "un" ];
-					var repld = "Ni!";
-					var splitonchange = thisbox.value.split(new RegExp(revflag,'gi'));
-						var lasttyped = splitonchange[splitonchange.length-1];
+					repld = "Ni!";
+				  for ( var i = 0; i < preref.length; i++ )
+			   	{
+					 	if ( new RegExp('(^|[^a-z])'+preref[i]+'(?=[a-z])','gi').test(ofimport) ) 
+					 	{
+							//ofimport=ofimport.replace( new RegExp('(^|[^a-z])'+preref[i]+'(?=[a-z])','gi'), "$1" ); // just replace forbidden bit
+							//cursdisp = -(preref[i].length);
+							
+								var befomit = ofimport.length;
+							ofimport=ofimport.replace( new RegExp('(^|[^a-z])'+preref[i]+'([a-z]*(?=[^a-z]))','gi'), "$1" ); // omit containing word
+								var aftomit = ofimport.length;
+								var contwordlen = aftomit-befomit;
+							cursdisp = contwordlen;
+						}
+          } // prefix replace
 					
+				  ///suffix 
+					var sufref = [ "ing", "tion" ];
+					repld = "Ni!";
+				  for ( var i = 0; i < sufref.length; i++ )
+			   	{
+					 	if ( new RegExp('(?=[a-z])'+sufref[i]+'(?=[^a-z])','gi').test(ofimport) ) 
+					 	{
+						  //ofimport=ofimport.replace( new RegExp('(?=[a-z])'+sufref[i]+'([^a-z])','gi'), "$2" );  // just replace forbidden bit
+							//cursdisp = -(sufref[i].length);
+								
+								var befomit = ofimport.length;
+							ofimport=ofimport.replace( new RegExp('([a-z])*'+sufref[i]+'([^a-z])','gi'), "$2" ); // omit containing word
+								var aftomit = ofimport.length;
+								var contwordlen = aftomit-befomit;
+							console.log(befomit+'..'+aftomit+'..'+contwordlen);
+							cursdisp = contwordlen;
+						}
+          } // suffix replace
+
+
+
 				//since it works in snippets of entire this.value, have button that allows for one time full scan of entire document in case of copy and paste text
 
 				// create communicable api that allows POST box creation, first argument sent to api should be number of boxes adding, if number is too big, return error of too big and suggest smaller size, ie 10000 is too large try only 100... then limit number allowed from each ip by day by storing the ip in database with amount submitted and add or subtract that value, remove ip from db as the track expires
 
-
-						/*if ( new RegExp('(^|[^a-z])'+preref[i]+'(?=[a-z])','gi').test(thisbox.value) ) 
-						{
-								thisbox.value=thisbox.value.replace(,); 
-
-						}
-*/
-
-						/*
-						if ( lasttyped == "" ) 
-						{
-							lasttyped = splitonchange[splitonchange.length-2]; // some keys add extra empty elements to array due to split
-						}	
-					for ( var i = 0; i < preref.length; i++ )
-					{
-						var prelen = preref[i].length;
-						if ( lasttyped.substring(0,prelen) == preref[i] )
-						{ 
-						 cursdisp = -3;
-							thisbox.value=thisbox.value.substring(0,thisbox.value.length-lasttyped.length-1)+(lasttyped.substring(preref[i].length,lasttyped.length+1)+lastchar);
-						}
-					} // prefix removal
-					*/
-					
-					///suffix
-
+					thisbox.value=bulkd[0]+ofimport+bulkd[1];
 					
 				}
 					// let's talk regex :: 
@@ -183,9 +181,7 @@ function boxd(thisbox,keyd,pushd) {
 					// $1 places last character into this position
 			}
 			if ( curspos ) {
-				
 				curspos=curspos+cursdisp;
-				
 				thisbox.setSelectionRange(curspos,curspos);   //due the replace the cursor position is lost, and so we reset it here
 				thisbox.scrollTop=scrollpos;		//due the replace the scroll position is lost, and so we reset it here
 			}
@@ -193,6 +189,8 @@ function boxd(thisbox,keyd,pushd) {
 
 
 $(document).on('keyup','textarea', function(event) {
+				game = this.id;     //replace this with a get.object.value 'game' from current box
+				console.log(game);
 					
 				var keyd = event.keyCode || event.which;
 				var pushd = String.fromCharCode(keyd);
