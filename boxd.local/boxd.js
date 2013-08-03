@@ -62,11 +62,14 @@ function topd() {   //uses[DOM]
 
 function store() {   //uses[stord(),jQ]
  //localStorage.clear();
+var storebutt = document.getElementById('store');
+fading(storebutt);
 console.log($('#theflow').children().length-4); //keep around for awhile
  $('#theflow > textarea').each(function() {
 console.log(this.id); //keep around for awhile
     localStorage[this.id]=this.value;
-    stord();
+    
+		stord();
  }); // for each textbox store its value to the local storage, then call stord for an inventory of all the data
 } // store(), store the values into db
 
@@ -383,6 +386,46 @@ function thesets() { //uses[ boxheight(), shrunkheight(), jQ{ p.text } ]
                 $('p.dyhei').text('hei : '+ boxheight);
 } // thesets(), sets textarea dimensions
 
+function fading(el) {
+		var opac = 1;
+		var lapse = 61;
+		var timed = setInterval(function () {
+			if (opac <= 0.07){
+							clearInterval(timed);
+							el.style.visibility='hidden';
+							console.log('hidden');
+							flickd(el);
+							return 0;
+		}
+
+		el.style.opacity=opac;
+		el.style.filter = 'alpha(opacity=' + opac * 100 + ")";
+		opac -= opac*0.1
+		}, 61);
+			
+		
+} // fading(), fade out until save is complete
+
+function flickd(el) {
+		var onoff = 1;
+		var lapse = 7;
+		var timed = setInterval(function () {
+   if ( onoff <= 1 && onoff > .5 ) { 
+		console.log('in');
+		el.style.visibility='';
+	  el.style.opacity='';
+	  el.style.filter = '';
+	 } else {
+		if ( onoff < .5 && onoff > .1 ) {
+		el.style.visibility='hidden';
+		}	else {
+      el.style.visibility='';
+	  	return 0;
+		}
+	 }
+		onoff -= onoff*.1;
+	},lapse);
+} // flickd(), after save, flicker to show save completed
 
 
 function getcursor(el) { //uses[DOM]
