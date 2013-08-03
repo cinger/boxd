@@ -85,5 +85,23 @@ box (xvii) is a friendly message i will update regularly.
 : only allow words longer in one box, and words shorter in another; first line should be a number that states length
 : disallow words starting or ending in specified string
 : disallow word pairs
+
+:save button runs long animation of fade out once clicked,
+when finished saving it flashes full then empty then remains full again,
+awaiting the next save
+
+:make a localstorage json object that acts like a template for the user's settings,
+present it as a potential configuration file
+
+:since it works in snippets of entire this.value, have button that allows for one time full scan of entire document in case of copy and paste text
+
+:create communicable api that allows POST box creation, 
+first argument sent to api should be number of boxes adding, 
+if number is too big, 
+return error of too big and suggest smaller size, 
+ie 10000 is too large try only 100... 
+then limit number allowed from each ip by day by storing the ip in database with amount submitted and add or subtract that value, 
+remove ip from db as the track expires
+
 -->
 

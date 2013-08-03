@@ -33,7 +33,7 @@ $(document).on('blur','textarea',function() {
 
 $(document).on('keyup','textarea', function(event) {
   game = this.id;     //replace this with a get.object.value 'game' from current box
-  console.log(game);
+  console.log(game); //keep around for awhile
     
 		var keyd = event.keyCode || event.which;
     var pushd = String.fromCharCode(keyd);
@@ -48,6 +48,7 @@ $(document).on('keyup','textarea', function(event) {
 /////////////////
 ///butt.js
 //is[infd(),topd(),store(),addele(),remele()]
+//uses[DOM]
 
 function infd() {   //uses[DOM]
   window.scrollTo(0,document.body.scrollHeight);
@@ -61,12 +62,12 @@ function topd() {   //uses[DOM]
 
 function store() {   //uses[stord(),jQ]
  //localStorage.clear();
-console.log($('#theflow').children().length-4);
+console.log($('#theflow').children().length-4); //keep around for awhile
  $('#theflow > textarea').each(function() {
-console.log(this.id);
+console.log(this.id); //keep around for awhile
     localStorage[this.id]=this.value;
     stord();
- }); // for each textbox store its value to the local storage, then call stord for an overview of all the data
+ }); // for each textbox store its value to the local storage, then call stord for an inventory of all the data
 } // store(), store the values into db
 
 
@@ -181,8 +182,6 @@ $('#foryou').scroll(function() {
 
 
 
-
-
 /////////////////
 ///game.js
 //is[ boxd() ]
@@ -225,6 +224,28 @@ function boxd(thisbox,keyd,pushd) {
 			  var ofimport=snippd.substring(ofimportunnec.length,snippd.length); // important bit to process
 				
 				var bulkd = thisbox.value.split(ofimport);  //entire work surrounding important bit
+
+        /// extreme prejudice
+				 //remove all instances
+				 //can be subvertd using x02, akin 'everythin6'
+				var changeref = [ "thing" ]; //make an object so you can have both word to change and word to change to associated
+				var repld = "";
+				
+				for ( var i = 0; i < changeref.length; i++ ) {
+					if ( new RegExp(changeref[i],'gi').test(ofimport) ) 
+					{
+							var scrollpos = thisbox.scrollTop;						//logs the current position of the scrollbar	
+							
+							var befomit = ofimport.length;
+						ofimport=ofimport.replace( new RegExp(changeref[i],'gi'), repld ); // omit containing word
+							var aftomit = ofimport.length;
+							var contwordlen = aftomit-befomit;
+						cursdisp = contwordlen;
+					}
+				} // extreme prejudice	
+
+
+
 				/// full word replace
 					var changeref = [ "no", "not", "never","doublenonot" ]; //make an object so you can have both word to change and word to change too associated
 					var repld = "Ni!";
@@ -260,8 +281,8 @@ function boxd(thisbox,keyd,pushd) {
           } // prefix replace
 					
 				  ///suffix 
-					var sufref = [ "ing", "tion" ];
-					repld = "Ni!";
+					var sufref = [ "ed", "tion" ];
+					repld = "d";
 				  for ( var i = 0; i < sufref.length; i++ )
 			   	{
 					 	if ( new RegExp('(?=[a-z])'+sufref[i]+'(?=[^a-z])','gi').test(ofimport) ) 
@@ -273,16 +294,12 @@ function boxd(thisbox,keyd,pushd) {
 							ofimport=ofimport.replace( new RegExp('([a-z])*'+sufref[i]+'([^a-z])','gi'), "$2" ); // omit containing word
 								var aftomit = ofimport.length;
 								var contwordlen = aftomit-befomit;
-							console.log(befomit+'..'+aftomit+'..'+contwordlen);
 							cursdisp = contwordlen;
 						}
           } // suffix replace
 
 
 
-				//since it works in snippets of entire this.value, have button that allows for one time full scan of entire document in case of copy and paste text
-
-				// create communicable api that allows POST box creation, first argument sent to api should be number of boxes adding, if number is too big, return error of too big and suggest smaller size, ie 10000 is too large try only 100... then limit number allowed from each ip by day by storing the ip in database with amount submitted and add or subtract that value, remove ip from db as the track expires
 					// let's talk regex :: 
 					// ^ beginning of input, 
 					// | or, 
@@ -296,7 +313,8 @@ function boxd(thisbox,keyd,pushd) {
 				if ( bulkd && curspos > 0 ) {  // post any changes to box
           thisbox.value=bulkd[0]+ofimport+bulkd[1];
           if ( bulkd.length > 2 ) {   
-          // this protects against repetitious text: if we split on ofimport and the of import string appears more than once, then there will be more than two values for the boxd array
+          // this protects against repetitious text: if we split on ofimport and the string of importance appears more than once, 
+					 // then there will be more than two values for the boxd array, otherwise overlook...
             for ( var i = 2; i < bulkd.length; i++ ) {
               thisbox.value=thisbox.value+ofimport+bulkd[i];
             }
@@ -330,7 +348,7 @@ function boxd(thisbox,keyd,pushd) {
 /////////////////
 //pure.js
 //is[placent(), stord(), thesets(), getcursor(), romanise() ]
-
+//uses[DOM]
 
 function placent(thisbox) { // uses[ DOM, jQ{ #foryou.scrolld.animate } ]
   var postop = $('#'+thisbox.id).position().top;
