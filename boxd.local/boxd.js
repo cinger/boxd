@@ -7,7 +7,6 @@ var numb = 0;
 var boxfrac = 4;  //determines the ratio in regard the window to size the current box
 var boxfoc = "";
 
-
 var game = "";
 var vald = 17;  //used to nullify consecutive clicks on an already focused textbox,17 or undf
 
@@ -35,13 +34,12 @@ $(document).on('blur','textarea',function() {
 $(document).on('keyup','textarea', function(event) {
   game = this.id;     //replace this with a get.object.value 'game' from current box
   console.log(game);
-	
-  var keyd = event.keyCode || event.which;
-  var pushd = String.fromCharCode(keyd);
-	
-  if ( typeof window[game] == 'function'){					
-    window[game](this,keyd,pushd);
-  }  
+    
+		var keyd = event.keyCode || event.which;
+    var pushd = String.fromCharCode(keyd);
+    if ( typeof window[game] == 'function'){					
+      window[game](this,keyd,pushd);
+    }  
 }); // .on('keyup', when keypress go to current box's ruleset
 
 
@@ -195,31 +193,49 @@ function boxd(thisbox,keyd,pushd) {
 			var cursdisp = 0;
 		  var longestsplit = 40; // smallest possible segment of the input to analyse	
 			var revflag = '[^a-z]'  //revflag is element of ruleset that tells when to review and apply rules during the work flow
-			
-			if ( keyd != 8 && keyd != 46 )   // 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d
-			{
-
+		if ( keyd != 8 && keyd != 46 && keyd != 37 && keyd != 38 && keyd != 39 && keyd != 40 && keyd != 16 )   
+    { // 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d,and 37-40 are arrows
 			if ( new RegExp(revflag,'i').test(pushd) )
 			{		
 				var curspos = (getcursor(thisbox));
-				var lastchar = thisbox.value.charAt(curspos-1); // last character typed
-				var ofimport = (thisbox.value.substring(curspos-longestsplit,curspos+longestsplit)); // snippet to limit text iterated over
+				if ( curspos > 0 ) {
+				  var lastchar = thisbox.value.charAt(curspos-1); // last character typed
+				} else {
+					var lastchar = '';
+				}
+				  if ( curspos-longestsplit < 0 ) {
+					  var snippd = (thisbox.value.substring(0,curspos+longestsplit)); // snippet to limit text iterated over
+						var ofimportunnec = ''; 
+				  } else { 
+				    if ( curspos+longestsplit > thisbox.value.length) {
+				      var snippd = (thisbox.value.substring(curspos-longestsplit,thisbox.value.length)); // snippet to limit text iterated over
+				    }
+				    if ( !snippd) {
+				      var snippd = (thisbox.value.substring(curspos-longestsplit,curspos+longestsplit)); // snippet to limit text iterated over
+				    }
+				    var ofimportunnec = snippd.substring(0,snippd.length-snippd.replace(new RegExp('(^|[a-z])*'+revflag,'i'),'').length);  //remove first match to avoid false positives like a substr knot on k(not ..)
+				  }
+				if ( ofimportunnec.length == snippd.length || snippd.length == thisbox.value.length || snippd.length == longestsplit+ofimportunnec.length ) {  
+								// this protects from the potential for the box's initial input being on of the forbidden expressions
+								ofimport=snippd;
+				} else {
+				  var ofimport=snippd.substring(ofimportunnec.length,snippd.length);
+				}
+				
+			  var ofimport=snippd.substring(ofimportunnec.length,snippd.length); // important bit to process
+				
 				var bulkd = thisbox.value.split(ofimport);  //entire work surrounding important bit
-
 				/// full word replace
 					var changeref = [ "no", "not", "never","doublenonot" ]; //make an object so you can have both word to change and word to change too associated
 					var repld = "Ni!";
 				
 					for ( var i = 0; i < changeref.length; i++ ) 
 					{
-								
 						if ( new RegExp('(^|[^a-z])'+changeref[i]+'(?=[^a-z])','gi').test(ofimport) ) 
 						{
 								var scrollpos = thisbox.scrollTop;						//logs the current position of the scrollbar	
 								
-								ofimport=ofimport.replace(changeref[i],repld); 
-								
-
+					      ofimport = ofimport.replace( new RegExp('(^|[^a-z])'+changeref[i]+'(?=[^a-z])','gi'),'$1'+repld); 
 								cursdisp=repld.length-changeref[i].length;
 						}
 				
@@ -267,10 +283,6 @@ function boxd(thisbox,keyd,pushd) {
 				//since it works in snippets of entire this.value, have button that allows for one time full scan of entire document in case of copy and paste text
 
 				// create communicable api that allows POST box creation, first argument sent to api should be number of boxes adding, if number is too big, return error of too big and suggest smaller size, ie 10000 is too large try only 100... then limit number allowed from each ip by day by storing the ip in database with amount submitted and add or subtract that value, remove ip from db as the track expires
-
-					thisbox.value=bulkd[0]+ofimport+bulkd[1];
-					
-				}
 					// let's talk regex :: 
 					// ^ beginning of input, 
 					// | or, 
@@ -279,9 +291,23 @@ function boxd(thisbox,keyd,pushd) {
 					// /g global, 
 					// i ignore case
 					// $1 places last character into this position
-			}
-			if ( curspos ) {
-				curspos=curspos+cursdisp;
+
+
+				if ( bulkd && curspos > 0 ) {  // post any changes to box
+          thisbox.value=bulkd[0]+ofimport+bulkd[1];
+          if ( bulkd.length > 2 ) {   
+          // this protects against repetitious text: if we split on ofimport and the of import string appears more than once, then there will be more than two values for the boxd array
+            for ( var i = 2; i < bulkd.length; i++ ) {
+              thisbox.value=thisbox.value+ofimport+bulkd[i];
+            }
+          }
+        } // if bulkd && curspos > 0
+				
+      } // if RegExp .test(pushd)
+
+    } // if keyd != ..
+			if ( curspos && curspos > 0 ) {
+				curspos=curspos+cursdisp; // cursdisp is greater than zero if a replace or ommission occurred
 				thisbox.setSelectionRange(curspos,curspos);   //due the replace the cursor position is lost, and so we reset it here
 				thisbox.scrollTop=scrollpos;		//due the replace the scroll position is lost, and so we reset it here
 			}
@@ -342,6 +368,10 @@ function thesets() { //uses[ boxheight(), shrunkheight(), jQ{ p.text } ]
 
 
 function getcursor(el) { //uses[DOM]
+			//if ( keyd == 8 || keyd == 46 || keyd == 37 || keyd == 38 || keyd == 39 || keyd == 40 || keyd == 16 )   // 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d,and 37-40 are arrows
+			//{
+			//				return -1;
+			//}
 						if (el.selectionStart) {
 							return el.selectionStart;
 							} else if (document.selection) {
