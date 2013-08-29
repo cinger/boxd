@@ -74,39 +74,6 @@ $($rulelist).on('click','textarea',function() {
 helpbox.innerHTML = rulehelp;
 }); // .on('click', expand and place in center
 
-
-/* // initially leave for posterity show what first solution can be replaced by a regex
-function ruleclean(strtoclean) {
-  var strlen = strtoclean.length;
-	var i = 0;
-	///front
-	while ( i == 0 ) 
-	{
-    var thischar = strtoclean.charAt(0); // from front
-		if ( thischar == "-" ) // each rule should start with a - option indicator
-		{
-		  i=17; // stop while
-		} else {
-						strtoclean = strtoclean.substring(1,strtoclean.length); //remove first char then try next
-		       }
-	}
-	///back
-	i = 0;
-	while ( i == 0 ) 
-	{
-    var thischar = strtoclean.charAt(strtoclean.length-1); // from back
-		if ( thischar == '"' ) // each rule should end with a " closing the option parameter
-		{
-		  i=17; // stop while
-		} else {
-						strtoclean = strtoclean.substring(0,strtoclean.length-1); // remove last char then try next
-		       }
-	}
-	//
- return strtoclean; 
-} // ruleclean, removes errant characters from front and back of rule string
-*/
-
 function ruleparse( origstr ) { 
 	var parsetoobj = {};
   var workingarr = [];
@@ -187,52 +154,6 @@ for ( var i=0; i < dataobj.meta.parserule.optionshrt.length; i++) {
 	 return parsetoobj;
 }
 
-	/*
-	switch(workingstringshrt)
-	{
-	 case '-t "':
-console.log('t');
-					 break;
-	 case '-o "':
-console.log('o');
-					 break;
-	 case '-e "':
-console.log('e');
-					 break;
-	 case '-m "':
-console.log('m');
-					 break;
-	 case '-s "':
-console.log('s');
-					 break;
-	 case '-r "':
-console.log('r');
-					 break;
-	 default:
-					 switch(workingstringfull){
-									 case '--title "':
-console.log('title');
-													 break;
-									 case '--rgxop "':
-console.log('regxop');
-													 break;
-									 case '--rgxen "':
-console.log('regxen');
-													 break;
-									 case '--rgxmd "':
-console.log('regxmd');
-													 break;
-									 case '--strar "':
-console.log('strar');
-													 break;
-									 case '--repld "':
-console.log('repld');
-													 break;
-					 }
-	}
-	origstr='';
-}  // ole end while ( origstr.length > 0 ) {
-	*/
 
 function ruleontology(thisbox) {
 				if ( dataobj.temp ) 
@@ -271,17 +192,9 @@ function ruleontology(thisbox) {
 
 //###############3
 //###############3
-//###############3
-//###############3
-//###############3
-//###############3
-//###############3
-//###############3
 //
 //modals : error button, clicks rule, clicks default, load preexisting game ruleset
-//###############3
-//###############3
-//###############3
+//err only checks first and last character, can i do more?
 //###############3
 //###############3
 //###############3
@@ -365,21 +278,9 @@ $($rulelist).on('blur','textarea',function() {
 }); // .on('blur', associate rule box contents to game 
 
 
-/*
-$($rulelist).on('click','input',function() {
-
-	rulefoc=this.parentNode.id;
-	console.log(rulefoc);
-	remele();
-});
-*/
-
 $('#testbox').on('click',function() {
-console.log("onit");
-
+  console.log("onit");
 });
-
-
 
 $("#showhidedef").on('click',function() {
 var state = ($("#def").css("visibility")); // determines the toggling effect
@@ -533,60 +434,7 @@ if ( dispd == 0 ) {
         dispd = 0;
 			 }
 }
-
-/*
--title "word replace" -regexopn "([^a-z])" -regexend "(?=[^a-z])" -regexmod "gi" -stringd "['no','not','never','nothing','nope']" -repld "Ni!"
-*/
-
-
-///
-// show help dialogue
-/*
-var thisboxid = this.id;
-if (e.which == 8 || e.which == 46 || (e.ctrlKey && e.which == 88)) { //user is deleting, backspacing, or cutting
-var currvalen = this.value.length;
-console.log(currvalen);
-if ( ruleset[thisboxid] ) {
-for ( var i = 0; i < ruleset[thisboxid].changes.length; i++ ) { 
-	if ( currvalen < ruleset[thisboxid].changes[i].valen ) {
-		
-		this.style.height = ruleset[thisboxid].changes[i].hei;
-	} else {
-           console.log('all good');
-		     }
-}
-}
-if ( currvalen == 0 ) {
-	this.style.height=ruleinputboxheight+'px';
-}
-}
-		if ( ruleset[thisboxid] ) 
-		{
-				if ( ruleset[thisboxid].chngtot >= 0 ) {
-						var scrollby = this.scrollHeight;
-						var intyheight = parseInt(this.style.height.substring(0,this.style.height.length-2));
-						if ( intyheight < scrollby ) {
-							var thischange = ruleset[thisboxid].chngtot;
-							console.log(thischange+'..thischange');
-							ruleset[thisboxid].changes[thischange] = {};
-							ruleset[thisboxid].changes[thischange].hei = this.style.height;
-							ruleset[thisboxid].changes[thischange].valen = this.value.length;
-					    ruleset[thisboxid].chngtot++;
-						this.style.height=scrollby+3;
-						}
-				} else {
-					ruleset[thisboxid].chngtot = 0;
-				}
-		 } else {
-							ruleset[thisboxid] = {}; //extend object
-							ruleset[thisboxid].changes = []; //make this extension an array so we can iterate a loop over it easier
-		        }
-*/
-
 }); // .on('keyup', when keypress go to current box's ruleset
-
-
-
 
 
 /*			
@@ -632,6 +480,9 @@ console.log(this.id); //keep around for awhile
 		stord();
  }); // for each textbox store its value to the local storage, then call stord for an inventory of all the data
 } // store(), store the values into db
+
+
+
 
 
 function addele() {   //uses[v{+}numb,DOM]
@@ -696,13 +547,6 @@ function addele() {   //uses[v{+}numb,DOM]
 	potentialruleset.appendChild(listnode);
 
   numb = num;
-
-//  var romu = romanise(num);
-
-
-//  if ( localStorage[newboxid] ) {
-//    newbox.value=localStorage[newboxid];
-//  }
 
 } //addele(), add element
 
@@ -828,21 +672,19 @@ $('#foryou').scroll(function() {
 
 
 
-var lastchar='';
-var bulkd = [];
-var ofimport='';
 /////////////////
 ///game.js
 //is[  ]
 //xuses
 function texttoman(thisbox,curspos,longestsplit,revflag) {
+		var lastchar='';
+		var bulkd = [];
+		var ofimport='';
 				if ( curspos > 0 ) {
 				  lastchar = thisbox.value.charAt(curspos-1); // last character typed
 				} else {
 					lastchar = '';
 				}
-
-
 				  if ( curspos-longestsplit < 0 ) {
 					  var snippd = (thisbox.value.substring(0,curspos+longestsplit)); // snippet to limit text iterated over
 						var ofimportunnec = ''; 
@@ -867,6 +709,10 @@ function texttoman(thisbox,curspos,longestsplit,revflag) {
 				
 				bulkd = thisbox.value.split(ofimport);  //entire work surrounding important bit
 
+				return {
+								'ofimport' : ofimport,
+								'bulkd' : bulkd
+				};
 }
 
 
@@ -900,6 +746,12 @@ function extremeprejudice(thisbox,ofimport) {
 /////////////////
 ///boxs.js
 //is[ boxd() ]
+//
+//
+//
+
+
+
 $('#testbox').on('keyup', function(event) {
   //game = this.id;     //replace this with a get.object.value 'game' from current box
   game = "temp";
@@ -916,73 +768,7 @@ $('#testbox').on('keyup', function(event) {
 }
 }); // .on('keyup', when keypress go to current box's ruleset
 
-
-
-
-
-
-
-
-
-function temp(thisbox,keyd,pushd) {
-			var potnum = $("#uld li").length; //potnum : potential number of rules
-    
-			for ( var i=1; i <= potnum; i++ )
-			{
-			if (dataobj.temp.rules["rule"+i])
-			{
-			var cursdisp = 0;
-			var thisrule=dataobj.temp.rules["rule"+i];
-
-			//console.log(dataobj.temp.rules["rule"+i]);
-			//console.log(jsony.users.length);
-			//console.log(jsony.users[0].id);
-		  var longestsplit = 40; // smallest possible segment of the input to analyse	
-			var revflag = '[^a-z]'  //revflag is element of ruleset that tells when to review and apply rules during the work flow
-		if ( keyd != 8 && keyd != 46 && keyd != 37 && keyd != 38 && keyd != 39 && keyd != 40 && keyd != 16 )   
-    { // 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d,and 37-40 are arrows
-			if ( new RegExp(revflag,'i').test(pushd) )
-			{		
-		 		var curspos = (getcursor(thisbox));
-				console.log(thisbox.id+".."+curspos+".."+longestsplit+".."+revflag);
-				texttoman(thisbox,curspos,longestsplit,revflag);
-				console.log(ofimport);
-        console.log(thisrule);
-				console.log('split');
-				//var thisrule = extremeprejudice(thisbox,ofimport); 
-				//var manipulators = extremeprejudice(thisbox,ofimport); 
-				//thisrule.man = manipulators;
-				console.log(thisrule);	
-				//will return object key values: ofimport, cursdisp
-				/*
-				if (thisrule) 
-				{
-					ofimport = thisrule.ofimport;
-					console.log("HERE?"+ofimport);
-					var cursdisp = thisrule.cursdisp;
-				}
-				*/
-
-				/// full word replace
-					//var changeref = [ "no", "not", "never","doublenonot" ]; //make an object so you can have both word to change and word to change to associated
-				  var changeref = thisrule.real.strar;
-					console.log(changeref);
-				var repld = thisrule.real.repld;
-				
-					//for ( var i = 0; i < changeref.length; i++ ) 
-					//{
-						//if ( new RegExp('(^|[^a-z])'+changeref[i]+'(?=[^a-z])','gi').test(ofimport) ) 
-						if ( new RegExp('(^|[^a-z])'+changeref+'(?=[^a-z])','gi').test(ofimport) ) 
-						{
-								var scrollpos = thisbox.scrollTop;						//logs the current position of the scrollbar	
-							  var olelen = ofimport.length;	
-					      ofimport = ofimport.replace( new RegExp('(^|[^a-z])'+changeref+'(?=[^a-z])','gi'),'$1'+repld); 
-								var newlen = ofimport.length;
-								cursdisp=newlen-olelen+repld.length;
-						}
-				
-					//}  // for loop full word replace																	
-					
+/*					
 					/// prefix
 					var preref = [ "non", "un" ];
 					repld = "Ni!";
@@ -1019,17 +805,62 @@ function temp(thisbox,keyd,pushd) {
 						}
           } // suffix replace
 
+*/
 
 
-					// let's talk regex :: 
-					// ^ beginning of input, 
-					// | or, 
-					// [^a-z] match everything but a-z, 
-					// (?=[^a-z]$) only match if equal to characters other than a-z, 
-					// /g global, 
-					// i ignore case
-					// $1 places last character into this position
 
+
+function stringreplace(thisrule,manipulated,thisbox) {
+				/// full word replace
+			var changeref = thisrule.real.strar;
+			console.log(changeref);
+			var repld = thisrule.real.repld;
+				//which is better? specifying ofimport=manipulator.ofimport, or just calling manipulator.ofimport each time?
+						if ( new RegExp('(^|[^a-z])'+changeref+'(?=[^a-z])','gi').test(manipulated.ofimport) ) 
+						{
+								var scrollpos = thisbox.scrollTop;						//logs the current position of the scrollbar	
+							  var olelen = manipulated.ofimport.length;	
+					      ofimport = manipulated.ofimport.replace( new RegExp('(^|[^a-z])'+changeref+'(?=[^a-z])','gi'),'$1'+repld); 
+								var newlen = manipulated.ofimport.length;
+								cursdisp=newlen-olelen+repld.length;
+						    manipulated.cursdisp = cursdisp;
+								manipulated.scrollpos = scrollpos;
+						}
+						return manipulated; 
+}
+
+
+
+function temp(thisbox,keyd,pushd) {
+			var rules = $("#uld li"); //potnum : potential number of rules
+$.each(rules,function ()	{
+			var rulenum = (this.id.substring(2,this.id.lenghth));
+			var thisrule=dataobj.temp.rules[rulenum];
+	if (thisrule)
+	{
+			var cursdisp=0, curspos=0, scrollpos=0;
+			var longestsplit = 40; // smallest possible segment of the input to analyse	
+			var revflag = '[^a-z]'  //revflag is element of ruleset that tells when to review and apply rules during the work flow
+		if ( keyd != 8 && keyd != 46 && keyd != 37 && keyd != 38 && keyd != 39 && keyd != 40 && keyd != 16 )   
+    { // 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d,and 37-40 are arrows
+			if ( new RegExp(revflag,'i').test(pushd) )
+			{		
+				var manipulated = texttoman(thisbox,curspos,longestsplit,revflag);
+		 		manipulated.curspos = (getcursor(thisbox));
+			  console.log(manipulated.curspos+"..??");	
+				console.log(manipulated);
+				var title = thisrule.real.title.replace(/\s+/g,''); //retrieve title, remove human readable spacing
+				if ( typeof window[title] == 'function') {
+								manipulated=window[title](thisrule,manipulated,thisbox);
+				} else {
+				console.log("unknown rule... "+title);
+				}
+				console.log('here');
+				console.log(manipulated);
+				
+				var bulkd=manipulated.bulkd;
+				curspos = manipulated.curspos;
+				scrollpos = manipulated.scrollpos;
 
 				if ( bulkd && curspos > 0 ) {  // post any changes to box
           thisbox.value=bulkd[0]+ofimport+bulkd[1];
@@ -1045,13 +876,15 @@ function temp(thisbox,keyd,pushd) {
       } // if RegExp .test(pushd)
 
     } // if keyd != ..
-			if ( curspos && curspos > 0 ) {
+		if ( curspos && curspos > 0 ) 
+		{
 				curspos=curspos+cursdisp; // cursdisp is greater than zero if a replace or ommission occurred
 				thisbox.setSelectionRange(curspos,curspos);   //due the replace the cursor position is lost, and so we reset it here
 				thisbox.scrollTop=scrollpos;		//due the replace the scroll position is lost, and so we reset it here
-			}
-			}
-			}
+		}
+	}
+});
+
 } //temp(), tempbox ruleset
 
 
@@ -1061,6 +894,14 @@ function temp(thisbox,keyd,pushd) {
 
 
 
+					// let's talk regex :: 
+					// ^ beginning of input, 
+					// | or, 
+					// [^a-z] match everything but a-z, 
+					// (?=[^a-z]$) only match if equal to characters other than a-z, 
+					// /g global, 
+					// i ignore case
+					// $1 places last character into this position
 
 
 
