@@ -1,0 +1,215 @@
+/*modal :: rule*/
+
+#fullcontainer {
+height:100%;
+width:100%;
+overflow:hidden;
+}
+#title {
+height:10%;
+}
+#options {
+	width:100%;
+	height:80%;
+	background-color:#CACACA;
+	overflow-y:scroll;
+}
+#rulebox {
+    border:solid 1px #fff;
+	width:100%;
+	height:10%;
+	background-color:gray;
+}
+#rulearea {
+height:100%;
+width:100%;
+}
+#divarea {
+				float:left;
+				position:relative;
+height:80%;
+top:7%;
+width:100%;
+}
+
+/*modal :: rule*/
+#titledrop {
+    width: 100%;
+    height: 100%;
+    background: #f2f2f2;
+}
+#titledisp {
+height:100%;
+width:50%;
+float:left;
+}
+
+#titledroplist {
+    list-style-type: none;
+    margin: 0; 	
+    float: left;
+    padding:0;
+		width:100%;
+}
+#ruletitle {
+float:left;
+width:100%;
+height:100%;
+}
+/*rule title*/
+#ruletitle {
+    list-style-type: none;
+    margin: 0;
+    float: left;
+    padding:0;
+		width:100%;
+}
+#ruletitle li {
+    float: left;
+    position: relative;
+		width:100%;
+}
+#ruletitle li a {
+width:30%;
+height:100%;
+float:left;
+color: #FFF;
+text-align: center;
+vertical-align:middle;
+font-size: 16px;
+background-color:#01939A;
+text-decoration:none;
+}
+#ruletitle li p {
+  width:70%;
+  height:100%;
+  float:left;
+	top:0;
+	margin:0;
+	padding:0;
+
+}
+#ruletitle li a:hover {
+    text-decoration:none;
+}
+#ruletitle li:hover .subnav {
+    display: block;
+}
+/*FUCKER*/
+
+/*#main-nav .subnav {*/
+
+#ruletitle .subnav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 1%;
+    width: 30%;
+    list-style-type: none;
+    background: #fff;
+    margin: 0;
+    border:solid 1px #fff;
+    z-index:5;
+    padding:0;
+}
+				
+/*#main-nav .subnav li {dd*/
+#ruletitle .subnav li {
+    display: block;
+    border-bottom: solid 1px #eeeeee;
+    margin:0;
+		width:100%;
+}
+/*#main-nav .subnav li a {*/
+#ruletitle .subnav li a {
+    color: #FFF;
+    height:10%;
+		width:100%;
+    padding:10px 0;
+    font-size:13px;
+}
+/*#main-nav .subnav li a:hover {*/
+#ruletitle .subnav li a:hover {
+    background:gray;
+}
+
+
+
+
+#showdescriptions {
+display:none;
+}
+
+#extremeprejudice {
+visibility:visible;
+height:100%;
+width:100%;
+}
+
+
+
+#mininav-primary {
+    list-style-type: none;
+    margin: 0;
+    float: left;
+    padding:0;
+		width:100%;
+}
+#mininav-primary li {
+    float: left;
+    position: relative;
+		width:100%;
+}
+#mininav-primary li a {
+    float: left;
+    color: #000;
+    text-align: center;
+    font-size: 100%;
+    height: 100%;
+    line-height: 100%;
+    width: 50%;
+    text-decoration:none;
+}
+#mininav-primary li a:hover {
+    text-decoration:none;
+}
+#mininav-primary li:hover .subnav {
+    display: block;
+}
+
+.divrule {
+height:17%;
+width:100%;
+}
+.ruletitle {
+height:25%;
+width:100%;
+}
+.therule {
+height:75%;
+width:100%;
+}
+.ruletext {
+position:relative;
+float:left;
+width:40%;
+height:100%;
+left:5%;
+}
+.ruletext textarea {
+width:70%;
+left:15%;
+height:80%;
+
+}
+.presets {
+position:relative;
+float:left;
+width:40%;
+height:100%;
+left:10%;
+}
+#clicker {
+background-color:#FF7600;
+height:5%;
+}

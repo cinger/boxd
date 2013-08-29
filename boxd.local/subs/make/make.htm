@@ -1,0 +1,326 @@
+<html>
+<meta id="viewport" name="viewport" content="initial-scale=1.0, user-scalable=0,
+minimum-scale=1.0, maximum-scale=1.0" />
+<head>
+	<link rel="stylesheet" type="text/css" href="sty/make.css" />
+	<script src="../../jquery.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>makebox</title>
+</head>
+<body onresize="thesets()">
+				
+<div class="fullwindow">
+
+				<div class="control">
+								<div class="topcont" id="c1"></div>
+								<div class="topcont" id="c2"></div>
+								<div class="topcont" id="c3"></div>
+								<div class="topcont" id="c4"></div>
+
+  <!--input type="image" src="sty/imgd/add.png" width="30" height="30" class="clicks" onclick="addele()" />
+  <input type="image" src="sty/imgd/store.png" class="clicks" id="store"  onclick="store()" />
+  <a href="subs/prnt.htm" style="text-decoration: none"><input type="image" src="sty/imgd/print.png" class="clicks"  onclick="store()" /></a>
+  <input type="image" src="sty/imgd/down.png" class="clicks"  onclick="infd()" /-->
+</div><!-- div class="control"-->
+			
+			
+	<div class="title">
+	<textarea class='textitle' placeholder="what is the game's title?"></textarea>
+	</div>
+<div class="rules">
+  <div class="outerscrollhide">
+					<div id="def" class="help">
+									<textarea class='textdef' id='textdef' placeholder="which defaults would you like to change?"></textarea><a href="#defdmodal"><input type='image' src='sty/imgd/clicks.png' class='remmy' /></a>
+			</div><!-- id=def -->
+			<div id="showhidedef" class="showhidehelp"></div>
+		 
+		<div class="innerscrollhide" id="inner">
+			<p class="primer" id="primer">click the red bar below to show or hide the help box</p>
+		  <ul id="uld"></ul>
+    </div><!-- div class="innerscrollhide" -->
+	
+		<div id="showhidehelp" class="showhidehelp"></div>
+		  	<div id="help" class="help">
+					<p class="helper" id="helper"></p>
+			</div>
+	
+	</div> <!--div class="outerscrollhide"-->
+</div> <!-- div class="rules" -->
+				
+<div class="testbox">
+  <textarea class="testarea" id="testbox" placeholder="type some text to test your rules..."></textarea>
+</div>
+
+</div><!-- div class="fullwindow"-->
+
+<div class="jsony">	
+	<input type="image" src="sty/imgd/up.png" class="remmy"  onclick="topd()" />
+	<p class="jsony">FUCKER!</p>
+</div><!-- div class="jsony"-->			
+
+<div id="errdmodal" class="modalDialog">
+  <div>
+    <a href="#close" title="Close" class="close">X</a>
+	<br />
+	<p>exampine these two strings to determine where the syntax error lies...</p>
+	<br />
+	<p id="errdmodpo">FUCKER!</p>
+  <p id="errdmodpb">FUCKER!</p>
+	<textarea readonly id="errdmodpobj" style="width:100%;height:47%">FUCKER!</textarea>
+  </div>
+</div>
+<div id="rulemodal" class="modalDialog">
+  <div>
+    <a href="#close" title="Close" class="close">X</a>
+		
+		
+<div id="fullcontainer">
+<div id="title">
+<!--nav id="main-nav"-->
+<nav id="titledrop">
+    <!--ul id="ruletitle"-->
+    <ul id="ruletitle">
+						<!--li><a href="#">rule title</a><p id="titledisp">FUCKER</p-->
+						<li><a href="#">rule title</a><p id="titledisp">FUCKER</p>
+
+            <ul class="subnav">
+                <li><a onClick="var pdisp=document.getElementById('titledisp');pdisp.innerHTML=this.text;">extreme prejudice</a>
+                </li>
+                <li><a onClick="var pdisp=document.getElementById('titledisp');pdisp.innerHTML=this.text;">string replace</a>
+                </li>
+                <li><a onClick="var pdisp=document.getElementById('titledisp');pdisp.innerHTML=this.text;">prefix replace</a>
+                </li>
+                <li><a onClick="var pdisp=document.getElementById('titledisp');pdisp.innerHTML=this.text;">suffix replace</a>
+								</li>
+								<li><a onClick="var pdisp=document.getElementById('titledisp');pdisp.innerHTML=this.text;">...show descriptions again..</a>
+                </li>
+						</ul>
+
+        </li>
+    </ul>
+</nav>
+</div><!-- div title -->
+<div id="options">
+<p>a regular expression is constructed as such: (OPEN)(STRING)(CLOSE),"MODIFIER"</p>
+
+<div id="showdescriptions">
+<p>
+extreme prejudice :: replace all instances of a string whatever may surround it<br />
+string replace :: replace a string dependant on what comes before and after it<br />
+prefix replace :: replace a string dependant on what follows it<br />
+suffix replace :: replace a string depenadant on what precedes it<br />
+<br />
+click the orange bar when you are finished with the rule</ br>
+
+</p>
+</div><!-- div id="showdescriptions"-->
+<div id="extremeprejudice">
+<div class="divrule">
+<div class="ruletitle">				
+				<p>opening regular expression</p>
+</div><!-- div id=ruletitle -->
+<div class="therule">
+			<div class="ruletext">				
+			<textarea></textarea>
+		</div><!-- div class="ruletext"-->
+		<div class="presets">
+		<nav id="titledrop">
+    <ul id="ruletitle">
+        <li><a href="#">presets</a>
+            <ul class="subnav">
+                <li><a href="#">start of word :: iso basic latin alphabet...a-z</a>
+                </li>
+                <li><a href="#">punctuation marks</a>
+                </li>
+                <li><a href="#">white space</a>
+                </li>
+								<li><a href="#">numbers :: hindu-arabic numerals... 0-9</a>
+                </li>
+            </ul>
+        </li>
+		</ul>
+		</nav>
+</div><!-- div class="presets"-->
+</div><!-- class="therule"-->
+</div><!-- id="divrule"-->
+
+<div class="divrule">
+<div class="ruletitle">				
+				<p>strings to act on</p>
+</div><!-- div id=ruletitle -->
+<div class="therule">
+			<div class="ruletext">				
+			<textarea></textarea>
+		</div><!-- div class="ruletext"-->
+		<div class="presets">
+		<nav id="titledrop">
+    <ul id="ruletitle">
+        <li><a href="#">presets</a>
+            <ul class="subnav">
+                <li><a href="#">(thing)</a>
+                </li>
+                <li><a href="#">(no|not|never)</a>
+                </li>
+            </ul>
+        </li>
+		</ul>
+		</nav>
+</div><!-- div class="presets"-->
+</div><!-- class="therule"-->
+</div><!-- id="divrule"-->
+
+<div class="divrule">
+<div class="ruletitle">				
+				<p>closing regular expression</p>
+</div><!-- div id=ruletitle -->
+<div class="therule">
+			<div class="ruletext">				
+			<textarea></textarea>
+		</div><!-- div class="ruletext"-->
+		<div class="presets">
+		<nav id="titledrop">
+    <ul id="ruletitle">
+        <li><a href="#">presets</a>
+            <ul class="subnav">
+                <li><a href="#">end of word :: iso basic latin alphabet...a-z</a>
+                </li>
+                <li><a href="#">punctuation marks</a>
+                </li>
+                <li><a href="#">white space</a>
+                </li>
+								<li><a href="#">numbers :: hindu-arabic numerals... 0-9</a>
+                </li>
+            </ul>
+        </li>
+		</ul>
+		</nav>
+</div><!-- div class="presets"-->
+</div><!-- class="therule"-->
+</div><!-- id="divrule"-->
+
+<div class="divrule">
+<div class="ruletitle">				
+				<p>regular expression modifiers</p>
+</div><!-- div id=ruletitle -->
+<div class="therule">
+			<div class="ruletext">				
+			<textarea></textarea>
+		</div><!-- div class="ruletext"-->
+		<div class="presets">
+		<nav id="titledrop">
+    <ul id="ruletitle">
+        <li><a href="#">presets</a>
+            <ul class="subnav">
+                <li><a href="#">global :: g</a>
+                </li>
+                <li><a href="#">case insensitive :: i</a>
+                </li>
+                <li><a href="#">global and all cases :: gi</a>
+                </li>
+								<li><a href="#">multiline :: m</a>
+                </li>
+								<li><a href="#">all :: gim</a>
+                </li>
+            </ul>
+        </li>
+		</ul>
+		</nav>
+</div><!-- div class="presets"-->
+</div><!-- class="therule"-->
+</div><!-- id="divrule"-->
+
+<div class="divrule">
+<div class="ruletitle">				
+				<p>replacement string</p>
+</div><!-- div id=ruletitle -->
+<div class="therule">
+			<div class="ruletext">				
+			<textarea></textarea>
+		</div><!-- div class="ruletext"-->
+		<div class="presets">
+		<nav id="titledrop">
+    <ul id="ruletitle">
+        <li><a href="#">presets</a>
+            <ul class="subnav">
+                <li><a href="#">removal without replacement</a>
+                </li>
+                <li><a href="#">Ni!</a>
+                </li>
+            </ul>
+        </li>
+		</ul>
+		</nav>
+</div><!-- div class="presets"-->
+</div><!-- class="therule"-->
+</div><!-- id="divrule"-->
+
+</div><!-- div id="extreme prejudice"-->
+<div id="clicker">
+				<p></p>
+</div>
+
+</div><!--options -->
+
+
+<div id="rulebox">
+				<div id="divarea"><textarea readonly id="rulearea"></textarea></div>
+</div>
+</div><!--div id="fullcontainer"-->
+		
+
+
+
+
+  </div>
+</div>
+<div id="defdmodal" class="modalDialog">
+  <div>
+    <a href="#close" title="Close" class="close">X</a>
+      <p>defd fucker</p>
+  </div>
+</div>
+
+  <script async type="text/javascript" src="make.js"></script>
+</body>
+</html>
+
+<!--
+sans sin: without sin, or without without; you are always right in whatever it is you are doing
+
+last is the first: live every year remembering great times spent together
+
+anagram: of first word of sentence; hello, everyone left lovely ornaments
+
+expressing positives: completely disallows negatives
+
+expelling negatives: highlights negative constructions as you write refusing to save while any are left
+
+multiple boxes, boxes a, b, c, d, then roman numerals (i)
+
+box d is whatever rule set i use, prohibiting negatives, all lowercase, fullstops are new lines, only commas, colon ends with semicolon, without parenthesis,
+
+box (xvii) is a friendly message i will update regularly.
+
+: only allow words longer in one box, and words shorter in another; first line should be a number that states length
+: disallow words starting or ending in specified string
+: disallow word pairs
+
+:save button runs long animation of fade out once clicked,
+when finished saving it flashes full then empty then remains full again,
+awaiting the next save
+
+:make a localstorage json object that acts like a template for the user's settings,
+present it as a potential configuration file
+
+:since it works in snippets of entire this.value, have button that allows for one time full scan of entire document in case of copy and paste text
+
+:create communicable api that allows POST box creation, 
+first argument sent to api should be number of boxes adding, 
+if number is too big, 
+return error of too big and suggest smaller size, 
+ie 10000 is too large try only 100... 
+then limit number allowed from each ip by day by storing the ip in database with amount submitted and add or subtract that value, 
+remove ip from db as the track expires
+
+-->
+

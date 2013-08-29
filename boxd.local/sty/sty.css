@@ -32,12 +32,13 @@
 
 .control {
 	position:absolute;
-	left: 0%;
+	left: 3%;
+	top: 0;
+	height: 50%;
 }
 .clicks {
 	width: 25px;
 	height: 25px;
-	padding-bottom: 17%;
 }
 
 .thelot {

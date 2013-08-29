@@ -2,7 +2,7 @@
 ///boxd.js
 //uses[DOM,placent(),jQ]
 //is[ jQ{ document.on('click',.on('blur',.on('keyup' } ]
-
+var jsony = {"users":[{"id":17,"username":"cinger","address":{"street":"701 First Ave.","city":"Sunnyvale, CA 95125","country":"United States"},"name":"Richard","age":7},{"name":"Susan","age":4},{"name":"James","age":3}]}
 var numb = 0;
 var boxfrac = 4;  //determines the ratio in regard the window to size the current box
 var boxfoc = "";
@@ -183,28 +183,26 @@ $('#foryou').scroll(function() {
 
 
 
+/////////////////
+///apid.js
 
 
+
+var lastchar='';
+var bulkd = [];
+var ofimport='';
 /////////////////
 ///game.js
-//is[ boxd() ]
+//is[  ]
 //xuses
-
-
-function boxd(thisbox,keyd,pushd) {
-			var cursdisp = 0;
-		  var longestsplit = 40; // smallest possible segment of the input to analyse	
-			var revflag = '[^a-z]'  //revflag is element of ruleset that tells when to review and apply rules during the work flow
-		if ( keyd != 8 && keyd != 46 && keyd != 37 && keyd != 38 && keyd != 39 && keyd != 40 && keyd != 16 )   
-    { // 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d,and 37-40 are arrows
-			if ( new RegExp(revflag,'i').test(pushd) )
-			{		
-				var curspos = (getcursor(thisbox));
+function texttoman(thisbox,curspos,longestsplit,revflag) {
 				if ( curspos > 0 ) {
-				  var lastchar = thisbox.value.charAt(curspos-1); // last character typed
+				  lastchar = thisbox.value.charAt(curspos-1); // last character typed
 				} else {
-					var lastchar = '';
+					lastchar = '';
 				}
+
+
 				  if ( curspos-longestsplit < 0 ) {
 					  var snippd = (thisbox.value.substring(0,curspos+longestsplit)); // snippet to limit text iterated over
 						var ofimportunnec = ''; 
@@ -217,18 +215,23 @@ function boxd(thisbox,keyd,pushd) {
 				    }
 				    var ofimportunnec = snippd.substring(0,snippd.length-snippd.replace(new RegExp('(^|[a-z])*'+revflag,'i'),'').length);  //remove first match to avoid false positives like a substr knot on k(not ..)
 				  }
+
 				if ( ofimportunnec.length == snippd.length || snippd.length == thisbox.value.length || snippd.length == longestsplit+ofimportunnec.length ) {  
-								// this protects from the potential for the box's initial input being on of the forbidden expressions
+								// this protects from the potential for the box's initial input being one of the forbidden expressions
 								ofimport=snippd;
 				} else {
-				  var ofimport=snippd.substring(ofimportunnec.length,snippd.length);
+				  ofimport=snippd.substring(ofimportunnec.length,snippd.length);
 				}
 				
-			  var ofimport=snippd.substring(ofimportunnec.length,snippd.length); // important bit to process
+			  ofimport=snippd.substring(ofimportunnec.length,snippd.length); // important bit to process
 				
-				var bulkd = thisbox.value.split(ofimport);  //entire work surrounding important bit
+				bulkd = thisbox.value.split(ofimport);  //entire work surrounding important bit
 
-        /// extreme prejudice
+}
+
+
+function extremeprejudice(thisbox,ofimport) {
+				/// extreme prejudice
 				 //remove all instances
 				 //can be subvertd using x02, akin 'everythin6'
 				var changeref = [ "thing" ]; //make an object so you can have both word to change and word to change to associated
@@ -244,13 +247,42 @@ function boxd(thisbox,keyd,pushd) {
 							var aftomit = ofimport.length;
 							var contwordlen = aftomit-befomit;
 						cursdisp = contwordlen;
+  if ( cursdisp ) {
+    return {
+    'ofimport' : ofimport,
+    'cursdisp' : cursdisp
+           };
+  }
 					}
 				} // extreme prejudice	
+}
 
+/////////////////
+///boxs.js
+//is[ boxd() ]
 
+function boxd(thisbox,keyd,pushd) {
+			var cursdisp = 0;
+			console.log(jsony.users.length);
+			console.log(jsony.users[0].id);
+		  var longestsplit = 40; // smallest possible segment of the input to analyse	
+			var revflag = '[^a-z]'  //revflag is element of ruleset that tells when to review and apply rules during the work flow
+		if ( keyd != 8 && keyd != 46 && keyd != 37 && keyd != 38 && keyd != 39 && keyd != 40 && keyd != 16 )   
+    { // 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d,and 37-40 are arrows
+			if ( new RegExp(revflag,'i').test(pushd) )
+			{		
+		 		var curspos = (getcursor(thisbox));
+				texttoman(thisbox,curspos,longestsplit,revflag);
+        
+				var rule = extremeprejudice(thisbox,ofimport);
+				if (rule) 
+				{
+					ofimport = rule.ofimport;
+					var cursdisp = rule.cursdisp;
+				}
 
 				/// full word replace
-					var changeref = [ "no", "not", "never","doublenonot" ]; //make an object so you can have both word to change and word to change too associated
+					var changeref = [ "no", "not", "never","doublenonot" ]; //make an object so you can have both word to change and word to change to associated
 					var repld = "Ni!";
 				
 					for ( var i = 0; i < changeref.length; i++ ) 
