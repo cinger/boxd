@@ -23,7 +23,6 @@ $(document).on('click','textarea',function() {
   $('p.boxy').text('boxy: ' + $('#'+boxfoc.id).position().top);
 }); // .on('click', expand and place in center
 
-
 $(document).on('blur','textarea',function() {
   vald=17;
   game="";
