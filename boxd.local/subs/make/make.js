@@ -680,35 +680,36 @@ function texttoman(thisbox,curspos,longestsplit,revflag) {
 		var lastchar='';
 		var bulkd = [];
 		var ofimport='';
-				if ( curspos > 0 ) {
-				  lastchar = thisbox.value.charAt(curspos-1); // last character typed
+				if ( curspos > 0 ) 
+				{
+				  lastchar = thisbox.value.charAt(curspos-1); // most recent character typed
 				} else {
-					lastchar = '';
-				}
-				  if ( curspos-longestsplit < 0 ) {
-					  var snippd = (thisbox.value.substring(0,curspos+longestsplit)); // snippet to limit text iterated over
-						var ofimportunnec = ''; 
-				  } else { 
-				    if ( curspos+longestsplit > thisbox.value.length) {
-				      var snippd = (thisbox.value.substring(curspos-longestsplit,thisbox.value.length)); // snippet to limit text iterated over
-				    }
-				    if ( !snippd) {
-				      var snippd = (thisbox.value.substring(curspos-longestsplit,curspos+longestsplit)); // snippet to limit text iterated over
-				    }
+                lastchar = '';
+				       }
+				 if ( curspos-longestsplit < 0 ) 
+				 {
+				   var snippd = (thisbox.value.substring(0,curspos+longestsplit)); // snippet to limit text iterated over
+				   var ofimportunnec = ''; 
+				 } else { 
+				         if ( curspos+longestsplit > thisbox.value.length) {
+				         var snippd = (thisbox.value.substring(curspos-longestsplit,thisbox.value.length)); // snippet to limit text iterated over
+				        }
+				 if ( !snippd) 
+				 {
+				   var snippd = (thisbox.value.substring(curspos-longestsplit,curspos+longestsplit)); // snippet to limit text iterated over
+				 }
 				    var ofimportunnec = snippd.substring(0,snippd.length-snippd.replace(new RegExp('(^|[a-z])*'+revflag,'i'),'').length);  //remove first match to avoid false positives like a substr knot on k(not ..)
 				  }
 
-				if ( ofimportunnec.length == snippd.length || snippd.length == thisbox.value.length || snippd.length == longestsplit+ofimportunnec.length ) {  
+				if ( ofimportunnec.length == snippd.length || snippd.length == thisbox.value.length || snippd.length == longestsplit+ofimportunnec.length ) 
+				{
 								// this protects from the potential for the box's initial input being one of the forbidden expressions
 								ofimport=snippd;
 				} else {
 				  ofimport=snippd.substring(ofimportunnec.length,snippd.length);
 				}
-				
 			  ofimport=snippd.substring(ofimportunnec.length,snippd.length); // important bit to process
-				
 				bulkd = thisbox.value.split(ofimport);  //entire work surrounding important bit
-
 				return {
 								'ofimport' : ofimport,
 								'bulkd' : bulkd
@@ -813,16 +814,15 @@ $('#testbox').on('keyup', function(event) {
 function stringreplace(thisrule,manipulated,thisbox) {
 				/// full word replace
 			var changeref = thisrule.real.strar;
-			console.log(changeref);
 			var repld = thisrule.real.repld;
 				//which is better? specifying ofimport=manipulator.ofimport, or just calling manipulator.ofimport each time?
 						if ( new RegExp('(^|[^a-z])'+changeref+'(?=[^a-z])','gi').test(manipulated.ofimport) ) 
 						{
 								var scrollpos = thisbox.scrollTop;						//logs the current position of the scrollbar	
 							  var olelen = manipulated.ofimport.length;	
-					      ofimport = manipulated.ofimport.replace( new RegExp('(^|[^a-z])'+changeref+'(?=[^a-z])','gi'),'$1'+repld); 
+					      manipulated.ofimport = manipulated.ofimport.replace( new RegExp('(^|[^a-z])'+changeref+'(?=[^a-z])','gi'),'$1'+repld); 
 								var newlen = manipulated.ofimport.length;
-								cursdisp=newlen-olelen+repld.length;
+								cursdisp=newlen-olelen;//+repld.length;
 						    manipulated.cursdisp = cursdisp;
 								manipulated.scrollpos = scrollpos;
 						}
@@ -836,39 +836,36 @@ function temp(thisbox,keyd,pushd) {
 $.each(rules,function ()	{
 			var rulenum = (this.id.substring(2,this.id.lenghth));
 			var thisrule=dataobj.temp.rules[rulenum];
+			var cursdisp=0, curspos=0, scrollpos=0;
 	if (thisrule)
 	{
-			var cursdisp=0, curspos=0, scrollpos=0;
 			var longestsplit = 40; // smallest possible segment of the input to analyse	
 			var revflag = '[^a-z]'  //revflag is element of ruleset that tells when to review and apply rules during the work flow
 		if ( keyd != 8 && keyd != 46 && keyd != 37 && keyd != 38 && keyd != 39 && keyd != 40 && keyd != 16 )   
     { // 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d,and 37-40 are arrows
 			if ( new RegExp(revflag,'i').test(pushd) )
-			{		
-				var manipulated = texttoman(thisbox,curspos,longestsplit,revflag);
-		 		manipulated.curspos = (getcursor(thisbox));
-			  console.log(manipulated.curspos+"..??");	
-				console.log(manipulated);
+			{		 
+				getcurspos = (getcursor(thisbox));
+				var manipulated = texttoman(thisbox,getcurspos,longestsplit,revflag);
+		 		manipulated.curspos = getcurspos;
 				var title = thisrule.real.title.replace(/\s+/g,''); //retrieve title, remove human readable spacing
 				if ( typeof window[title] == 'function') {
 								manipulated=window[title](thisrule,manipulated,thisbox);
 				} else {
-				console.log("unknown rule... "+title);
+			  	      console.log("unknown rule... "+title);
 				}
-				console.log('here');
-				console.log(manipulated);
 				
-				var bulkd=manipulated.bulkd;
+				var bulkd = manipulated.bulkd;
 				curspos = manipulated.curspos;
 				scrollpos = manipulated.scrollpos;
 
 				if ( bulkd && curspos > 0 ) {  // post any changes to box
-          thisbox.value=bulkd[0]+ofimport+bulkd[1];
+					thisbox.value=bulkd[0]+manipulated.ofimport+bulkd[1];
           if ( bulkd.length > 2 ) {   
           // this protects against repetitious text: if we split on ofimport and the string of importance appears more than once, 
 					 // then there will be more than two values for the boxd array, otherwise overlook...
             for ( var i = 2; i < bulkd.length; i++ ) {
-              thisbox.value=thisbox.value+ofimport+bulkd[i];
+              thisbox.value=thisbox.value+manipulated.ofimport+bulkd[i];
             }
           }
         } // if bulkd && curspos > 0
@@ -878,12 +875,15 @@ $.each(rules,function ()	{
     } // if keyd != ..
 		if ( curspos && curspos > 0 ) 
 		{
-				curspos=curspos+cursdisp; // cursdisp is greater than zero if a replace or ommission occurred
+				if ( manipulated.cursdisp) 
+				{
+				  curspos=curspos+manipulated.cursdisp; // cursdisp is greater than zero if a replace or ommission occurred
+				}
 				thisbox.setSelectionRange(curspos,curspos);   //due the replace the cursor position is lost, and so we reset it here
 				thisbox.scrollTop=scrollpos;		//due the replace the scroll position is lost, and so we reset it here
 		}
 	}
-});
+}); // $.each(
 
 } //temp(), tempbox ruleset
 
