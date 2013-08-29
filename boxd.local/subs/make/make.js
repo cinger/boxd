@@ -486,14 +486,14 @@ function store() { //uses[stord(),jQ]
 
 ///APPEND ONCE?
 
+var primer = $('#primer');
+
 function addele() { //uses[v{+}numb,DOM]
 
   //check for the initial helper box, remove it if there are yet to be any ruleboxes
-  if ($('#uld li').length < 1) {
-    var innerd = document.getElementById('inner');
-    innerd.removeChild(document.getElementById('primer'));
+  if (rules.length < 1) {
+    primer.css("display","none");
   }
-
 
   var potentialruleset = document.getElementById('uld');
   var listnode = document.createElement("LI");
@@ -549,18 +549,14 @@ function addele() { //uses[v{+}numb,DOM]
   potentialruleset.appendChild(listnode);
 
   numb = num;
-
+rules = $("#uld li"); //update potential number of rules
 } //addele(), add element
 
 
 
 function remele(thisboxid) { //uses DOM
-  if ($('#uld li').length == 1) {
-    var innerd = document.getElementById('inner');
-    var newp = document.createElement('p');
-    newp.innerHTML = "click the red bar below to show or hide the help box";
-    newp.id = "primer";
-    innerd.appendChild(newp);
+  if (rules.length == 1) {
+    primer.css("display","block");
   }
 
   var potentialruleset = document.getElementById('uld');
@@ -581,7 +577,7 @@ function remele(thisboxid) { //uses DOM
     }
   }
   // clean up database, delete traces of the box you are removing
-
+rules = $("#uld li"); //update potential number of rules
 } // remele(), remove element
 
 
@@ -661,39 +657,6 @@ $('#foryou').scroll(function () {
 //is[  ]
 //xuses
 
-function texttoman(thisbox, curspos, longestsplit, revflag) {
-  if (curspos > 0) {
-    var lastchar = thisbox.value.charAt(curspos - 1); // most recent character typed
-  } else {
-    var lastchar = '';
-  }
-  if (curspos - longestsplit < 0) {
-    var snippd = (thisbox.value.substring(0, curspos + longestsplit)); // snippet to limit text iterated over
-    var ofimportunnec = '';
-  } else {
-    if (curspos + longestsplit > thisbox.value.length) {
-      var snippd = (thisbox.value.substring(curspos - longestsplit, thisbox.value.length)); // snippet to limit text iterated over
-    }
-    if (!snippd) {
-      var snippd = (thisbox.value.substring(curspos - longestsplit, curspos + longestsplit)); // snippet to limit text iterated over
-    }
-		//since the snip is character based we have to remove first match 
-		 //to avoid false positives like a substr knot on k(not ..)
-    var ofimportunnec = snippd.substring(0, snippd.length - snippd.replace(new RegExp('(^|[a-z])*' + revflag, 'i'), '').length); 
-  }
-
-  if (ofimportunnec.length == snippd.length || snippd.length == thisbox.value.length || snippd.length == longestsplit + ofimportunnec.length) {
-    // this protects from the potential for the box's initial input being one of the forbidden expressions
-    var ofimport = snippd;
-  } else {
-    var ofimport = snippd.substring(ofimportunnec.length, snippd.length);
-  }
-  var bulkd = thisbox.value.split(ofimport); //entire work surrounding important bit
-  return {
-    'ofimport': ofimport,
-    'bulkd': bulkd
-  };
-}
 
 
 
@@ -707,57 +670,16 @@ function texttoman(thisbox, curspos, longestsplit, revflag) {
 
 
 $('#testbox').on('keyup', function (event) {
-  //game = this.id;     //replace this with a get.object.value 'game' from current box
   game = "temp";
   if (dataobj.temp) {
     var keyd = event.keyCode || event.which;
     var pushd = String.fromCharCode(keyd);
-    if (typeof window[game] == 'function') {
-      window[game](this, keyd, pushd);
-    }
+    temp(this, keyd, pushd);
   } else {
     console.log('waiting on game rules...');
   }
 }); // .on('keyup', when keypress go to current box's ruleset
 
-/*					
-					/// prefix
-					var preref = [ "non", "un" ];
-					repld = "Ni!";
-				  for ( var i = 0; i < preref.length; i++ )
-			   	{
-					 	if ( new RegExp('(^|[^a-z])'+preref[i]+'(?=[a-z])','gi').test(ofimport) ) 
-					 	{
-							//ofimport=ofimport.replace( new RegExp('(^|[^a-z])'+preref[i]+'(?=[a-z])','gi'), "$1" ); // just replace forbidden bit
-							//cursdisp = -(preref[i].length);
-							
-								var befomit = ofimport.length;
-							ofimport=ofimport.replace( new RegExp('(^|[^a-z])'+preref[i]+'([a-z]*(?=[^a-z]))','gi'), "$1" ); // omit containing word
-								var aftomit = ofimport.length;
-								var contwordlen = aftomit-befomit;
-							cursdisp = contwordlen;
-						}
-          } // prefix replace
-					
-				  ///suffix 
-					var sufref = [ "ed", "tion" ];
-					repld = "d";
-				  for ( var i = 0; i < sufref.length; i++ )
-			   	{
-					 	if ( new RegExp('(?=[a-z])'+sufref[i]+'(?=[^a-z])','gi').test(ofimport) ) 
-					 	{
-						  //ofimport=ofimport.replace( new RegExp('(?=[a-z])'+sufref[i]+'([^a-z])','gi'), "$2" );  // just replace forbidden bit
-							//cursdisp = -(sufref[i].length);
-								
-								var befomit = ofimport.length;
-							ofimport=ofimport.replace( new RegExp('([a-z])*'+sufref[i]+'([^a-z])','gi'), "$2" ); // omit containing word
-								var aftomit = ofimport.length;
-								var contwordlen = aftomit-befomit;
-							cursdisp = contwordlen;
-						}
-          } // suffix replace
-
-*/
 
 
 
@@ -805,9 +727,84 @@ function extremeprejudice(thisbox, ofimport) {
   } // extreme prejudice	
 }
 
+/*					
+					/// prefix
+					var preref = [ "non", "un" ];
+					repld = "Ni!";
+				  for ( var i = 0; i < preref.length; i++ )
+			   	{
+					 	if ( new RegExp('(^|[^a-z])'+preref[i]+'(?=[a-z])','gi').test(ofimport) ) 
+					 	{
+							//ofimport=ofimport.replace( new RegExp('(^|[^a-z])'+preref[i]+'(?=[a-z])','gi'), "$1" ); // just replace forbidden bit
+							//cursdisp = -(preref[i].length);
+							
+								var befomit = ofimport.length;
+							ofimport=ofimport.replace( new RegExp('(^|[^a-z])'+preref[i]+'([a-z]*(?=[^a-z]))','gi'), "$1" ); // omit containing word
+								var aftomit = ofimport.length;
+								var contwordlen = aftomit-befomit;
+							cursdisp = contwordlen;
+						}
+          } // prefix replace
+					
+				  ///suffix 
+					var sufref = [ "ed", "tion" ];
+					repld = "d";
+				  for ( var i = 0; i < sufref.length; i++ )
+			   	{
+					 	if ( new RegExp('(?=[a-z])'+sufref[i]+'(?=[^a-z])','gi').test(ofimport) ) 
+					 	{
+						  //ofimport=ofimport.replace( new RegExp('(?=[a-z])'+sufref[i]+'([^a-z])','gi'), "$2" );  // just replace forbidden bit
+							//cursdisp = -(sufref[i].length);
+								
+								var befomit = ofimport.length;
+							ofimport=ofimport.replace( new RegExp('([a-z])*'+sufref[i]+'([^a-z])','gi'), "$2" ); // omit containing word
+								var aftomit = ofimport.length;
+								var contwordlen = aftomit-befomit;
+							cursdisp = contwordlen;
+						}
+          } // suffix replace
+
+*/
+
+
+function texttoman(thisbox, curspos, longestsplit, revflag) {
+  if (curspos > 0) {
+    var lastchar = thisbox.value.charAt(curspos - 1); // most recent character typed
+  } else {
+    var lastchar = '';
+  }
+  if (curspos - longestsplit < 0) {
+    var snippd = (thisbox.value.substring(0, curspos + longestsplit)); // snippet to limit text iterated over
+    var ofimportunnec = '';
+  } else {
+    if (curspos + longestsplit > thisbox.value.length) {
+      var snippd = (thisbox.value.substring(curspos - longestsplit, thisbox.value.length)); // snippet to limit text iterated over
+    }
+    if (!snippd) {
+      var snippd = (thisbox.value.substring(curspos - longestsplit, curspos + longestsplit)); // snippet to limit text iterated over
+    }
+		//since the snip is character based we have to remove first match 
+		 //to avoid false positives like a substr knot on k(not ..)
+    var ofimportunnec = snippd.substring(0, snippd.length - snippd.replace(new RegExp('(^|[a-z])*' + revflag, 'i'), '').length); 
+  }
+
+  if (ofimportunnec.length == snippd.length || snippd.length == thisbox.value.length || snippd.length == longestsplit + ofimportunnec.length) {
+    // this protects from the potential for the box's initial input being one of the forbidden expressions
+    var ofimport = snippd;
+  } else {
+    var ofimport = snippd.substring(ofimportunnec.length, snippd.length);
+  }
+  var bulkd = thisbox.value.split(ofimport); //entire work surrounding important bit
+  return {
+    'ofimport': ofimport,
+    'bulkd': bulkd
+  };
+}
+
+var rules = $("#uld li"); //potnum : potential number of rules
+//also added to addele and remele for dynamic update
 
 function temp(thisbox, keyd, pushd) {
-  var rules = $("#uld li"); //potnum : potential number of rules
   $.each(rules, function () {
     var rulenum = (this.id.substring(2, this.id.lenghth));
     var thisrule = dataobj.temp.rules[rulenum];
