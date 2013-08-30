@@ -23,14 +23,17 @@ var dataobj = {
     "age": 3
   }]
 }
+
+var uldjQ = $('#uld'); 
+
+var rules = $("#uld li"); //potnum : potential number of rules
+
 var numb = 0;
 var boxfrac = 4; //determines the ratio in regard the window to size the current box
 var boxfoc = "";
 var rulefoc = '';
 var game = "";
 var vald = 17; //used to nullify consecutive clicks on an already focused textbox,17 or undf
-var $rulelist;
-$rulelist = $('#uld');
 var deftextquickset = document.getElementById('textdef');
 deftextquickset.style.height = ruleinputboxheight + 'px';
 dataobj.meta = {};
@@ -46,11 +49,6 @@ dataobj.meta.parserule = {
   "helper": ["rule title options :: <br />\"extreme prejudice\" : remove all instances of string, -o -e -r unnecesssary <br /> \"string replace\", replace a string depending on parameters  <br />\"prefix replace\", replaces a prefix to a string <br />\"suffix replace\", replaces a suffix to a string", "rule title options :: <br />\"extreme prejudice\" : remove all instances of string, -o -e -r unnecesssary <br /> \"string replace\", replace a string depending on parameters  <br />\"prefix replace\", replaces a prefix to a string <br />\"suffix replace\", replaces a suffix to a string", "ending regular expression :: <br />must be placed in ( ) <br /> ..\"(?=[^a-z])\"", "ending regular expression :: <br />must be placed in ( ) <br /> ..\"(?=[^a-z])\"", "listing of flagd strings in an array :: <br />must be placed in ( ) with each value seperated by a pipe, |, character <br /> ..(no|not|never|nothing|nope)", "replacement string :: <br />any string to replace the flagd values <br /> ..\"Ni!\""]
 }
 
-var $texty;
-$texty = $('.tecksd');
-
-var scrolltip = $texty.scrollHeight;
-var innertip = $texty.innerHeight();
 
 $('#c1').on('click', function () {
   addele();
@@ -66,9 +64,9 @@ $('#c4').on('click', function () {
 });
 
 
-
+var textitlejQ = $('.textitle');
 //manipulate game rules
-$('.textitle').on('blur', function () {
+textitlejQ.on('blur', function () {
   if (dataobj.temp) {
     if (dataobj.temp.title != this.value) {
       dataobj.temp.title = this.value;
@@ -77,16 +75,10 @@ $('.textitle').on('blur', function () {
     dataobj.temp = {};
     dataobj.temp.title = this.value;
   }
-
-
-
-
-  console.log(dataobj.temp.title);
-  console.log(dataobj.temp);
-  console.log(dataobj);
 });
 
-$($rulelist).on('click', 'textarea', function () {
+
+uldjQ.on('click', 'textarea', function () {
   if (vald) {
     placent(this);
   }
@@ -278,7 +270,7 @@ function syntaxerr(thisbox) {
 
 
 
-$($rulelist).on('blur', 'textarea', function () {
+uldjQ.on('blur', 'textarea', function () {
   vald = 17;
   helpbox.innerHTML = helpboxprompt;
   ruleontology(this); // determines if rule exists, then sends rule arguments to ruleparse function creating the temp rule obj
@@ -741,7 +733,6 @@ testbox.on('keyup', function (event) {
 }); // .on('keyup', when keypress go to current box's ruleset
 
 
-var rules = $("#uld li"); //potnum : potential number of rules
 //also added to addele and remele for dynamic update
 //on boxd.js put this in .on('click',textarea to pull rules for that box from datastore
 
@@ -871,20 +862,24 @@ function texttoman(thisbox, curspos, defaultd) {
 //is[placent(), stord(), thesets(), getcursor(), romanise() ]
 //uses[DOM]
 
+
+var innerscrollhidejQ = $('.innerscrollhide');
+var defjQ = $('#def');
+
 function placent(thisbox) { // uses[ DOM, jQ{ #foryou.scrolld.animate } ]
-  var uldtopOFF = $('#uld').offset().top;
-  var innerOFF = $('.innerscrollhide').offset().top;
-  var uldtop = $('#uld').position().top;
+  var uldtopOFF = uldjQ.offset().top;
+  var innerOFF = innerscrollhidejQ.offset().top;
+  var uldtop = uldjQ.position().top;
   var postop = $('#' + thisbox.id).position().top; //position of element's top
-  if ($('#def').css('visibility') == 'visible') { // hacky solution to mystery activity, i thought i only dealt within .innerscrollhide, but the open defaults box affected the numbers
-    var defhei = parseInt($('#def').css('height').substring(0, $('#def').css('height').length - 2));
+  if (defjQ.css('visibility') == 'visible') { // hacky solution to mystery activity, i thought i only dealt within .innerscrollhide, but the open defaults box affected the numbers
+    var defhei = parseInt(defjQ.css('height').substring(0, defjQ.css('height').length - 2));
     postop = postop - defhei;
   }
-  var totwin = parseInt($('.innerscrollhide').css('height').substring(0, $('.innerscrollhide').css('height').length - 2));
+  var totwin = parseInt(innerscrollhidejQ.css('height').substring(0, innerscrollhidejQ.css('height').length - 2));
   var centdiff = totwin / 2 - postop;
-  var scrollspot = $('.innerscrollhide').scrollTop();
+  var scrollspot = innerscrollhidejQ.scrollTop();
   var themove = scrollspot - centdiff;
-  $('.innerscrollhide').animate({
+  innerscrollhidejQ.animate({
     scrollTop: themove
   }, 700);
 } // place this in center of window
@@ -1066,3 +1061,4 @@ function interpret() { //uses sani(),trim(),implementation(),recognise()
   // ! @ # $ % ^ & * ( ) _ + = - [ ] { } : ?
 
  //interpret()
+}
