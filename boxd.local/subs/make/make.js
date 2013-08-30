@@ -746,14 +746,9 @@ var rules = $("#uld li"); //potnum : potential number of rules
 //on boxd.js put this in .on('click',textarea to pull rules for that box from datastore
 
 function movecursorandscroll(thisbox,curspos,cursdisp,scrollpos){
-			if ( curspos > 0 ) {
-        if ( cursdisp ) {
           curspos = curspos + cursdisp; // cursdisp is greater than zero if a replace or ommission occurred
-        }
-        thisbox.setSelectionRange(curspos, curspos); //due the replace the cursor position is lost, and so we reset it here
-        thisbox.scrollTop = scrollpos; //due the replace the scroll position is lost, and so we reset it here
-      }
-
+          thisbox.setSelectionRange(curspos, curspos); //due the replace the cursor position is lost, and so we reset it here
+          thisbox.scrollTop = scrollpos; //due the replace the scroll position is lost, and so we reset it here
 }
 
 
@@ -762,38 +757,44 @@ function temp(thisbox, keyd, pushd) {
     var rulenum = (this.id.substring(2)); //removes the li from the beginning of the id, from 'lirule#' to 'rule#'
     var thisrule = dataobj.temp.rules[rulenum];
     if (thisrule) {
-      var curspos = 0;
-
+      var manipulated = { 'curspos' : 0 };
 			//defaults
-      var longestsplit = 40; // smallest possible segment of the input to analyse	
-      var revflag = '[^a-z]' //revflag is element of ruleset that tells when to review and apply rules during the work flow
+			var defaultd = {
+      'longestsplit': 40, // smallest possible segment of the input to analyse	
+      //'revflag' : '([^a-z])' //revflag is element of ruleset that tells when to review and apply rules during the work flow
+      'revflag' : '[^a-z]' //revflag is element of ruleset that tells when to review and apply rules during the work flow
+			} 
 			
 			// 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d,and 37-40 are arrows
       if (keyd != 8 && keyd != 46 && keyd != 37 && keyd != 38 && keyd != 39 && keyd != 40 && keyd != 16) {
         // if the key pushed is of a character from the review flag, then perform the review
-				if (new RegExp(revflag, 'i').test(pushd)) {
+				if (new RegExp(defaultd.revflag, 'i').test(pushd)) {
 				  var getcurspos = (getcursor(thisbox));
-          var manipulated = texttoman(thisbox, getcurspos, longestsplit, revflag); //adds curspos, ofimport, bulkd to manipulated obj
-          var thisruletitle = thisrule.real.title.replace(/\s+/g, ''); //retrieve title, remove human readable spacing
-          
+          manipulated = texttoman(thisbox, getcurspos, defaultd); //adds curspos, ofimport, bulkd to manipulated obj
 					//returns new values into manipulated .ofimport and .cursdisp if rule is found
-					manipulated = checkrule(thisbox,thisrule,thisruletitle,manipulated); 
+					manipulated = checkrule(thisbox,thisrule,manipulated); 
 
 					// call back out any changes in the manipulated object 
 					// to avoid runing through the object each time these variables are used
 					  // removed this var VAR = mani.VAR due V8's hidden class, show support and hope other engines follow suit
-
-					newtext(thisbox,manipulated.ofimport,manipulated.bulkd,manipulated.curspos);
+          if (manipulated.bulkd && manipulated.curspos > 0) { // post any changes to box
+					  newtext(thisbox,manipulated.ofimport,manipulated.bulkd,manipulated.curspos);
+          } // if bulkd && curspos > 0
         } // if RegExp .test(pushd)
-      } // if keyd != ..
-      movecursorandscroll(thisbox,manipulated.curspos,manipulated.cursdisp,manipulated.scrollpos);
+      }	// if keyd != ..
+			if ( manipulated.curspos > 0 && manipulated.cursdisp ) {
+			movecursorandscroll(thisbox,manipulated.curspos,manipulated.cursdisp,manipulated.scrollpos);
+			}
     }
   }); // $.each(
 
 } //temp(), tempbox ruleset
 
-function checkrule(thisbox,thisrule,thisruletitle,manipulated){
+function checkrule(thisbox,thisrule,manipulated){
+          var thisruletitle = thisrule.real.title.replace(/\s+/g, ''); //retrieve title, remove human readable spacing
+          // takes the rule title and sees if there is a rule function for it
 					if (typeof window[thisruletitle] == 'function') {
+					 //performs rule on input value, returns new value and displacement of cursor for new value
            var newmanip = window[thisruletitle](thisrule, manipulated, thisbox); //adds cursdisp, scrollpos to manipulated obj
           } else {
             console.log("unknown rule... " + thisruletitle);
@@ -802,7 +803,6 @@ function checkrule(thisbox,thisrule,thisruletitle,manipulated){
 }
 
 function newtext(thisbox,ofimport,bulkd,curspos) {
-          if (bulkd && curspos > 0) { // post any changes to box
             thisbox.value = bulkd[0] + ofimport + bulkd[1];
             if (bulkd.length > 2) {
               // this protects against repetitious text: if we split on ofimport and the string of importance appears more than once, 
@@ -811,39 +811,38 @@ function newtext(thisbox,ofimport,bulkd,curspos) {
                 thisbox.value = thisbox.value + ofimport + bulkd[i];
               }
             }
-          } // if bulkd && curspos > 0
 }
 
 
 
-function texttoman(thisbox, curspos, longestsplit, revflag) {
+function texttoman(thisbox, curspos, defaultd) {
   if (curspos > 0) {
     var lastchar = thisbox.value.charAt(curspos - 1); // most recent character typed
   } else {
     var lastchar = '';
   }
-  if (curspos - longestsplit < 0) {
-    var snippd = (thisbox.value.substring(0, curspos + longestsplit)); // snippet to limit text iterated over
+  if (curspos - defaultd.longestsplit < 0) {  // snippd is a piece of the box's value, if that snippet is close to the beginning
+    var snippd = (thisbox.value.substring(0, curspos + defaultd.longestsplit)); // snippet to limit text iterated over
     var ofimportunnec = '';
   } else {
-    if (curspos + longestsplit > thisbox.value.length) {
-      var snippd = (thisbox.value.substring(curspos - longestsplit, thisbox.value.length)); // snippet to limit text iterated over
+    if (curspos + defaultd.longestsplit > thisbox.value.length) {  // if snippet is close to the end
+      var snippd = (thisbox.value.substring(curspos - defaultd.longestsplit, thisbox.value.length)); // snippet to limit text iterated over
     }
-    if (!snippd) {
-      var snippd = (thisbox.value.substring(curspos - longestsplit, curspos + longestsplit)); // snippet to limit text iterated over
+    if ( !snippd ) { // if still yet to have been assigned, then assign it
+      var snippd = (thisbox.value.substring(curspos - defaultd.longestsplit, curspos + defaultd.longestsplit)); // snippet to limit text iterated over
     }
 		//since the snip is character based we have to remove first match 
 		 //to avoid false positives like a substr knot on k(not ..)
-    var ofimportunnec = snippd.substring(0, snippd.length - snippd.replace(new RegExp('(^|[a-z])*' + revflag, 'i'), '').length); 
+    var ofimportunnec = snippd.substring(0, snippd.length - snippd.replace(new RegExp('(^|[a-z])*' + defaultd.revflag, 'i'), '').length); 
   }
 
-  if (ofimportunnec.length == snippd.length || snippd.length == thisbox.value.length || snippd.length == longestsplit + ofimportunnec.length) {
+  if (ofimportunnec.length == snippd.length || snippd.length == thisbox.value.length || snippd.length == defaultd.longestsplit + ofimportunnec.length) {
     // this protects from the potential for the box's initial input being one of the forbidden expressions
     var ofimport = snippd;
   } else {
     var ofimport = snippd.substring(ofimportunnec.length, snippd.length);
   }
-  var bulkd = thisbox.value.split(ofimport); //entire work surrounding important bit
+  var bulkd = thisbox.value.split(ofimport); //array of entire work surrounding important bit
   return {
 		'curspos' : curspos,
     'ofimport': ofimport,
@@ -1066,4 +1065,4 @@ function interpret() { //uses sani(),trim(),implementation(),recognise()
 
   // ! @ # $ % ^ & * ( ) _ + = - [ ] { } : ?
 
-} //interpret()
+ //interpret()
