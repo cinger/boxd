@@ -779,18 +779,14 @@ function temp(thisbox, keyd, pushd) {
 					//returns new values into manipulated .ofimport and .cursdisp if rule is found
 					manipulated = checkrule(thisbox,thisrule,thisruletitle,manipulated); 
 
-					//call back out any changes in the manipulated object 
-					//to avoid runing through the object each time these variables are used
-          var ofimport = manipulated.ofimport;
-          var bulkd = manipulated.bulkd;
-          var scrollpos = manipulated.scrollpos;
-					var cursdisp = manipulated.cursdisp;
-          curspos = manipulated.curspos;
+					// call back out any changes in the manipulated object 
+					// to avoid runing through the object each time these variables are used
+					  // removed this var VAR = mani.VAR due V8's hidden class, show support and hope other engines follow suit
 
-					newtext(thisbox,ofimport,bulkd,curspos);
+					newtext(thisbox,manipulated.ofimport,manipulated.bulkd,manipulated.curspos);
         } // if RegExp .test(pushd)
       } // if keyd != ..
-      movecursorandscroll(thisbox,curspos,cursdisp,scrollpos);
+      movecursorandscroll(thisbox,manipulated.curspos,manipulated.cursdisp,manipulated.scrollpos);
     }
   }); // $.each(
 
