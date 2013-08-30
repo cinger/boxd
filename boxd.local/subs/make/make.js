@@ -490,9 +490,8 @@ var primer = $('#primer');
 
 function addele() { //uses[v{+}numb,DOM]
 
-  //check for the initial helper box, remove it if there are yet to be any ruleboxes
   if (rules.length < 1) {
-    primer.css("display","none");
+    primer.css("display","none"); // remove the dialogue showing how to find help
   }
 
   var potentialruleset = document.getElementById('uld');
@@ -555,9 +554,6 @@ rules = $("#uld li"); //update potential number of rules
 
 
 function remele(thisboxid) { //uses DOM
-  if (rules.length == 1) {
-    primer.css("display","block");
-  }
 
   var potentialruleset = document.getElementById('uld');
   ruleid = thisboxid.substring(4, thisboxid.length);
@@ -577,7 +573,11 @@ function remele(thisboxid) { //uses DOM
     }
   }
   // clean up database, delete traces of the box you are removing
-rules = $("#uld li"); //update potential number of rules
+  
+	if (rules.length == 1) {
+    primer.css("display","block");  // shows the dialogue telling how to find help 
+  }
+  rules = $("#uld li"); //update potential number of rules
 } // remele(), remove element
 
 
@@ -589,7 +589,7 @@ rules = $("#uld li"); //update potential number of rules
 //uses[ padd() ]
 
 //var boxheight = (window.outerHeight/(boxfrac))*(boxfrac-1);   //focusd box
-boxheight = "27px";
+boxheight = "27";
 //padd(li.height);
 
 var shrunkheight = boxheight / 7; //unfocusd box
@@ -601,7 +601,7 @@ function boxdheight() { //uses[ DOM, padd() ]
   //boxheight = (window.outerHeight/(boxfrac))*(boxfrac-1);   //focusd box
   //
   //	boxheight=li.height;
-  boxheight = "27px";
+  boxheight = "27";
   //padd(boxheight);
 } // boxdheight(), determines boxheight and modifies the pads
 
@@ -618,33 +618,6 @@ function shrunkdheight() {
 /////////////////
 ///css.js
 //is[ padd(), jQ{ #whereitsat.scroll ; thelot.scroll } ]
-
-$('#whereitsat').scroll(function () {
-  document.body.style.overflow = 'hidden';
-});
-
-$('thelot').scroll(function () {
-  document.body.style.overflow = 'scroll';
-});
-
-
-//function padd(padheight) { // uses[jQ]
-//  $('p.padittop').css('padding-top',padheight+'px');
-//  $('p.paditbot').css('padding-bottom',padheight+'px');
-//} // padd(), pad theflow so at full scroll at least one box is stil visible
-
-
-
-
-/////////////////
-///display.js
-//is[ jQ{ #foryou.scroll } ]
-
-$('#foryou').scroll(function () {
-  $('p.dispy').text($('#foryou').scrollTop() + ' .. pads : t:  : b :' + $('p.padittop').css("padding-top"));
-});
-
-
 
 
 /////////////////
@@ -666,19 +639,6 @@ $('#foryou').scroll(function () {
 //
 //
 //
-
-
-
-$('#testbox').on('keyup', function (event) {
-  game = "temp";
-  if (dataobj.temp) {
-    var keyd = event.keyCode || event.which;
-    var pushd = String.fromCharCode(keyd);
-    temp(this, keyd, pushd);
-  } else {
-    console.log('waiting on game rules...');
-  }
-}); // .on('keyup', when keypress go to current box's ruleset
 
 
 
@@ -767,6 +727,99 @@ function extremeprejudice(thisbox, ofimport) {
 */
 
 
+var testbox = $('#testbox');
+
+testbox.on('keyup', function (event) {
+  if (dataobj.temp) 
+  {
+    var keyd = event.keyCode || event.which;
+    var pushd = String.fromCharCode(keyd);
+    temp(this, keyd, pushd);
+  } else {
+          console.log('waiting on game rules...');
+         }
+}); // .on('keyup', when keypress go to current box's ruleset
+
+
+var rules = $("#uld li"); //potnum : potential number of rules
+//also added to addele and remele for dynamic update
+//on boxd.js put this in .on('click',textarea to pull rules for that box from datastore
+
+function movecursorandscroll(thisbox,curspos,cursdisp,scrollpos){
+			if ( curspos > 0 ) {
+        if ( cursdisp ) {
+          curspos = curspos + cursdisp; // cursdisp is greater than zero if a replace or ommission occurred
+        }
+        thisbox.setSelectionRange(curspos, curspos); //due the replace the cursor position is lost, and so we reset it here
+        thisbox.scrollTop = scrollpos; //due the replace the scroll position is lost, and so we reset it here
+      }
+
+}
+
+
+function temp(thisbox, keyd, pushd) {
+  $.each(rules, function () {
+    var rulenum = (this.id.substring(2)); //removes the li from the beginning of the id, from 'lirule#' to 'rule#'
+    var thisrule = dataobj.temp.rules[rulenum];
+    if (thisrule) {
+      var curspos = 0;
+
+			//defaults
+      var longestsplit = 40; // smallest possible segment of the input to analyse	
+      var revflag = '[^a-z]' //revflag is element of ruleset that tells when to review and apply rules during the work flow
+			
+			// 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d,and 37-40 are arrows
+      if (keyd != 8 && keyd != 46 && keyd != 37 && keyd != 38 && keyd != 39 && keyd != 40 && keyd != 16) {
+        // if the key pushed is of a character from the review flag, then perform the review
+				if (new RegExp(revflag, 'i').test(pushd)) {
+				  var getcurspos = (getcursor(thisbox));
+          var manipulated = texttoman(thisbox, getcurspos, longestsplit, revflag); //adds curspos, ofimport, bulkd to manipulated obj
+          var thisruletitle = thisrule.real.title.replace(/\s+/g, ''); //retrieve title, remove human readable spacing
+          
+					//returns new values into manipulated .ofimport and .cursdisp if rule is found
+					manipulated = checkrule(thisbox,thisrule,thisruletitle,manipulated); 
+
+					//call back out any changes in the manipulated object 
+					//to avoid runing through the object each time these variables are used
+          var ofimport = manipulated.ofimport;
+          var bulkd = manipulated.bulkd;
+          var scrollpos = manipulated.scrollpos;
+					var cursdisp = manipulated.cursdisp;
+          curspos = manipulated.curspos;
+
+					newtext(thisbox,ofimport,bulkd,curspos);
+        } // if RegExp .test(pushd)
+      } // if keyd != ..
+      movecursorandscroll(thisbox,curspos,cursdisp,scrollpos);
+    }
+  }); // $.each(
+
+} //temp(), tempbox ruleset
+
+function checkrule(thisbox,thisrule,thisruletitle,manipulated){
+					if (typeof window[thisruletitle] == 'function') {
+           var newmanip = window[thisruletitle](thisrule, manipulated, thisbox); //adds cursdisp, scrollpos to manipulated obj
+          } else {
+            console.log("unknown rule... " + thisruletitle);
+          }
+					return newmanip;
+}
+
+function newtext(thisbox,ofimport,bulkd,curspos) {
+          if (bulkd && curspos > 0) { // post any changes to box
+            thisbox.value = bulkd[0] + ofimport + bulkd[1];
+            if (bulkd.length > 2) {
+              // this protects against repetitious text: if we split on ofimport and the string of importance appears more than once, 
+              // then there will be more than two values for the boxd array, otherwise overlook...
+              for (var i = 2; i < bulkd.length; i++) {
+                thisbox.value = thisbox.value + ofimport + bulkd[i];
+              }
+            }
+          } // if bulkd && curspos > 0
+}
+
+
+
 function texttoman(thisbox, curspos, longestsplit, revflag) {
   if (curspos > 0) {
     var lastchar = thisbox.value.charAt(curspos - 1); // most recent character typed
@@ -796,65 +849,12 @@ function texttoman(thisbox, curspos, longestsplit, revflag) {
   }
   var bulkd = thisbox.value.split(ofimport); //entire work surrounding important bit
   return {
+		'curspos' : curspos,
     'ofimport': ofimport,
     'bulkd': bulkd
   };
 }
 
-var rules = $("#uld li"); //potnum : potential number of rules
-//also added to addele and remele for dynamic update
-
-function temp(thisbox, keyd, pushd) {
-  $.each(rules, function () {
-    var rulenum = (this.id.substring(2, this.id.lenghth));
-    var thisrule = dataobj.temp.rules[rulenum];
-    var cursdisp = 0,
-      curspos = 0,
-      scrollpos = 0;
-    if (thisrule) {
-      var longestsplit = 40; // smallest possible segment of the input to analyse	
-      var revflag = '[^a-z]' //revflag is element of ruleset that tells when to review and apply rules during the work flow
-      if (keyd != 8 && keyd != 46 && keyd != 37 && keyd != 38 && keyd != 39 && keyd != 40 && keyd != 16) { // 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d,and 37-40 are arrows
-        if (new RegExp(revflag, 'i').test(pushd)) {
-          getcurspos = (getcursor(thisbox));
-          var manipulated = texttoman(thisbox, getcurspos, longestsplit, revflag);
-          manipulated.curspos = getcurspos;
-          var title = thisrule.real.title.replace(/\s+/g, ''); //retrieve title, remove human readable spacing
-          if (typeof window[title] == 'function') {
-            manipulated = window[title](thisrule, manipulated, thisbox);
-          } else {
-            console.log("unknown rule... " + title);
-          }
-
-          var bulkd = manipulated.bulkd;
-          curspos = manipulated.curspos;
-          scrollpos = manipulated.scrollpos;
-
-          if (bulkd && curspos > 0) { // post any changes to box
-            thisbox.value = bulkd[0] + manipulated.ofimport + bulkd[1];
-            if (bulkd.length > 2) {
-              // this protects against repetitious text: if we split on ofimport and the string of importance appears more than once, 
-              // then there will be more than two values for the boxd array, otherwise overlook...
-              for (var i = 2; i < bulkd.length; i++) {
-                thisbox.value = thisbox.value + manipulated.ofimport + bulkd[i];
-              }
-            }
-          } // if bulkd && curspos > 0
-
-        } // if RegExp .test(pushd)
-
-      } // if keyd != ..
-      if (curspos && curspos > 0) {
-        if (manipulated.cursdisp) {
-          curspos = curspos + manipulated.cursdisp; // cursdisp is greater than zero if a replace or ommission occurred
-        }
-        thisbox.setSelectionRange(curspos, curspos); //due the replace the cursor position is lost, and so we reset it here
-        thisbox.scrollTop = scrollpos; //due the replace the scroll position is lost, and so we reset it here
-      }
-    }
-  }); // $.each(
-
-} //temp(), tempbox ruleset
 
 
 
@@ -913,7 +913,7 @@ function stord() { //uses[ jQ{ pstord.text ; ptona.text } ]
 function thesets() { //uses[ boxheight(), shrunkheight(), jQ{ p.text } ]
   boxdheight();
   shrunkdheight();
-  $('p.dyhei').text('hei : ' + boxheight);
+  $('p.dyhei').text('hei : ' + boxheight+"px");
 } // thesets(), sets textarea dimensions
 
 function fading(el) {
