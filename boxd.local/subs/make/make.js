@@ -25,8 +25,10 @@ var dataobj = {
 }
 
 var uldjQ = $('#uld'); 
+var rules = $("#uld li"); 
 
-var rules = $("#uld li"); //potnum : potential number of rules
+
+
 
 var numb = 0;
 var boxfrac = 4; //determines the ratio in regard the window to size the current box
@@ -43,12 +45,7 @@ helpbox.innerHTML = helpboxprompt;
 //document.getElementById('helper').innerHTML = "click the red bar to show and hide this help box";
 var rulehelp = " all values after an option argument must be enclosed in double quotes \" \"<br />place the cursor one space from any of these option flags in your rule box to see the option's individual helper<br />--title -t : rule title <br />--rgxop -o :: opening regular expression <br />--rgxen -e :: ending regular expression <br />--rgxmd -m :: regular expression modifiers <br />--strli -s :: list of flagd strings <br />--repld -r :: replacement string";
 
-dataobj.meta.parserule = {
-  "optionshrt": ["-t \"", "-o \"", "-e \"", "-m \"", "-s \"", "-r \""],
-  "optionfull": ["--title \"", "--rgxop \"", "--rgxen \"", "--rgxmd \"", "--strar \"", "--repld \""],
-  "helper": ["rule title options :: <br />\"extreme prejudice\" : remove all instances of string, -o -e -r unnecesssary <br /> \"string replace\", replace a string depending on parameters  <br />\"prefix replace\", replaces a prefix to a string <br />\"suffix replace\", replaces a suffix to a string", "rule title options :: <br />\"extreme prejudice\" : remove all instances of string, -o -e -r unnecesssary <br /> \"string replace\", replace a string depending on parameters  <br />\"prefix replace\", replaces a prefix to a string <br />\"suffix replace\", replaces a suffix to a string", "ending regular expression :: <br />must be placed in ( ) <br /> ..\"(?=[^a-z])\"", "ending regular expression :: <br />must be placed in ( ) <br /> ..\"(?=[^a-z])\"", "listing of flagd strings in an array :: <br />must be placed in ( ) with each value seperated by a pipe, |, character <br /> ..(no|not|never|nothing|nope)", "replacement string :: <br />any string to replace the flagd values <br /> ..\"Ni!\""]
-}
-
+dataobj.meta.parserule = {"optionshrt":["-t \"","-o \"","-e \"","-m \"","-s \"","-r \""],"optionfull":["--title \"","--rgxop \"","--rgxen \"","--rgxmd \"","--strar \"","--repld \""],"helper":["rule title options :: <br />\"extreme prejudice\" : remove all instances of string, -o -e -r unnecesssary <br /> \"string replace\", replace a string depending on parameters  <br />\"prefix replace\", replaces a prefix to a string <br />\"suffix replace\", replaces a suffix to a string","opening regular expression :: <br />must be placed in ( ) <br />..\"(^|[^a-z])\"","ending regular expression :: <br />must be placed in ( ) <br /> ..\"(?=[^a-z])\"","regular expression modifiers :: <br />g, for global scope allow for full snippet search, without the regex will only find the first instance <br />i, ignore case, allowing for love, LOVE, and LovE to be treating the same <br />","listing of flagd strings in an array :: <br />must be placed in ( ) with each value seperated by a pipe, |, character <br /> ..(no|not|never|nothing|nope)","replacement string :: <br />any string to replace the flagd values <br /> ..\"Ni!\""]}
 
 $('#c1').on('click', function () {
   addele();
@@ -287,7 +284,7 @@ uldjQ.on('blur', 'textarea', function () {
 
 
 $('#testbox').on('click', function () {
-  console.log("onit");
+	var x = "USELESS FUNC FILLER";
 });
 
 $("#showhidedef").on('click', function () {
@@ -635,88 +632,54 @@ function shrunkdheight() {
 
 
 
-
 function stringreplace(thisrule, manipulated, thisbox) {
-  /// full word replace
-  var changeref = thisrule.real.strar;
+  var strar = thisrule.real.strar;
   var repld = thisrule.real.repld;
+	var rgxop = thisrule.real.rgxop;
+  var rgxen = thisrule.real.rgxen;
+  var rgxmd = thisrule.real.rgxmd;
   //which is better? specifying ofimport=manipulator.ofimport, or just calling manipulator.ofimport each time?
-  if (new RegExp('(^|[^a-z])' + changeref + '(?=[^a-z])', 'gi').test(manipulated.ofimport)) {
+  if (new RegExp(rgxop + strar + rgxen, rgxmd).test(manipulated.ofimport)) {
     var scrollpos = thisbox.scrollTop; //logs the current position of the scrollbar	
     var olelen = manipulated.ofimport.length;
-    manipulated.ofimport = manipulated.ofimport.replace(new RegExp('(^|[^a-z])' + changeref + '(?=[^a-z])', 'gi'), '$1' + repld);
+    manipulated.ofimport = manipulated.ofimport.replace(new RegExp(rgxop + strar + rgxen, rgxmd),repld);
     var newlen = manipulated.ofimport.length;
     cursdisp = newlen - olelen; //+repld.length;
     manipulated.cursdisp = cursdisp;
     manipulated.scrollpos = scrollpos;
   }
   return manipulated;
-}
+} // stringreplace(), remove string dependant on what comes before and after
 
-function extremeprejudice(thisbox, ofimport) {
-  /// extreme prejudice
-  //remove all instances
-  //can be subvertd using x02, akin 'everythin6'
-  var changeref = ["thing"]; //make an object so you can have both word to change and word to change to associated
-  var repld = "";
 
-  for (var i = 0; i < changeref.length; i++) {
-    if (new RegExp(changeref[i], 'gi').test(ofimport)) {
-      var scrollpos = thisbox.scrollTop; //logs the current position of the scrollbar	
+function extremeprejudice(thisrule, manipulated, thisbox) {
+  thisrule.real.repld = "";
+	thisrule.real.rgxop = "(\\w*)"; 
+  thisrule.real.rgxen = "(\\w*)";
+  thisrule.real.rgxmd = "gi";
+	manipulated=stringreplace(thisrule, manipulated, thisbox);
+  return manipulated;
+} // extremeprejudice(), remove all instances
 
-      var befomit = ofimport.length;
-      ofimport = ofimport.replace(new RegExp(changeref[i], 'gi'), repld); // omit containing word
-      var aftomit = ofimport.length;
-      var contwordlen = aftomit - befomit;
-      cursdisp = contwordlen;
-      if (cursdisp) {
-        return {
-          'ofimport': ofimport,
-          'cursdisp': cursdisp
-        };
-      }
-    }
-  } // extreme prejudice	
-}
 
-/*					
-					/// prefix
-					var preref = [ "non", "un" ];
-					repld = "Ni!";
-				  for ( var i = 0; i < preref.length; i++ )
-			   	{
-					 	if ( new RegExp('(^|[^a-z])'+preref[i]+'(?=[a-z])','gi').test(ofimport) ) 
-					 	{
-							//ofimport=ofimport.replace( new RegExp('(^|[^a-z])'+preref[i]+'(?=[a-z])','gi'), "$1" ); // just replace forbidden bit
-							//cursdisp = -(preref[i].length);
-							
-								var befomit = ofimport.length;
-							ofimport=ofimport.replace( new RegExp('(^|[^a-z])'+preref[i]+'([a-z]*(?=[^a-z]))','gi'), "$1" ); // omit containing word
-								var aftomit = ofimport.length;
-								var contwordlen = aftomit-befomit;
-							cursdisp = contwordlen;
-						}
-          } // prefix replace
-					
-				  ///suffix 
-					var sufref = [ "ed", "tion" ];
-					repld = "d";
-				  for ( var i = 0; i < sufref.length; i++ )
-			   	{
-					 	if ( new RegExp('(?=[a-z])'+sufref[i]+'(?=[^a-z])','gi').test(ofimport) ) 
-					 	{
-						  //ofimport=ofimport.replace( new RegExp('(?=[a-z])'+sufref[i]+'([^a-z])','gi'), "$2" );  // just replace forbidden bit
-							//cursdisp = -(sufref[i].length);
-								
-								var befomit = ofimport.length;
-							ofimport=ofimport.replace( new RegExp('([a-z])*'+sufref[i]+'([^a-z])','gi'), "$2" ); // omit containing word
-								var aftomit = ofimport.length;
-								var contwordlen = aftomit-befomit;
-							cursdisp = contwordlen;
-						}
-          } // suffix replace
+function prefix(thisrule, manipulated, thisbox) {
+  thisrule.real.repld = "$1$3";
+  thisrule.real.rgxop = "(^|\\W+)";
+	thisrule.real.rgxen = "(\\w+)"; 
+  thisrule.real.rgxmd = "gi";
+	manipulated=stringreplace(thisrule, manipulated, thisbox);
+  return manipulated;
+} // prefix(), remove prefix from word
 
-*/
+
+function suffix(thisrule, manipulated, thisbox) {
+  thisrule.real.repld = "$1";
+	thisrule.real.rgxop = "(\\w+)"; 
+  thisrule.real.rgxen = "";
+  thisrule.real.rgxmd = "gi";
+	manipulated=stringreplace(thisrule, manipulated, thisbox);
+  return manipulated;
+} // suffix(), remove suffix from word
 
 
 var testbox = $('#testbox');
@@ -755,12 +718,12 @@ function temp(thisbox, keyd, pushd) {
       //'revflag' : '([^a-z])' //revflag is element of ruleset that tells when to review and apply rules during the work flow
       'revflag' : '[^a-z]' //revflag is element of ruleset that tells when to review and apply rules during the work flow
 			} 
-			
+			thisrule.real.defaultd=defaultd;
 			// 8 and 46 are bkspc and del respectively, due naive regex that would replace nod if correcting by nos,bkspc,d,and 37-40 are arrows
       if (keyd != 8 && keyd != 46 && keyd != 37 && keyd != 38 && keyd != 39 && keyd != 40 && keyd != 16) {
         // if the key pushed is of a character from the review flag, then perform the review
 				if (new RegExp(defaultd.revflag, 'i').test(pushd)) {
-				  var getcurspos = (getcursor(thisbox));
+					var getcurspos = (getcursor(thisbox));
           manipulated = texttoman(thisbox, getcurspos, defaultd); //adds curspos, ofimport, bulkd to manipulated obj
 					//returns new values into manipulated .ofimport and .cursdisp if rule is found
 					manipulated = checkrule(thisbox,thisrule,manipulated); 
