@@ -343,7 +343,6 @@ function boxd(thisbox,keyd,pushd) {
 					// i ignore case
 					// $1 places last character into this position
 
-
 				if ( bulkd && curspos > 0 ) {  // post any changes to box
           thisbox.value=bulkd[0]+ofimport+bulkd[1];
           if ( bulkd.length > 2 ) {   

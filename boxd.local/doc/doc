@@ -1,0 +1,6 @@
+subs/make ::
+
+  in an attempt to simplify regular expressions for everyone, i broke down the expression into three parts, the opening, the string, and the close,
+  that said it is very plausible to just put your own completely unique, conjoined regex into the string position, leaving the abstracted open and close undefined
+
+   ] -t "string replace" -s "(^|(\w*))(no|not|never)(?=\W+)" -r "ni!"
