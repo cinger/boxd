@@ -663,14 +663,6 @@ function suffix(thisrule, manipulated, thisbox) {
 } // suffix(), remove suffix from word
 
 function calculate(thisrule, manipulated, thisbox) {
-		/*
-		  require.config ({
-						paths:{
-										mathjs: '../../../thirdpartylibrary/mathjs',
-						}
-		});
-		var math = require('mathjs');
-		*/
     var scrollpos = thisbox.scrollTop; //logs the current position of the scrollbar	
     var frstchar = manipulated.ofimport.substring(0,1); //using substring stead charAt in case i change format
 		var lastchar = manipulated.ofimport.substring(manipulated.ofimport.length-1);
@@ -689,16 +681,24 @@ function calculate(thisrule, manipulated, thisbox) {
   		if ( bulknext ) {
     		if ( bulknext.substring(0,4) == "=== " )
  	      {
-		     var newbulk = bulkofit[1].split("\n\n"+bulknext)[1];
+		     var newbulk = manipulated.bulkd[1].split("\n\n"+bulknext)[1];
     	   manipulated.bulkd[1]=newbulk;
 		    }
 		  }
 		}
 		return manipulated;
 }
-
-
-
+/*
+function alliterate(thisrule, manipulated, thisbox) {
+	manipulated.ofimport.split(new RegExp(,"gi");
+  thisrule.real.repld = "$1";
+	thisrule.real.rgxop = "(\\w+)"; 
+  thisrule.real.rgxen = "";
+  thisrule.real.rgxmd = "gi";
+	manipulated=stringreplace(thisrule, manipulated, thisbox);
+  return manipulated; 
+}
+*/
 
 
 
@@ -748,12 +748,28 @@ function temp(thisbox, pushd) {
     var rulenum = (this.id.substring(2)); //removes the li from the beginning of the id, from 'lirule#' to 'rule#'
     var thisrule = dataobj.temp.rules[rulenum];
     if (thisrule) {
-			var revflag=thisrule.real.rvflg;
+		  thisrule=getdefaults(thisrule);
+      var revflag=thisrule.real.rvflg;
       testkeypress(thisbox, thisrule, pushd, revflag);
 		}
   }); // $.each(
 } //temp(), tempbox ruleset
 
+function getdefaults(thisrule) {
+				switch(thisrule.real.title) // in case of rules with mandatory defaults
+				{
+					case "calculate":
+               thisrule.real.rvflg = "\r";
+          	   thisrule.real.lngsp = "line";
+							 break;
+					default: // in case flex defaults were forgotten
+	 						if (thisrule.real.rvflg == "" ) 
+				        thisrule.real.rvflg = "\W";
+						  if (thisrule.real.lngsp == "" ) 
+                thisrule.real.lngsp = "40";
+				}
+	return thisrule;
+}
 
 function testkeypress(thisbox, thisrule, pushd, revflag) {
 				// if the key pushed is of a character from the review flag, then perform the review
