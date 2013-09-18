@@ -1,5 +1,4 @@
 var ruleinputboxheight = 27;
-
 /////////////////
 ///boxd.js
 //uses[DOM,placent(),jQ]
@@ -688,26 +687,113 @@ function calculate(thisrule, manipulated, thisbox) {
 		}
 		return manipulated;
 }
-/*
+
 function alliterate(thisrule, manipulated, thisbox) {
-	manipulated.ofimport.split(new RegExp(,"gi");
+var impsplit = manipulated.ofimport.split(" ");
+console.log("impy");
+console.log(impsplit);
+//var extent = "full";
+var extent = "break";
+var extentflag = 17;
+if ( impsplit.length > 1 ) {
+if ( extent == "break" ) {
+
+if ( impsplit[0].charAt(impsplit[0].length-1) == "\n" )
+{
+	extentflag = 0;
+  var ofimport = impsplit[1];
+}
+
+}
+if ( extentflag == 17 )
+{
+  var firstcharfirstsplit = impsplit[0].charAt(0);
+	var firstcharnextdsplit = impsplit[1].charAt(0);
+	if ( firstcharfirstsplit == firstcharnextdsplit )
+	{
+			var ofimport = impsplit[1];
+	} else {
+	   var ofimport = firstcharfirstsplit;
+		 if ( manipulated.bulkd[manipulated.bulkd.length-1] == " " )
+		 {
+				manipulated.bulkd[manipulated.bulkd.length-1] = "";
+		 }
+	}
+}
+manipulated.ofimport = ofimport;
+} else { manipulated.ofimport = "";manipulated.bulkd.push(""); }
+console.log(manipulated.bulkd);
+//console.log("bulkd");
+//				console.log(manipulated.bulkd);
+//				console.log(manipulated.ofimport);
+/*if ( new RegExp("\\s{2,}","g").test(thisbox.value) )
+										{
+													console.log("doing it");
+									  thisbox.value = thisbox.value.replace(/\s{2,}/g,' ');
+								  }
+									var snippd = thisbox.value.substring(curspos-160,curspos).split(new RegExp("\\s","g"));
+									console.log("snippd.. ");
+									console.log(snippd);
+									if ( snippd.length > 2 ) {
+										var breakwordlen = snippd[snippd.length-3].length
+										var lastchar = snippd[snippd.length-3].charAt(breakwordlen-1);
+										if (new RegExp(revflag, 'i').test(lastchar)) {
+										  var newstart = curspos-snippd[snippd.length-2].length;
+											var ofimport = thisbox.value.substring(newstart,curspos);
+										} else {
+										        var ofimport = snippd[snippd.length-3]+" "+snippd[snippd.length-2]+" ";
+										       }
+									}
+									else {
+                        var ofimport = thisbox.value.substring(0,curspos);
+									}
+  */
+
+				/*
+				var allit = manipulated.ofimport.replace("\n","").split(" ");
+				console.log(allit);
+										var lastchar = allit[0].charAt(allit[0].length-1);
+										console.log("["+lastchar+"]");
+										if (new RegExp("(\\W+)", 'i').test(lastchar)) {
+														if ( new RegExp("\n|\\r",'gm').test(allit) )
+														{
+														  manipulated.bulkd[0] = manipulated.bulkd[0]+allit[0]+"\n";
+														}
+														manipulated.ofimport = allit[1].replace("\n","")+" ";
+										} else {
+console.log("in else");
+	var allitcount = 1;
+	if ( allit[1] ) {
+	  if ( allit[0].substring(0,allitcount) != allit[1].substring(0,allitcount) )
+	  {
+	    manipulated.ofimport = allit[0]+" "+allit[0].substring(0,1);
+	  }
+	}
+										}
   thisrule.real.repld = "$1";
 	thisrule.real.rgxop = "(\\w+)"; 
   thisrule.real.rgxen = "";
   thisrule.real.rgxmd = "gi";
-	manipulated=stringreplace(thisrule, manipulated, thisbox);
-  return manipulated; 
+	//manipulated=stringreplace(thisrule, manipulated, thisbox);
+  
+	*/
+				console.log(manipulated.ofimport);
+	return manipulated; 
 }
-*/
 
 
 
 
 
 
-
-
-
+//syllable anylisis
+function syllablecounter(word) {
+  word = word.toLowerCase();                                     
+  if( word.length <= 3 ) { return 1; }                           
+  word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');  
+  word = word.replace(/^y/, '');                               
+  return word.match(/[aeiouy]{1,2}/g).length;                 
+}
 
 
 
@@ -750,6 +836,7 @@ function temp(thisbox, pushd) {
     if (thisrule) {
 		  thisrule=getdefaults(thisrule);
       var revflag=thisrule.real.rvflg;
+			console.log(revflag);
       testkeypress(thisbox, thisrule, pushd, revflag);
 		}
   }); // $.each(
@@ -762,9 +849,12 @@ function getdefaults(thisrule) {
                thisrule.real.rvflg = "\r";
           	   thisrule.real.lngsp = "line";
 							 break;
+				  case "alliterate":
+							 thisrule.real.rvflg = "\\W";
+          	   thisrule.real.lngsp = "backword";
 					default: // in case flex defaults were forgotten
 	 						if (thisrule.real.rvflg == "" ) 
-				        thisrule.real.rvflg = "\W";
+				        thisrule.real.rvflg = "\\W";
 						  if (thisrule.real.lngsp == "" ) 
                 thisrule.real.lngsp = "40";
 				}
@@ -776,7 +866,7 @@ function testkeypress(thisbox, thisrule, pushd, revflag) {
 				if (new RegExp(revflag, 'i').test(pushd)) {
           var manipulated = { 'curspos' : 0 };
 					var getcurspos = (getcursor(thisbox));
-          manipulated = texttoman(thisbox, thisrule, manipulated, getcurspos ,revflag); //adds curspos, ofimport, bulkd to manipulated obj
+          manipulated = texttoman(thisbox, thisrule, manipulated, getcurspos, revflag); //adds curspos, ofimport, bulkd to manipulated obj
 					//returns new values into manipulated .ofimport and .cursdisp if rule is found
 					manipulated = checkrule(thisbox,thisrule,manipulated); 
 
@@ -789,6 +879,22 @@ function testkeypress(thisbox, thisrule, pushd, revflag) {
   				movecursorandscroll(thisbox,manipulated);
         } // if RegExp .test(pushd)
 }
+function removemultispace(thisbox) {
+	var aftremove = {};
+  var curspos = getcursor(thisbox);
+  var scrollpos = thisbox.scrollTop; //logs the current position of the scrollbar	
+  var olelen = thisbox.value.length;
+	thisbox.value = thisbox.value.replace(/[ ]{2,}/g,' ');
+	console.log('test');
+	thisbox.value = thisbox.value.replace(/[ ]+[\n]/g,"\n");
+	var newlen = thisbox.value.length;
+  cursdisp = newlen - olelen;
+  aftremove.curspos=curspos;
+  aftremove.cursdisp = cursdisp;
+  aftremove.scrollpos = scrollpos;
+  movecursorandscroll(thisbox,aftremove);
+  return thisbox;
+}
 
 function texttoman(thisbox, thisrule, manipulated, curspos, revflag) {
 	var longestsplit=thisrule.real.lngsp;
@@ -798,18 +904,149 @@ function texttoman(thisbox, thisrule, manipulated, curspos, revflag) {
   } else {
           var lastchar = '';
          }
-  if ( longestsplit == "line" )
-	{
-	  var snippd = thisbox.value.substring(0,curspos).split("\n");
-    var ofimport = snippd[snippd.length-2];
-		/*
-		 *if (!Array.prototype.lastd){
-		   Array.prototype.lastd = function() {
-			 return this[this.length - 1];
-			 };
-			};
-		 */
-  } else {
+  switch(longestsplit) {
+					case "line":
+	  							var snippd = thisbox.value.substring(0,curspos).split("\n");
+							    var ofimport = snippd[snippd.length-2];  //last element is always undefined [ ... , "" ] because the review  flag is \r
+									var bulkdsplit = ofimport;
+  var bulkd = thisbox.value.split(bulkdsplit); //array of entire work surrounding important bit
+									break;
+					case "backword":
+									if (new RegExp("[ ]{2,}", "g" ).test(thisbox.value) || new RegExp("[ ]+[\n]","g").test(thisbox.value) )
+									{
+									  thisbox =  removemultispace(thisbox);
+									}
+									//could add a descision on how many back words, every 2 words, or 3, or n... perhaps first words leading the value of n set the alliteration pattern to follow
+//	  						var snippd = thisbox.value.substring(curspos-160,curspos).split("\n");
+	  							//var snippd = thisbox.value.substring(curspos-160,curspos).split( new RegExp("("\n"|\\r)+","gi") ); //accounts for multiple spaces between lines ###err illegal character
+	  							var snippd = thisbox.value.substring(curspos-160,curspos).split( new RegExp("\n+","gi") ); //accounts for multiple spaces between lines ###err illegal character
+console.log(snippd);
+									//var ofimport = snippd[snippd.length-1];
+console.log(ofimport);
+									
+									if (snippd.length > 1 ) {
+									
+									  if ( snippd[snippd.length-1] == "" )
+									  { 
+									    //var importline = snippd[snippd.length-2].split(" ");
+									    var importline = snippd[snippd.length-2].split(/[ ]+/g);
+											if ( snippd.length > 2 ) {
+																						//var lastline = snippd[snippd.length-3].split(" ");
+																						var lastline = snippd[snippd.length-3].split(/[ ]+/g);
+											} else {
+															var lastline = " ";
+											}
+									  } else {
+									          //var importline = snippd[snippd.length-1].split(" ");
+									    var importline = snippd[snippd.length-1].split(/[ ]+/g);
+																//						var lastline = snippd[snippd.length-2].split(" ");
+																						var lastline = snippd[snippd.length-2].split(/[ ]+/g);
+										       }
+									
+									} else {
+													//var importline = snippd[0].split(" ");
+									    var importline = snippd[0].split(/[ ]+/g);
+													var lastline = " ";
+									}
+
+										if ( importline.length > 2 ) 
+										{
+										if ( importline[importline.length-1] == "" )
+										{
+										   var ofimport = importline[importline.length-3]+" "+importline[importline.length-2];	
+										}	else {
+													  var ofimport = importline[importline.length-2]+" "+importline[importline.length-1];
+										       }
+										} else {
+														if ( importline.length > 1 && importline[importline.length-1] != "" ) 
+														{
+															var ofimport = importline[0]+" "+importline[1];
+														} else {
+											              var ofimport = importline[0];	
+														       }
+													 }
+														if (ofimport.split(" ").length == 1 && snippd.length > 1 )
+														{
+																						ofimport = lastline[lastline.length-1]+"\n "+ofimport;
+														}
+																		if ( ofimport == "") {
+																						ofimport = " ";
+																		}
+										  
+									
+	var bulkdsplit = ofimport.split(" ")[1];
+  var bulkd = thisbox.value.split(bulkdsplit); //array of entire work surrounding important bit
+									//var ofimport = snippd[snippd.length-2]; //gives undefined after first review
+									/*
+									if (snippd.length > 1 ) {
+													if (snippd[snippd.length-1] == "" ){
+																	var ofimportline = snippd[snippd.length-2];
+													} else {
+									var ofimportline = snippd[snippd.length-1]; //gives current line, 'empty string' start of new line(^|)
+													}
+									} else { var ofimportline = thisbox.value.substring(curspos-160,curspos);}
+									function loopimport(oi,snpd)
+									{
+													if ( oi[oi.length-1] == "" ) {
+													if ( oi.length > 2 )
+													{
+												    oi = oi[oi.length-3] +" "+oi[oi.length-2];
+													} else {
+																	if ( snpd.length > 2 )
+																	{
+																	var lastline = snpd[snpd.length-2].split(" ");
+
+
+																	if ( lastline[lastline.length-1] == "" )
+																	{
+																   oi = lastline[lastline.length-2]+" "+oi[0];
+																	} else {
+																   oi = lastline[lastline.length-1]+" "+oi[0];
+																	}
+													} else { oi = oi[0]; }
+													       }
+													} else {
+			  													oi = oi[oi.length-2]+" "+oi[oi.length-1];
+													}
+													return oi;
+									}
+									if ( ofimportline ) //if anything but empty string
+									{
+	                        ofimport = ofimportline.replace(/[ ]{2,}/g," ");
+													//ofimport = ofimport.split(" "); //neglects puncuation
+													ofimport = ofimport.split( new RegExp(" ","gi") );
+													ofimport = loopimport(ofimport,snippd);
+
+									
+									} else { console.log("Fucker"); ofimport="fuckder happy" }
+									*/
+
+									/*
+									thisbox.value=thisbox.value.replace("\n"," \n");
+                  if ( new RegExp("( {2,})","g").test(thisbox.value) )
+									{
+									  thisbox = removemultispace(thisbox);
+								  }
+									var snippd = thisbox.value.substring(curspos-160,curspos).split(new RegExp(" ","g"));
+		//							var snippd = snippd[snippd.length-1].split(new RegExp(" ","g"));
+							console.log(snippd);
+									if ( snippd.length > 2 ) {
+													console.log("here");
+													if ( new RegExp("(\n|\\r)","g").test(snippd) )
+													{
+																	console.log('testpositive');
+                            var ofimport = snippd[snippd.length-2]+" ";
+													} else {
+										        var ofimport = snippd[snippd.length-3]+" "+snippd[snippd.length-2]+" ";
+													}
+									}	else {
+													console.log("there")
+                        var ofimport = thisbox.value.substring(0,curspos);
+											 }
+											 */
+									break;
+					default:
+									{
 	if (curspos - longestsplit < 0) {  // snippd is a piece of the box's value, if that snippet is close to the beginning
     var snippd = (thisbox.value.substring(0, curspos + longestsplit)); // snippet to limit text iterated over
     var ofimportunnec = '';
@@ -831,8 +1068,10 @@ function texttoman(thisbox, thisrule, manipulated, curspos, revflag) {
   } else {
     var ofimport = snippd.substring(ofimportunnec.length, snippd.length);
   }
-	}
   var bulkd = thisbox.value.split(ofimport); //array of entire work surrounding important bit
+									}
+	}//switch
+
   manipulated.curspos=curspos;
 	manipulated.ofimport=ofimport;
 	manipulated.bulkd=bulkd;
