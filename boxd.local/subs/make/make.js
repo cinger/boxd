@@ -3,10 +3,97 @@ var ruleinputboxheight = 27;
 ///boxd.js
 //uses[DOM,placent(),jQ]
 //is[ jQ{ document.on('click',.on('blur',.on('keyup' } ]
-var dataobj = {"users":[{"id":17,"username":"cinger","self":{"background-color":"black","box-background-color":"white","text-color":"white"},"cust":{"wooz":"thaers","lance":"thaers","russell":"self"},"look":"self","boxes":{"boxd":{"gameid":17,"text":"\"hazzah\""},"boxi":{"gameid":3,"text":"'hazzah'"},"boxii":{"gameid":5,"text":"'onit'"},"boxiii":{"gameid":3,"text":"'hazzah'"}}}],"games":{"orig":{"17":{"title":"boxd","rules":[{"title":"string replace","repld":"Ni!","regexopn":"([^a-z])","regexend":"(?=[^a-z])","regexmod":"gi","stringd":"(no|not|never|nothing|nope)","lngsplt":9,"revflag":"\\W"},{"title":"extreme prejudice","repld":"''","regexopn":"''","regexend":"''","regexmod":"gi","stringd":"(thing)"}]}},"uc":{"boxd":{"gameid":17,"rules":{"word replace":{"repld":"Ni!","regexopn":"([^a-z])","regexend":"(?=[^a-z])","regexmod":"gi","stringd":["no","not","never","nothing"]},"extreme prejudice":{"repld":"''","regexopn":"''","regexend":"''","regexmod":"gi","stringd":["thing"]}}}}},"meta":{"delgames":"1,2,3,4,5,58,700","parserule":{"optionshrt":["-t \"","-o \"","-e \"","-m \"","-s \"","-r \"","-l \"","-v \""],"optionfull":["--title \"","--rgxop \"","--rgxen \"","--rgxmd \"","--strar \"","--repld \"","--lngsp \"","--rvflg \""],"helper":["rule title options :: <br />\"extreme prejudice\" : remove all instances of string, -o -e -r unnecesssary <br /> \"string replace\", replace a string depending on parameters  <br />\"prefix replace\", replaces a prefix to a string <br />\"suffix replace\", replaces a suffix to a string","rule title options :: <br />\"extreme prejudice\" : remove all instances of string, -o -e -r unnecesssary <br /> \"string replace\", replace a string depending on parameters  <br />\"prefix replace\", replaces a prefix to a string <br />\"suffix replace\", replaces a suffix to a string","ending regular expression :: <br />must be placed in ( ) <br /> ..\"(?=[^a-z])\"","ending regular expression :: <br />must be placed in ( ) <br /> ..\"(?=[^a-z])\"","listing of flagd strings in an array :: <br />must be placed in ( ) with each value seperated by a pipe, |, character <br /> ..(no|not|never|nothing|nope)","replacement string :: <br />any string to replace the flagd values <br /> ..\"Ni!\"","longest split :: <br />longest possible string length to cover all necessary replacements<br /> ..\"40\"","review flag :: <br />flagged key to initiate review of the boxes contents<br />.. \"\\W\""]}}}
+var dataobj = {
+  "users": [{
+    "id": 17,
+    "username": "cinger",
+    "self": {
+      "background-color": "black",
+      "box-background-color": "white",
+      "text-color": "white"
+    },
+    "cust": {
+      "wooz": "thaers",
+      "lance": "thaers",
+      "russell": "self"
+    },
+    "look": "self",
+    "boxes": {
+      "boxd": {
+        "gameid": 17,
+        "text": "\"hazzah\""
+      },
+      "boxi": {
+        "gameid": 3,
+        "text": "'hazzah'"
+      },
+      "boxii": {
+        "gameid": 5,
+        "text": "'onit'"
+      },
+      "boxiii": {
+        "gameid": 3,
+        "text": "'hazzah'"
+      }
+    }
+  }],
+  "games": {
+    "orig": {
+      "17": {
+        "title": "boxd",
+        "rules": [{
+          "title": "string replace",
+          "repld": "Ni!",
+          "regexopn": "([^a-z])",
+          "regexend": "(?=[^a-z])",
+          "regexmod": "gi",
+          "stringd": "(no|not|never|nothing|nope)",
+          "lngsplt": 9,
+          "revflag": "\\W"
+        }, {
+          "title": "extreme prejudice",
+          "repld": "''",
+          "regexopn": "''",
+          "regexend": "''",
+          "regexmod": "gi",
+          "stringd": "(thing)"
+        }]
+      }
+    },
+    "uc": {
+      "boxd": {
+        "gameid": 17,
+        "rules": {
+          "word replace": {
+            "repld": "Ni!",
+            "regexopn": "([^a-z])",
+            "regexend": "(?=[^a-z])",
+            "regexmod": "gi",
+            "stringd": ["no", "not", "never", "nothing"]
+          },
+          "extreme prejudice": {
+            "repld": "''",
+            "regexopn": "''",
+            "regexend": "''",
+            "regexmod": "gi",
+            "stringd": ["thing"]
+          }
+        }
+      }
+    }
+  },
+  "meta": {
+    "delgames": "1,2,3,4,5,58,700",
+    "parserule": {
+      "optionshrt": ["-t \"", "-o \"", "-e \"", "-m \"", "-s \"", "-r \"", "-l \"", "-v \""],
+      "optionfull": ["--title \"", "--rgxop \"", "--rgxen \"", "--rgxmd \"", "--strar \"", "--repld \"", "--lngsp \"", "--rvflg \""],
+      "helper": ["rule title options :: <br />\"extreme prejudice\" : remove all instances of string, -o -e -r unnecesssary <br /> \"string replace\", replace a string depending on parameters  <br />\"prefix replace\", replaces a prefix to a string <br />\"suffix replace\", replaces a suffix to a string", "rule title options :: <br />\"extreme prejudice\" : remove all instances of string, -o -e -r unnecesssary <br /> \"string replace\", replace a string depending on parameters  <br />\"prefix replace\", replaces a prefix to a string <br />\"suffix replace\", replaces a suffix to a string", "ending regular expression :: <br />must be placed in ( ) <br /> ..\"(?=[^a-z])\"", "ending regular expression :: <br />must be placed in ( ) <br /> ..\"(?=[^a-z])\"", "listing of flagd strings in an array :: <br />must be placed in ( ) with each value seperated by a pipe, |, character <br /> ..(no|not|never|nothing|nope)", "replacement string :: <br />any string to replace the flagd values <br /> ..\"Ni!\"", "longest split :: <br />longest possible string length to cover all necessary replacements<br /> ..\"40\"", "review flag :: <br />flagged key to initiate review of the boxes contents<br />.. \"\\W\""]
+    }
+  }
+}
 
-var uldjQ = $('#uld'); 
-var rules = $("#uld li"); 
+var uldjQ = $('#uld');
+var rules = $("#uld li");
 
 
 
@@ -183,7 +270,7 @@ function fleshrule(thisbox) {
   //retrieve the options from the parsed rulebox
   var opts = dataobj.temp.rules[thisbox.id].getopts;
 
-	// create the temporary rule
+  // create the temporary rule
   dataobj.temp.rules[thisbox.id].real = {};
   dataobj.temp.rules[thisbox.id].real.title = "";
   dataobj.temp.rules[thisbox.id].real.rgxop = "";
@@ -193,20 +280,20 @@ function fleshrule(thisbox) {
   dataobj.temp.rules[thisbox.id].real.repld = "";
   dataobj.temp.rules[thisbox.id].real.lngsp = "";
   dataobj.temp.rules[thisbox.id].real.rvflg = "";
-    // must declare empty values to ensure they exist, even if rule neglects them
-  
+  // must declare empty values to ensure they exist, even if rule neglects them
+
   var optsnum = opts.length; //number of options
   var bildstring = ""; //the string used to build the real rule
   var i = 0;
   while (i < optsnum) { // do until all opts have been processed
     var optarrval = opts[i]; // takes in options dataobj.meta.parserule array value
     bildstring = bildstring + opts[i + 1] + opts[i + 2]; //construct the build string by taking the next opt array values
-		  // opts[i+1] : option : -t , et al
-		  // opts[i+2] : value  : "extreme prejudice" , et al
-    
-		// find the key by taking opt[i] of the optionfull object
-		var keyfromfull = dataobj.meta.parserule.optionfull[optarrval].substring(2, 7);
-		
+    // opts[i+1] : option : -t , et al
+    // opts[i+2] : value  : "extreme prejudice" , et al
+
+    // find the key by taking opt[i] of the optionfull object
+    var keyfromfull = dataobj.meta.parserule.optionfull[optarrval].substring(2, 7);
+
     if (i < optsnum - 3) { // early opts end in ' "'
       dataobj.temp.rules[thisbox.id].real[keyfromfull] = opts[i + 2].substring(0, opts[i + 2].length - 2);
     } else { // the last opt ends solely in '"'
@@ -219,8 +306,8 @@ function fleshrule(thisbox) {
 
 
 function syntaxerr(thisbox) {
-				//err detection severly primitive due the desire for 'anything goes' in regexs... 
-				//perhaps i can improve it further
+  //err detection severly primitive due the desire for 'anything goes' in regexs... 
+  //perhaps i can improve it further
   if (dataobj.temp.rules[thisbox.id] === undefined) {
     return;
   } else {
@@ -264,7 +351,7 @@ uldjQ.on('blur', 'textarea', function () {
 
 
 $('#testbox').on('click', function () {
-	var x = "USELESS FUNC FILLER";
+  var x = "USELESS FUNC FILLER";
 });
 
 $("#showhidedef").on('click', function () {
@@ -338,13 +425,13 @@ $("#showhidehelp").on('click', function () {
 
 function displayhelper(thisbox) {
   var state = ($("#help").css("visibility"));
-	if (state == "visible") { // avoid using resources if help box is hidden
-    
-	  var curspos = getcursor(thisbox); // find the cursor position
-		// check both options to allow for user preference
-		var mostrecentshrt = thisbox.value.substring(curspos - 3, curspos);
+  if (state == "visible") { // avoid using resources if help box is hidden
+
+    var curspos = getcursor(thisbox); // find the cursor position
+    // check both options to allow for user preference
+    var mostrecentshrt = thisbox.value.substring(curspos - 3, curspos);
     var mostrecentfull = thisbox.value.substring(curspos - 8, curspos);
-		var disp = document.getElementById('helper');  // prep for display
+    var disp = document.getElementById('helper'); // prep for display
     var dispd = 0; // avoid 
     if (mostrecentfull == "--title " || mostrecentshrt == "-t ") {
       disp.innerHTML = dataobj.meta.parserule.helper[0];
@@ -380,11 +467,11 @@ function displayhelper(thisbox) {
 
 var ruleset = {};
 
-function textboxresize(thisbox,e) {
+function textboxresize(thisbox, e) {
 
-	var thisboxid = thisbox.id;
-  
-	var contlist = document.getElementById("li" + thisbox.id);
+  var thisboxid = thisbox.id;
+
+  var contlist = document.getElementById("li" + thisbox.id);
   if (e.which == 8 || e.which == 46 || (e.ctrlKey && e.which == 88)) { //user is deleting, backspacing, or cutting
     thisbox.style.height = ruleinputboxheight + 'px';
     var contboxheight = ruleinputboxheight + 5;
@@ -411,12 +498,12 @@ function textboxresize(thisbox,e) {
 
 // on key up of the ruleboxes
 $('.outerscrollhide').on('keyup', 'textarea', function (e) {
-				
+
   // change box height :: to show full contents
-  textboxresize(this,e); // send the box and event value
+  textboxresize(this, e); // send the box and event value
 
   // show help dialogue : 
-  displayhelper(this);  // display helper in helpbox
+  displayhelper(this); // display helper in helpbox
 
 }); // .on('keyup', when keypress go to current box's ruleset
 
@@ -460,7 +547,7 @@ var primer = $('#primer');
 function addele() { //uses[v{+}numb,DOM]
 
   if (rules.length < 1) {
-    primer.css("display","none"); // remove the dialogue showing how to find help
+    primer.css("display", "none"); // remove the dialogue showing how to find help
   }
 
   var potentialruleset = document.getElementById('uld');
@@ -517,7 +604,7 @@ function addele() { //uses[v{+}numb,DOM]
   potentialruleset.appendChild(listnode);
 
   numb = num;
-rules = $("#uld li"); //update potential number of rules
+  rules = $("#uld li"); //update potential number of rules
 } //addele(), add element
 
 
@@ -542,9 +629,9 @@ function remele(thisboxid) { //uses DOM
     }
   }
   // clean up database, delete traces of the box you are removing
-  
-	if (rules.length == 1) {
-    primer.css("display","block");  // shows the dialogue telling how to find help 
+
+  if (rules.length == 1) {
+    primer.css("display", "block"); // shows the dialogue telling how to find help 
   }
   rules = $("#uld li"); //update potential number of rules
 } // remele(), remove element
@@ -608,36 +695,43 @@ function shrunkdheight() {
 //
 //
 //
-
-
+function repositioning(thisbox, manipulated, change) {
+		if (manipulated.ofimport === undefined ){
+						return manipulated;
+		} else {
+		var scrollpos = thisbox.scrollTop; //logs the current position of the scrollbar	
+    var olelen = manipulated.ofimport.length;
+    manipulated.ofimport = change;
+    var newlen = manipulated.ofimport.length;
+    cursdisp = newlen - olelen;
+    manipulated.cursdisp = cursdisp;
+    manipulated.scrollpos = scrollpos;
+		return manipulated;
+		}
+}
 
 
 function stringreplace(thisrule, manipulated, thisbox) {
   var strar = thisrule.real.strar;
   var repld = thisrule.real.repld;
-	var rgxop = thisrule.real.rgxop;
+  var rgxop = thisrule.real.rgxop;
   var rgxen = thisrule.real.rgxen;
   var rgxmd = thisrule.real.rgxmd;
   //which is better? specifying ofimport=manipulator.ofimport, or just calling manipulator.ofimport each time?
   if (new RegExp(rgxop + strar + rgxen, rgxmd).test(manipulated.ofimport)) {
-    var scrollpos = thisbox.scrollTop; //logs the current position of the scrollbar	
-    var olelen = manipulated.ofimport.length;
-    manipulated.ofimport = manipulated.ofimport.replace(new RegExp(rgxop + strar + rgxen, rgxmd),repld);
-    var newlen = manipulated.ofimport.length;
-    cursdisp = newlen - olelen;
-    manipulated.cursdisp = cursdisp;
-    manipulated.scrollpos = scrollpos;
-  }
+    var change = manipulated.ofimport.replace(new RegExp(rgxop + strar + rgxen, rgxmd), repld);
+    manipulated = repositioning(thisbox, manipulated, change);
+	}
   return manipulated;
 } // stringreplace(), remove string dependant on what comes before and after
 
 
 function extremeprejudice(thisrule, manipulated, thisbox) {
   thisrule.real.repld = "";
-	thisrule.real.rgxop = "(\\w*)"; 
+  thisrule.real.rgxop = "(\\w*)";
   thisrule.real.rgxen = "(\\w*)";
   thisrule.real.rgxmd = "gi";
-	manipulated=stringreplace(thisrule, manipulated, thisbox);
+  manipulated = stringreplace(thisrule, manipulated, thisbox);
   return manipulated;
 } // extremeprejudice(), remove all instances
 
@@ -645,187 +739,140 @@ function extremeprejudice(thisrule, manipulated, thisbox) {
 function prefix(thisrule, manipulated, thisbox) {
   thisrule.real.repld = "$1$3";
   thisrule.real.rgxop = "(^|\\W+)";
-	thisrule.real.rgxen = "(\\w+)"; 
+  thisrule.real.rgxen = "(\\w+)";
   thisrule.real.rgxmd = "gi";
-	manipulated=stringreplace(thisrule, manipulated, thisbox);
+  manipulated = stringreplace(thisrule, manipulated, thisbox);
   return manipulated;
 } // prefix(), remove prefix from word
 
 
 function suffix(thisrule, manipulated, thisbox) {
   thisrule.real.repld = "$1";
-	thisrule.real.rgxop = "(\\w+)"; 
+  thisrule.real.rgxop = "(\\w+)";
   thisrule.real.rgxen = "";
   thisrule.real.rgxmd = "gi";
-	manipulated=stringreplace(thisrule, manipulated, thisbox);
+  manipulated = stringreplace(thisrule, manipulated, thisbox);
   return manipulated;
 } // suffix(), remove suffix from word
 
 function calculate(thisrule, manipulated, thisbox) {
-    var scrollpos = thisbox.scrollTop; //logs the current position of the scrollbar	
-    var frstchar = manipulated.ofimport.substring(0,1); //using substring stead charAt in case i change format
-		var lastchar = manipulated.ofimport.substring(manipulated.ofimport.length-1);
-		if (frstchar == "(" && lastchar == ")" )
-		{	
-    var toeval = manipulated.ofimport.substring(1,manipulated.ofimport.length-1);
-		var evald = math.eval(toeval);
-		var olelen = manipulated.ofimport.length;
-		manipulated.ofimport = manipulated.ofimport+"\r=== "+evald;
-    var newlen = manipulated.ofimport.length;
-    cursdisp = newlen - olelen; 
-    manipulated.cursdisp = cursdisp;
-    manipulated.scrollpos = scrollpos;
-		//replace old answer if one exists
-  		var bulknext = manipulated.bulkd[1].split("\n")[2];
-  		if ( bulknext ) {
-    		if ( bulknext.substring(0,4) == "=== " )
- 	      {
-		     var newbulk = manipulated.bulkd[1].split("\n\n"+bulknext)[1];
-    	   manipulated.bulkd[1]=newbulk;
-		    }
-		  }
-		}
-		return manipulated;
+  var frstchar = manipulated.ofimport.substring(0, 1); //using substring stead charAt in case i change format
+  var lastchar = manipulated.ofimport.substring(manipulated.ofimport.length - 1);
+  if (frstchar == "(" && lastchar == ")") {
+    var toeval = manipulated.ofimport.substring(1, manipulated.ofimport.length - 1);
+    var evald = math.eval(toeval);
+    var change = manipulated.ofimport + "\r=== " + evald;
+    manipulated = repositioning(thisbox, manipulated, change);
+    //replace old answer if one exists
+    var bulknext = manipulated.bulkd[1].split("\n")[2];
+    if (bulknext) {
+      if (bulknext.substring(0, 4) == "=== ") {
+        var newbulk = manipulated.bulkd[1].split("\n\n" + bulknext)[1];
+        manipulated.bulkd[1] = newbulk;
+      }
+    }
+  }
+  return manipulated;
 }
 
-function alliterate(thisrule, manipulated, thisbox) {
-var impsplit = manipulated.ofimport.split(" ");
-console.log("impy");
-console.log(impsplit);
-//var extent = "full";
-var extent = "break";
-var extentflag = 17;
-if ( impsplit.length > 1 ) {
-if ( extent == "break" ) {
-
-if ( impsplit[0].charAt(impsplit[0].length-1) == "\n" )
-{
-	extentflag = 0;
-  var ofimport = impsplit[1];
-}
-
-}
-if ( extentflag == 17 )
-{
-  var firstcharfirstsplit = impsplit[0].charAt(0);
-	var firstcharnextdsplit = impsplit[1].charAt(0);
-	if ( firstcharfirstsplit == firstcharnextdsplit )
-	{
-			var ofimport = impsplit[1];
-	} else {
-	   var ofimport = firstcharfirstsplit;
-		 if ( manipulated.bulkd[manipulated.bulkd.length-1] == " " )
-		 {
-				manipulated.bulkd[manipulated.bulkd.length-1] = "";
-		 }
+function pattern(thisrule, manipulated, thisbox) {
+//bug... if you type faster than the autocorrect, easy to do, it fucks with the bulkding
+//..replaces characters mid word from previous words and lines
+//..to fix? unsure as of yet
+//..moving on to creating more rules, the effort to do so has been difficult and painful
+  var impsplit = manipulated.ofimport.split(" ");
+	if ( impsplit[1] == "" ) {
+		return manipulated; 
+	} //else {
+	
+	manipulated.ofimport = impsplit[1];
+	//var extent = "full";
+	console.log("HEHEHEHEHEHEHEE");
+  console.log(impsplit);
+	var extent = "break";
+  var extentflag = 17;
+	
+	/*
+  if (impsplit.length > 1) {
+    if (extent == "break") {
+      if (impsplit[0].charAt(impsplit[0].length - 1) == "\n") {
+        extentflag = 0;
+        var ofimport = impsplit[1];
+      }
+    }
+    if (extentflag == 17) {
+      var firstcharfirstsplit = impsplit[0].charAt(0);
+      var firstcharnextdsplit = impsplit[1].charAt(0);
+      if (firstcharfirstsplit == firstcharnextdsplit) {
+        var ofimport = impsplit[1];
+      } else {
+        var ofimport = firstcharfirstsplit;
+        if (manipulated.bulkd[manipulated.bulkd.length - 1] == " ") {
+          manipulated.bulkd[manipulated.bulkd.length - 1] = "";
+        }
+      }
+    }
+  } else {
+    var ofimport = " ";
+    manipulated.bulkd.push("");
+  }
+  var change = ofimport;
 	}
+	console.log(change);
+	console.log(manipulated);*/
+  manipulated = repositioning(thisbox, manipulated, change);
+  return manipulated;
 }
-manipulated.ofimport = ofimport;
-} else { manipulated.ofimport = "";manipulated.bulkd.push(""); }
-console.log(manipulated.bulkd);
-//console.log("bulkd");
-//				console.log(manipulated.bulkd);
-//				console.log(manipulated.ofimport);
-/*if ( new RegExp("\\s{2,}","g").test(thisbox.value) )
-										{
-													console.log("doing it");
-									  thisbox.value = thisbox.value.replace(/\s{2,}/g,' ');
-								  }
-									var snippd = thisbox.value.substring(curspos-160,curspos).split(new RegExp("\\s","g"));
-									console.log("snippd.. ");
-									console.log(snippd);
-									if ( snippd.length > 2 ) {
-										var breakwordlen = snippd[snippd.length-3].length
-										var lastchar = snippd[snippd.length-3].charAt(breakwordlen-1);
-										if (new RegExp(revflag, 'i').test(lastchar)) {
-										  var newstart = curspos-snippd[snippd.length-2].length;
-											var ofimport = thisbox.value.substring(newstart,curspos);
-										} else {
-										        var ofimport = snippd[snippd.length-3]+" "+snippd[snippd.length-2]+" ";
-										       }
-									}
-									else {
-                        var ofimport = thisbox.value.substring(0,curspos);
-									}
-  */
 
-				/*
-				var allit = manipulated.ofimport.replace("\n","").split(" ");
-				console.log(allit);
-										var lastchar = allit[0].charAt(allit[0].length-1);
-										console.log("["+lastchar+"]");
-										if (new RegExp("(\\W+)", 'i').test(lastchar)) {
-														if ( new RegExp("\n|\\r",'gm').test(allit) )
-														{
-														  manipulated.bulkd[0] = manipulated.bulkd[0]+allit[0]+"\n";
-														}
-														manipulated.ofimport = allit[1].replace("\n","")+" ";
-										} else {
-console.log("in else");
-	var allitcount = 1;
-	if ( allit[1] ) {
-	  if ( allit[0].substring(0,allitcount) != allit[1].substring(0,allitcount) )
-	  {
-	    manipulated.ofimport = allit[0]+" "+allit[0].substring(0,1);
-	  }
-	}
-										}
-  thisrule.real.repld = "$1";
-	thisrule.real.rgxop = "(\\w+)"; 
-  thisrule.real.rgxen = "";
-  thisrule.real.rgxmd = "gi";
-	//manipulated=stringreplace(thisrule, manipulated, thisbox);
+
+
+
+
+
+function syllable(thisrule,manipulated,thisbox) {
+  var word = thisbox.value.toLowerCase();
+  if (word.length <= 3) {
+    return 1;
+  }
+  word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+  word = word.replace(/^y/, '');
+  syllables=word.match(/[aeiouy]{1,2}/g).length;
+	console.log(syllables);
   
-	*/
-				console.log(manipulated.ofimport);
-	return manipulated; 
-}
+//	still fucked
+	var wordhyph = thisbox.value.toLowerCase();
+  console.log(hyphenateWord("en",wordhyph));
+	return manipulated;
+}//syllable anylisis 
 
 
+function reformat (thisrule,manipulated,thisbox) {
 
 
+return manipulated;
+} // reformat(), changes based on predetermined inputs
 
 
-//syllable anylisis
-function syllablecounter(word) {
-  word = word.toLowerCase();                                     
-  if( word.length <= 3 ) { return 1; }                           
-  word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');  
-  word = word.replace(/^y/, '');                               
-  return word.match(/[aeiouy]{1,2}/g).length;                 
-}
+function format (thisrule, manipulated,thisbox) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+				
+return manipulated;
+} // format(), changes based on predetermined sets
 
 
 
 var testbox = $('#testbox');
 
 testbox.on('keyup', function (event) {
-  if (dataobj.temp) 
-  {
+  if (dataobj.temp) {
     var keyd = event.keyCode || event.which;
     var pushd = String.fromCharCode(keyd);
-    if (keyd != 8 && keyd != 46 && keyd != 37 && keyd != 38 && keyd != 39 && keyd != 40 && keyd != 16) 
-    {
+    if (keyd != 8 && keyd != 46 && keyd != 37 && keyd != 38 && keyd != 39 && keyd != 40 && keyd != 16) {
       temp(this, pushd);
-	  }
+    }
   } else {
-          console.log('waiting on game rules...');
-         }
+    console.log('waiting on game rules...');
+  }
 }); // .on('keyup', when keypress go to current box's ruleset
 
 
@@ -834,247 +881,221 @@ function temp(thisbox, pushd) {
     var rulenum = (this.id.substring(2)); //removes the li from the beginning of the id, from 'lirule#' to 'rule#'
     var thisrule = dataobj.temp.rules[rulenum];
     if (thisrule) {
-		  thisrule=getdefaults(thisrule);
-      var revflag=thisrule.real.rvflg;
-			console.log(revflag);
+      thisrule = getdefaults(thisrule);
+      var revflag = thisrule.real.rvflg;
+      console.log(revflag);
       testkeypress(thisbox, thisrule, pushd, revflag);
-		}
+    }
   }); // $.each(
 } //temp(), tempbox ruleset
 
 function getdefaults(thisrule) {
-				switch(thisrule.real.title) // in case of rules with mandatory defaults
-				{
-					case "calculate":
-               thisrule.real.rvflg = "\r";
-          	   thisrule.real.lngsp = "line";
-							 break;
-				  case "alliterate":
-							 thisrule.real.rvflg = "\\W";
-          	   thisrule.real.lngsp = "backword";
-					default: // in case flex defaults were forgotten
-	 						if (thisrule.real.rvflg == "" ) 
-				        thisrule.real.rvflg = "\\W";
-						  if (thisrule.real.lngsp == "" ) 
-                thisrule.real.lngsp = "40";
-				}
-	return thisrule;
+  switch (thisrule.real.title) // in case of rules with mandatory defaults
+  {
+  case "calculate":
+    thisrule.real.rvflg = "\r";
+    thisrule.real.lngsp = "line";
+    break;
+  case "pattern":
+    thisrule.real.rvflg = "\\W";
+    thisrule.real.lngsp = "backword";
+  default: // in case flex defaults were forgotten
+    if (thisrule.real.rvflg == "")
+      thisrule.real.rvflg = "\\W";
+    if (thisrule.real.lngsp == "")
+      thisrule.real.lngsp = "40";
+  }
+  return thisrule;
 }
 
 function testkeypress(thisbox, thisrule, pushd, revflag) {
-				// if the key pushed is of a character from the review flag, then perform the review
-				if (new RegExp(revflag, 'i').test(pushd)) {
-          var manipulated = { 'curspos' : 0 };
-					var getcurspos = (getcursor(thisbox));
-          manipulated = texttoman(thisbox, thisrule, manipulated, getcurspos, revflag); //adds curspos, ofimport, bulkd to manipulated obj
-					//returns new values into manipulated .ofimport and .cursdisp if rule is found
-					manipulated = checkrule(thisbox,thisrule,manipulated); 
+  // if the key pushed is of a character from the review flag, then perform the review
+  if (new RegExp(revflag, 'i').test(pushd)) {
+    var manipulated = {
+      'curspos': 0
+    };
+    var getcurspos = (getcursor(thisbox));
+    manipulated = texttoman(thisbox, thisrule, manipulated, getcurspos, revflag); //adds curspos, ofimport, bulkd to manipulated obj
+    //returns new values into manipulated .ofimport and .cursdisp if rule is found
+    manipulated = checkrule(thisbox, thisrule, manipulated);
 
-					// call back out any changes in the manipulated object 
-					// to avoid runing through the object each time these variables are used
-					  // removed this var VAR = mani.VAR due V8's hidden class, show support and hope other engines follow suit
-          if (manipulated.bulkd && manipulated.curspos > 0) { // post any changes to box
-					  newtext(thisbox,manipulated.ofimport,manipulated.bulkd,manipulated.curspos);
-          } // if bulkd && curspos > 0
-  				movecursorandscroll(thisbox,manipulated);
-        } // if RegExp .test(pushd)
+    // call back out any changes in the manipulated object 
+    // to avoid runing through the object each time these variables are used
+    // removed this var VAR = mani.VAR due V8's hidden class, show support and hope other engines follow suit
+    if (manipulated.bulkd && manipulated.curspos > 0) { // post any changes to box
+      newtext(thisbox, manipulated.ofimport, manipulated.bulkd, manipulated.curspos);
+    } // if bulkd && curspos > 0
+    movecursorandscroll(thisbox, manipulated);
+  } // if RegExp .test(pushd)
 }
-function removemultispace(thisbox) {
-	var aftremove = {};
-  var curspos = getcursor(thisbox);
-  var scrollpos = thisbox.scrollTop; //logs the current position of the scrollbar	
-  var olelen = thisbox.value.length;
-	thisbox.value = thisbox.value.replace(/[ ]{2,}/g,' ');
-	console.log('test');
-	thisbox.value = thisbox.value.replace(/[ ]+[\n]/g,"\n");
-	var newlen = thisbox.value.length;
-  cursdisp = newlen - olelen;
-  aftremove.curspos=curspos;
-  aftremove.cursdisp = cursdisp;
-  aftremove.scrollpos = scrollpos;
-  movecursorandscroll(thisbox,aftremove);
-  return thisbox;
+
+function lastundi(arr) {
+				if (arr[arr.length-1] == "" ){
+					arr.pop();
+				}
+return arr;
 }
 
 function texttoman(thisbox, thisrule, manipulated, curspos, revflag) {
-	var longestsplit=thisrule.real.lngsp;
-	if (curspos > 0) 
-	{
+  var longestsplit = thisrule.real.lngsp;
+  if (curspos > 0) {
     var lastchar = thisbox.value.charAt(curspos - 1); // most recent character typed
   } else {
-          var lastchar = '';
-         }
-  switch(longestsplit) {
-					case "line":
-	  							var snippd = thisbox.value.substring(0,curspos).split("\n");
-							    var ofimport = snippd[snippd.length-2];  //last element is always undefined [ ... , "" ] because the review  flag is \r
-									var bulkdsplit = ofimport;
-  var bulkd = thisbox.value.split(bulkdsplit); //array of entire work surrounding important bit
-									break;
-					case "backword":
-									if (new RegExp("[ ]{2,}", "g" ).test(thisbox.value) || new RegExp("[ ]+[\n]","g").test(thisbox.value) )
-									{
-									  thisbox =  removemultispace(thisbox);
-									}
-									//could add a descision on how many back words, every 2 words, or 3, or n... perhaps first words leading the value of n set the alliteration pattern to follow
-//	  						var snippd = thisbox.value.substring(curspos-160,curspos).split("\n");
-	  							//var snippd = thisbox.value.substring(curspos-160,curspos).split( new RegExp("("\n"|\\r)+","gi") ); //accounts for multiple spaces between lines ###err illegal character
-	  							var snippd = thisbox.value.substring(curspos-160,curspos).split( new RegExp("\n+","gi") ); //accounts for multiple spaces between lines ###err illegal character
-console.log(snippd);
-									//var ofimport = snippd[snippd.length-1];
-console.log(ofimport);
-									
-									if (snippd.length > 1 ) {
-									
-									  if ( snippd[snippd.length-1] == "" )
-									  { 
-									    //var importline = snippd[snippd.length-2].split(" ");
-									    var importline = snippd[snippd.length-2].split(/[ ]+/g);
-											if ( snippd.length > 2 ) {
-																						//var lastline = snippd[snippd.length-3].split(" ");
-																						var lastline = snippd[snippd.length-3].split(/[ ]+/g);
-											} else {
-															var lastline = " ";
-											}
-									  } else {
-									          //var importline = snippd[snippd.length-1].split(" ");
-									    var importline = snippd[snippd.length-1].split(/[ ]+/g);
-																//						var lastline = snippd[snippd.length-2].split(" ");
-																						var lastline = snippd[snippd.length-2].split(/[ ]+/g);
-										       }
-									
-									} else {
-													//var importline = snippd[0].split(" ");
-									    var importline = snippd[0].split(/[ ]+/g);
-													var lastline = " ";
-									}
-
-										if ( importline.length > 2 ) 
-										{
-										if ( importline[importline.length-1] == "" )
-										{
-										   var ofimport = importline[importline.length-3]+" "+importline[importline.length-2];	
-										}	else {
-													  var ofimport = importline[importline.length-2]+" "+importline[importline.length-1];
-										       }
-										} else {
-														if ( importline.length > 1 && importline[importline.length-1] != "" ) 
-														{
-															var ofimport = importline[0]+" "+importline[1];
-														} else {
-											              var ofimport = importline[0];	
-														       }
-													 }
-														if (ofimport.split(" ").length == 1 && snippd.length > 1 )
-														{
-																						ofimport = lastline[lastline.length-1]+"\n "+ofimport;
-														}
-																		if ( ofimport == "") {
-																						ofimport = " ";
-																		}
-										  
-									
-	var bulkdsplit = ofimport.split(" ")[1];
-  var bulkd = thisbox.value.split(bulkdsplit); //array of entire work surrounding important bit
-									//var ofimport = snippd[snippd.length-2]; //gives undefined after first review
-									/*
-									if (snippd.length > 1 ) {
-													if (snippd[snippd.length-1] == "" ){
-																	var ofimportline = snippd[snippd.length-2];
-													} else {
-									var ofimportline = snippd[snippd.length-1]; //gives current line, 'empty string' start of new line(^|)
-													}
-									} else { var ofimportline = thisbox.value.substring(curspos-160,curspos);}
-									function loopimport(oi,snpd)
-									{
-													if ( oi[oi.length-1] == "" ) {
-													if ( oi.length > 2 )
-													{
-												    oi = oi[oi.length-3] +" "+oi[oi.length-2];
-													} else {
-																	if ( snpd.length > 2 )
-																	{
-																	var lastline = snpd[snpd.length-2].split(" ");
-
-
-																	if ( lastline[lastline.length-1] == "" )
-																	{
-																   oi = lastline[lastline.length-2]+" "+oi[0];
-																	} else {
-																   oi = lastline[lastline.length-1]+" "+oi[0];
-																	}
-													} else { oi = oi[0]; }
-													       }
-													} else {
-			  													oi = oi[oi.length-2]+" "+oi[oi.length-1];
-													}
-													return oi;
-									}
-									if ( ofimportline ) //if anything but empty string
-									{
-	                        ofimport = ofimportline.replace(/[ ]{2,}/g," ");
-													//ofimport = ofimport.split(" "); //neglects puncuation
-													ofimport = ofimport.split( new RegExp(" ","gi") );
-													ofimport = loopimport(ofimport,snippd);
-
-									
-									} else { console.log("Fucker"); ofimport="fuckder happy" }
-									*/
-
-									/*
-									thisbox.value=thisbox.value.replace("\n"," \n");
-                  if ( new RegExp("( {2,})","g").test(thisbox.value) )
-									{
-									  thisbox = removemultispace(thisbox);
-								  }
-									var snippd = thisbox.value.substring(curspos-160,curspos).split(new RegExp(" ","g"));
-		//							var snippd = snippd[snippd.length-1].split(new RegExp(" ","g"));
-							console.log(snippd);
-									if ( snippd.length > 2 ) {
-													console.log("here");
-													if ( new RegExp("(\n|\\r)","g").test(snippd) )
-													{
-																	console.log('testpositive');
-                            var ofimport = snippd[snippd.length-2]+" ";
-													} else {
-										        var ofimport = snippd[snippd.length-3]+" "+snippd[snippd.length-2]+" ";
-													}
-									}	else {
-													console.log("there")
-                        var ofimport = thisbox.value.substring(0,curspos);
-											 }
-											 */
-									break;
-					default:
-									{
-	if (curspos - longestsplit < 0) {  // snippd is a piece of the box's value, if that snippet is close to the beginning
-    var snippd = (thisbox.value.substring(0, curspos + longestsplit)); // snippet to limit text iterated over
-    var ofimportunnec = '';
-  } else {
-    if (curspos + longestsplit > thisbox.value.length) {  // if snippet is close to the end
-      var snippd = (thisbox.value.substring(curspos - longestsplit, thisbox.value.length)); // snippet to limit text iterated over
-    }
-    if ( !snippd ) { // if still yet to have been assigned, then assign it
-      var snippd = (thisbox.value.substring(curspos - longestsplit, curspos + longestsplit)); // snippet to limit text iterated over
-    }
-		//since the snip is character based we have to remove first match 
-		 //to avoid false positives like a substr knot on k(not ..)
-    var ofimportunnec = snippd.substring(0, snippd.length - snippd.replace(new RegExp('(^|[a-z])*' + revflag, 'i'), '').length); 
+    var lastchar = '';
   }
+  switch (longestsplit) {
+  case "line":
+    var snippd = thisbox.value.substring(0, curspos).split("\n");
+    var ofimport = snippd[snippd.length - 2]; //last element is always undefined [ ... , "" ] because the review  flag is \r
+    var bulkdsplit = ofimport;
+    var bulkd = thisbox.value.split(bulkdsplit); //array of entire work surrounding important bit
+    break;
+  case "backword":
+    //could add a descision on how many back words, every 2 words, or 3, or n... perhaps first words leading the value of n set the alliteration pattern to follow
+		var backnum = 2;
+		var backcheck = thisbox.value.substring(0,curspos).replace(/\n/g," ")
+		backcheck=backcheck.split(/[ ]+/g); //split on space, one or more
+		if (backcheck[backcheck.length-1] == ""){
+			backcheck.pop(); //remove last element [ ... ,""]
+			}
+		if (backcheck.length <= backnum ) {
+		  ofimport = thisbox.value;	//too few words just send what's there
+		} else {
+			var snippd = thisbox.value.substring(curspos - 160, curspos).split(new RegExp("\n+", "gi")); //accounts for multiple spaces between lines ###err illegal character
+			snippd=lastundi(snippd);	
+    	var ofimportline = snippd[snippd.length-1].split(/[ ]+/g); //split on space, one or more
+		  ofimportline = lastundi(ofimportline);
+			if ( ofimportline.length <= backnum) { // if backnum = 1 and len = 1
+				if ( snippd.length > 1) {
+								var lastline=lastundi(snippd[snippd.length-2].split(/[ ]+/g));
+								if ( lastline.length > backnum ) {
+												var backword = lastline[lastline.length-(backnum-(ofimportline.length-1))];
+										    var ofimport = backword+" "+ofimportline[ofimportline.length-1];
+								} else {
+										var backword = backcheck[backcheck.length-backnum-1];
+										var ofimport = backword+" "+ofimportline[ofimportline.length-1];
+								}
+					}
+			} else {
+      	var ofimport = ofimportline[ofimportline.length-(backnum+1)]+" "+ofimportline[ofimportline.length-1];
+			}
+		}
 
-  if (ofimportunnec.length == snippd.length || snippd.length == thisbox.value.length || snippd.length == longestsplit + ofimportunnec.length) {
-    // this protects from the potential for the box's initial input being one of the forbidden expressions
-    var ofimport = snippd;
-  } else {
-    var ofimport = snippd.substring(ofimportunnec.length, snippd.length);
-  }
-  var bulkd = thisbox.value.split(ofimport); //array of entire work surrounding important bit
-									}
-	}//switch
 
-  manipulated.curspos=curspos;
-	manipulated.ofimport=ofimport;
-	manipulated.bulkd=bulkd;
+		//console.log(ofimport);
+	/*	
+    if (snippd.length > 1) {
+
+      if (snippd[snippd.length - 1] == "") {
+        //var importline = snippd[snippd.length-2].split(" ");
+        var importline = snippd[snippd.length-2].split(/[ ]+/);
+        if (snippd.length > 2) {
+          //var lastline = snippd[snippd.length-3].split(" ");
+          var lastline = snippd[snippd.length-3].split(/[ ]+/);
+        } else {
+          var lastline = " ";
+        }
+      } else {
+        //var importline = snippd[snippd.length-1].split(" ");
+        var importline = snippd[snippd.length-1].split(/[ ]+/);
+       	//var lastline = snippd[snippd.length-2].split(" ");
+       	var lastline = snippd[snippd.length-2].split(/[ ]+/);
+      }
+
+    } else {
+      //var importline = snippd[0].split(" ");
+      var importline = snippd[0].split(/[ ]+/);
+      var lastline = " ";
+    }
+
+if (snippd.length > 1 ){
+//lastlinechecks
+var x=1;
+} else {
+				if (importline.length > backnum) 
+				{
+
+					if ( importline.length > 1) {
+						if (importline[importline.length - 1] == "") {
+							console.log("HERE?");
+        			var ofimport = importline[0] + " " + importline[1];
+      			} else {
+										console.log("HERE?");
+        						var ofimport = importline[0];
+     							 }
+					}
+				
+				
+				} else {
+				ofimport = ofimport;
+				}
+}
+*/
+    console.log("!--");
+		console.log(snippd);
+	//	console.log(snippd.length);
+		//console.log(importline);
+		//console.log(lastline);
+		console.log('..'+ofimport+'..');
+    console.log("--!");
+
+
+		/*
+console.log('importy');
+console.log(importline);
+    if (importline.length > 2) {
+      if (importline[importline.length - 1] == "") {
+        var ofimport = importline[importline.length - 3] + " " + importline[importline.length - 2];
+      } else {
+        var ofimport = importline[importline.length - 2] + " " + importline[importline.length - 1];
+      }
+    } else {
+    }
+    if (ofimport.split(/[ ]+/).length == 1 && snippd.length > 1) {
+      ofimport = lastline[lastline.length - 1] + "\n " + ofimport;
+    }
+    if (ofimport == "") {
+      ofimport = " ";
+    }
+
+
+    //var bulkdsplit = ofimport.split(" ")[1];
+    */
+    var bulkdsplit=ofimport;
+    var bulkd = thisbox.value.split(bulkdsplit); //array of entire work surrounding important bit
+		break;
+
+
+  default:
+    {
+      if (curspos - longestsplit < 0) { // snippd is a piece of the box's value, if that snippet is close to the beginning
+        var snippd = (thisbox.value.substring(0, curspos + longestsplit)); // snippet to limit text iterated over
+        var ofimportunnec = '';
+      } else {
+        if (curspos + longestsplit > thisbox.value.length) { // if snippet is close to the end
+          var snippd = (thisbox.value.substring(curspos - longestsplit, thisbox.value.length)); // snippet to limit text iterated over
+        }
+        if (!snippd) { // if still yet to have been assigned, then assign it
+          var snippd = (thisbox.value.substring(curspos - longestsplit, curspos + longestsplit)); // snippet to limit text iterated over
+        }
+        //since the snip is character based we have to remove first match 
+        //to avoid false positives like a substr knot on k(not ..)
+        var ofimportunnec = snippd.substring(0, snippd.length - snippd.replace(new RegExp('(^|[a-z])*' + revflag, 'i'), '').length);
+      }
+
+      if (ofimportunnec.length == snippd.length || snippd.length == thisbox.value.length || snippd.length == longestsplit + ofimportunnec.length) {
+        // this protects from the potential for the box's initial input being one of the forbidden expressions
+        var ofimport = snippd;
+      } else {
+        var ofimport = snippd.substring(ofimportunnec.length, snippd.length);
+      }
+      var bulkd = thisbox.value.split(ofimport); //array of entire work surrounding important bit
+    }//default
+  } //switch
+
+	manipulated.curspos = curspos;
+  manipulated.ofimport = ofimport;
+  manipulated.bulkd = bulkd;
   return manipulated;
 }
 
@@ -1083,62 +1104,68 @@ console.log(ofimport);
 //also added to addele and remele for dynamic update
 //on boxd.js put this in .on('click',textarea to pull rules for that box from datastore
 
-function movecursorandscroll(thisbox,manipulated){
-			var curspos = manipulated.curspos
-		  var cursdisp = manipulated.cursdisp
-			var scrollpos = manipulated.scrollpos
-			if ( manipulated.curspos > 0 && manipulated.cursdisp ) 
-			{
-          curspos = curspos + cursdisp; // cursdisp is greater than zero if a replace or ommission occurred
-          thisbox.setSelectionRange(curspos, curspos); //due the replace the cursor position is lost, and so we reset it here
-          thisbox.scrollTop = scrollpos; //due the replace the scroll position is lost, and so we reset it here
-			}
+function movecursorandscroll(thisbox, manipulated) {
+  var curspos = manipulated.curspos
+  var cursdisp = manipulated.cursdisp
+  var scrollpos = manipulated.scrollpos
+  if (manipulated.curspos > 0 && manipulated.cursdisp) {
+    curspos = curspos + cursdisp; // cursdisp is greater than zero if a replace or ommission occurred
+    thisbox.setSelectionRange(curspos, curspos); //due the replace the cursor position is lost, and so we reset it here
+    thisbox.scrollTop = scrollpos; //due the replace the scroll position is lost, and so we reset it here
+  }
 }
 
 
-function checkrule(thisbox,thisrule,manipulated){
-          var thisruletitle = thisrule.real.title.replace(/\s+/g, ''); //retrieve title, remove human readable spacing
-          // takes the rule title and sees if there is a rule function for it
-					if (typeof window[thisruletitle] == 'function') {
-					 //performs rule on input value, returns new value and displacement of cursor for new value
-           var newmanip = window[thisruletitle](thisrule, manipulated, thisbox); //adds cursdisp, scrollpos to manipulated obj
-          } else {
-            console.log("unknown rule... " + thisruletitle);
-          }
-					return newmanip;
+function checkrule(thisbox, thisrule, manipulated) {
+  var thisruletitle = thisrule.real.title.replace(/\s+/g, ''); //retrieve title, remove human readable spacing
+  // takes the rule title and sees if there is a rule function for it
+  if (typeof window[thisruletitle] == 'function') {
+    //performs rule on input value, returns new value and displacement of cursor for new value
+    var newmanip = window[thisruletitle](thisrule, manipulated, thisbox); //adds cursdisp, scrollpos to manipulated obj
+  } else {
+    console.log("unknown rule... " + thisruletitle);
+  }
+  return newmanip;
 }
 
-function newtext(thisbox,ofimport,bulkd,curspos) {
-            thisbox.value = bulkd[0] + ofimport + bulkd[1];
-            if (bulkd.length > 2) {
-              // this protects against repetitious text: if we split on ofimport and the string of importance appears more than once, 
-              // then there will be more than two values for the boxd array, otherwise overlook...
-              for (var i = 2; i < bulkd.length; i++) {
-                thisbox.value = thisbox.value + ofimport + bulkd[i];
-              }
-            }
+function newtext(thisbox, ofimport, bulkd, curspos) {
+	console.log('thisy');
+	console.log(thisbox.value);
+	console.log(ofimport);
+	console.log(bulkd);
+	if (bulkd[0] == "" || bulkd[1] == "" ){
+
+	if (bulkd[0] == "") {
+  thisbox.value = ofimport + bulkd[1];
+	}
+	if (bulkd[1] == "") {
+  thisbox.value = bulkd[0] + ofimport;
+	}
+	if (bulkd[0] == "" && bulkd[1] == "") {
+  thisbox.value = ofimport;
+	}
+	}else {
+					console.log("stillhere")
+  thisbox.value = bulkd[0] + ofimport + bulkd[1];
+	}
+	console.log('thissy');
+	console.log(thisbox.value);
+  if (bulkd.length > 2) {
+    // this protects against repetitious text: if we split on ofimport and the string of importance appears more than once, 
+    // then there will be more than two values for the boxd array, otherwise overlook...
+    for (var i = 2; i < bulkd.length; i++) {
+						if (bulkd[i] == ""){
+										console.log(thisbox.value);
+      thisbox.value = thisbox.value + ofimport;
+					console.log("llhere")
+						
+						}else{
+      thisbox.value = thisbox.value + ofimport + bulkd[i];
+					console.log("stire")
+						}
+    }
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1177,9 +1204,7 @@ function placent(thisbox) { // uses[ DOM, jQ{ #foryou.scrolld.animate } ]
   var centdiff = totwin / 2 - postop;
   var scrollspot = innerscrollhidejQ.scrollTop();
   var themove = scrollspot - centdiff;
-  innerscrollhidejQ.animate({
-    scrollTop: themove
-  }, 700);
+  innerscrollhidejQ.animate({scrollTop: themove}, 700);
 } // place this in center of window
 
 
@@ -1201,7 +1226,7 @@ function stord() { //uses[ jQ{ pstord.text ; ptona.text } ]
 function thesets() { //uses[ boxheight(), shrunkheight(), jQ{ p.text } ]
   boxdheight();
   shrunkdheight();
-  $('p.dyhei').text('hei : ' + boxheight+"px");
+  $('p.dyhei').text('hei : ' + boxheight + "px");
 } // thesets(), sets textarea dimensions
 
 function fading(el) {
@@ -1354,5 +1379,5 @@ function interpret() { //uses sani(),trim(),implementation(),recognise()
 
   // ! @ # $ % ^ & * ( ) _ + = - [ ] { } : ?
 
- //interpret()
+  //interpret()
 }
