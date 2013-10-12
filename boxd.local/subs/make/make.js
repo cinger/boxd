@@ -695,19 +695,31 @@ function shrunkdheight() {
 //
 //
 //
+
 function repositioning(thisbox, manipulated, change) {
-		if (manipulated.ofimport === undefined ){
-						return manipulated;
-		} else {
-		var scrollpos = thisbox.scrollTop; //logs the current position of the scrollbar	
+  if (manipulated.ofimport === undefined) {
+    return manipulated;
+  } else {
+    manipulated.afterchange = manipulated.bulkdsplit.substring(0, manipulated.bulkdsplit.length - manipulated.orofimport.length);
+    /*console.log("repositioning==");
+		console.log(manipulated.bulkdsplit);
+		console.log(manipulated.bulkdsplit.length);
+		console.log(manipulated.orofimport.length);
+		console.log(manipulated.orofimport);
+    console.log(manipulated.afterchange);
+		console.log(manipulated.ofimport);
+		console.log(manipulated.orofimport);
+		console.log(change);
+		console.log("==repositioning");*/
+    var scrollpos = thisbox.scrollTop; //logs the current position of the scrollbar	
     var olelen = manipulated.ofimport.length;
     manipulated.ofimport = change;
     var newlen = manipulated.ofimport.length;
     cursdisp = newlen - olelen;
     manipulated.cursdisp = cursdisp;
     manipulated.scrollpos = scrollpos;
-		return manipulated;
-		}
+    return manipulated;
+  }
 }
 
 
@@ -717,11 +729,10 @@ function stringreplace(thisrule, manipulated, thisbox) {
   var rgxop = thisrule.real.rgxop;
   var rgxen = thisrule.real.rgxen;
   var rgxmd = thisrule.real.rgxmd;
-  //which is better? specifying ofimport=manipulator.ofimport, or just calling manipulator.ofimport each time?
   if (new RegExp(rgxop + strar + rgxen, rgxmd).test(manipulated.ofimport)) {
     var change = manipulated.ofimport.replace(new RegExp(rgxop + strar + rgxen, rgxmd), repld);
     manipulated = repositioning(thisbox, manipulated, change);
-	}
+  }
   return manipulated;
 } // stringreplace(), remove string dependant on what comes before and after
 
@@ -756,107 +767,100 @@ function suffix(thisrule, manipulated, thisbox) {
 } // suffix(), remove suffix from word
 
 function calculate(thisrule, manipulated, thisbox) {
+	manipulated.orofimport=manipulated.orofimport+"\n";
   var frstchar = manipulated.ofimport.substring(0, 1); //using substring stead charAt in case i change format
   var lastchar = manipulated.ofimport.substring(manipulated.ofimport.length - 1);
   if (frstchar == "(" && lastchar == ")") {
     var toeval = manipulated.ofimport.substring(1, manipulated.ofimport.length - 1);
     var evald = math.eval(toeval);
     var change = manipulated.ofimport + "\r=== " + evald;
-    manipulated = repositioning(thisbox, manipulated, change);
     //replace old answer if one exists
-    var bulknext = manipulated.bulkd[1].split("\n")[2];
+    var bulknext = manipulated.bulkd[1];
     if (bulknext) {
-      if (bulknext.substring(0, 4) == "=== ") {
-        var newbulk = manipulated.bulkd[1].split("\n\n" + bulknext)[1];
-        manipulated.bulkd[1] = newbulk;
+      if (bulknext.substring(0, 5) == "\n=== ") {
+				var shag=bulknext.split("\n");
+        manipulated.bulkd[1]=bulknext.substring(shag[1].length+1,bulknext.length);
       }
     }
-  }
+  } else {
+					var change = manipulated.ofimport+"\n";
+		}
+		manipulated = repositioning(thisbox, manipulated, change);
   return manipulated;
 }
 
 function pattern(thisrule, manipulated, thisbox) {
-//bug... if you type faster than the autocorrect, easy to do, it fucks with the bulkding
-//..replaces characters mid word from previous words and lines
-//..to fix? unsure as of yet
-//..moving on to creating more rules, the effort to do so has been difficult and painful
-  var impsplit = manipulated.ofimport.split(" ");
-	if ( impsplit[1] == "" ) {
-		return manipulated; 
-	} //else {
-	
-	manipulated.ofimport = impsplit[1];
-	//var extent = "full";
-	console.log("HEHEHEHEHEHEHEE");
-  console.log(impsplit);
-	var extent = "break";
-  var extentflag = 17;
-	
-	/*
-  if (impsplit.length > 1) {
-    if (extent == "break") {
-      if (impsplit[0].charAt(impsplit[0].length - 1) == "\n") {
-        extentflag = 0;
-        var ofimport = impsplit[1];
-      }
-    }
-    if (extentflag == 17) {
-      var firstcharfirstsplit = impsplit[0].charAt(0);
-      var firstcharnextdsplit = impsplit[1].charAt(0);
-      if (firstcharfirstsplit == firstcharnextdsplit) {
-        var ofimport = impsplit[1];
+
+  var pattlen = 1;
+  if (manipulated.backcheck) {
+  if (manipulated.backcheck.length > thisrule.real.backnum) {
+  if (thisrule.real.backnum > 1) {
+    var midstring = manipulated.orofimport.substring(manipulated.ofimport[0].length, manipulated.orofimport.length - manipulated.ofimport[1].length)
+  } else {
+    var midstring = "";
+  }
+    if (manipulated.ofimport[1].length > pattlen) {
+      if (manipulated.ofimport[0].substring(0, pattlen) == manipulated.ofimport[1].substring(0, pattlen)) {
+        var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[1];
       } else {
-        var ofimport = firstcharfirstsplit;
-        if (manipulated.bulkd[manipulated.bulkd.length - 1] == " ") {
-          manipulated.bulkd[manipulated.bulkd.length - 1] = "";
-        }
+        var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[0].substring(0,pattlen);
+      }
+    } else {
+      var startpatt = manipulated.ofimport[0].substring(0, manipulated.ofimport[1].length);
+      if (startpatt == manipulated.ofimport[1]) {
+        var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[1]
+      } else {
+        var change = manipulated.ofimport[0] + midstring;
       }
     }
   } else {
-    var ofimport = " ";
-    manipulated.bulkd.push("");
+    var change = manipulated.ofimport.join("");
   }
-  var change = ofimport;
-	}
-	console.log(change);
-	console.log(manipulated);*/
+
+
   manipulated = repositioning(thisbox, manipulated, change);
-  return manipulated;
+	return manipulated;
+	} else { // if the user attempts to start with punctuation
+	manipulated.ofimport= thisbox.value;
+	manipulated.orofimport= thisbox.value;
+	var change = "";
+  manipulated = repositioning(thisbox, manipulated, change);
+
+	return manipulated;
+	}
 }
 
 
 
 
-
-
-function syllable(thisrule,manipulated,thisbox) {
+function syllable(thisrule, manipulated, thisbox) {
   var word = thisbox.value.toLowerCase();
   if (word.length <= 3) {
     return 1;
   }
   word = word.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
   word = word.replace(/^y/, '');
-  syllables=word.match(/[aeiouy]{1,2}/g).length;
-	console.log(syllables);
-  
-//	still fucked
-	var wordhyph = thisbox.value.toLowerCase();
-  console.log(hyphenateWord("en",wordhyph));
-	return manipulated;
-}//syllable anylisis 
+  syllables = word.match(/[aeiouy]{1,2}/g).length;
+  console.log(syllables);
+
+  //	still fucked
+  var wordhyph = thisbox.value.toLowerCase();
+  console.log(hyphenateWord("en", wordhyph));
+  return manipulated;
+} //syllable anylisis 
 
 
-function reformat (thisrule,manipulated,thisbox) {
+function reformat(thisrule, manipulated, thisbox) {
 
 
-return manipulated;
+  return manipulated;
 } // reformat(), changes based on predetermined inputs
 
 
-function format (thisrule, manipulated,thisbox) {
+function format(thisrule, manipulated, thisbox) {
 
-				
-return manipulated;
+
+  return manipulated;
 } // format(), changes based on predetermined sets
 
 
@@ -883,7 +887,6 @@ function temp(thisbox, pushd) {
     if (thisrule) {
       thisrule = getdefaults(thisrule);
       var revflag = thisrule.real.rvflg;
-      console.log(revflag);
       testkeypress(thisbox, thisrule, pushd, revflag);
     }
   }); // $.each(
@@ -899,6 +902,8 @@ function getdefaults(thisrule) {
   case "pattern":
     thisrule.real.rvflg = "\\W";
     thisrule.real.lngsp = "backword";
+    thisrule.real.extnt = "full";
+    thisrule.real.backnum = 1;
   default: // in case flex defaults were forgotten
     if (thisrule.real.rvflg == "")
       thisrule.real.rvflg = "\\W";
@@ -919,27 +924,26 @@ function testkeypress(thisbox, thisrule, pushd, revflag) {
     //returns new values into manipulated .ofimport and .cursdisp if rule is found
     manipulated = checkrule(thisbox, thisrule, manipulated);
 
-    // call back out any changes in the manipulated object 
-    // to avoid runing through the object each time these variables are used
-    // removed this var VAR = mani.VAR due V8's hidden class, show support and hope other engines follow suit
     if (manipulated.bulkd && manipulated.curspos > 0) { // post any changes to box
-      newtext(thisbox, manipulated.ofimport, manipulated.bulkd, manipulated.curspos);
+      newtext(thisbox, manipulated);
     } // if bulkd && curspos > 0
+
     movecursorandscroll(thisbox, manipulated);
   } // if RegExp .test(pushd)
 }
 
 function lastundi(arr) {
-				if (arr[arr.length-1] == "" ){
-					arr.pop();
-				}
-return arr;
+  if (arr[arr.length - 1] == "") {
+    arr.pop();
+  }
+  return arr;
 }
 
 function texttoman(thisbox, thisrule, manipulated, curspos, revflag) {
+  var bulkdsplit = thisbox.value.substring(0, curspos)
   var longestsplit = thisrule.real.lngsp;
   if (curspos > 0) {
-    var lastchar = thisbox.value.charAt(curspos - 1); // most recent character typed
+    var lastchar = thisbox.value.match(new RegExp("(\W*$)", "g")); // most recent character typed
   } else {
     var lastchar = '';
   }
@@ -947,127 +951,43 @@ function texttoman(thisbox, thisrule, manipulated, curspos, revflag) {
   case "line":
     var snippd = thisbox.value.substring(0, curspos).split("\n");
     var ofimport = snippd[snippd.length - 2]; //last element is always undefined [ ... , "" ] because the review  flag is \r
-    var bulkdsplit = ofimport;
-    var bulkd = thisbox.value.split(bulkdsplit); //array of entire work surrounding important bit
+    var orofimport = ofimport;
+    //var bulkdsplit = ofimport;
+    //var bulkd = thisbox.value.split(bulkdsplit); //array of entire work surrounding important bit
     break;
   case "backword":
     //could add a descision on how many back words, every 2 words, or 3, or n... perhaps first words leading the value of n set the alliteration pattern to follow
-		var backnum = 2;
-		var backcheck = thisbox.value.substring(0,curspos).replace(/\n/g," ")
-		backcheck=backcheck.split(/[ ]+/g); //split on space, one or more
-		if (backcheck[backcheck.length-1] == ""){
-			backcheck.pop(); //remove last element [ ... ,""]
-			}
-		if (backcheck.length <= backnum ) {
-		  ofimport = thisbox.value;	//too few words just send what's there
-		} else {
-			var snippd = thisbox.value.substring(curspos - 160, curspos).split(new RegExp("\n+", "gi")); //accounts for multiple spaces between lines ###err illegal character
-			snippd=lastundi(snippd);	
-    	var ofimportline = snippd[snippd.length-1].split(/[ ]+/g); //split on space, one or more
-		  ofimportline = lastundi(ofimportline);
-			if ( ofimportline.length <= backnum) { // if backnum = 1 and len = 1
-				if ( snippd.length > 1) {
-								var lastline=lastundi(snippd[snippd.length-2].split(/[ ]+/g));
-								if ( lastline.length > backnum ) {
-												var backword = lastline[lastline.length-(backnum-(ofimportline.length-1))];
-										    var ofimport = backword+" "+ofimportline[ofimportline.length-1];
-								} else {
-										var backword = backcheck[backcheck.length-backnum-1];
-										var ofimport = backword+" "+ofimportline[ofimportline.length-1];
-								}
-					}
-			} else {
-      	var ofimport = ofimportline[ofimportline.length-(backnum+1)]+" "+ofimportline[ofimportline.length-1];
-			}
-		}
-
-
-		//console.log(ofimport);
-	/*	
-    if (snippd.length > 1) {
-
-      if (snippd[snippd.length - 1] == "") {
-        //var importline = snippd[snippd.length-2].split(" ");
-        var importline = snippd[snippd.length-2].split(/[ ]+/);
-        if (snippd.length > 2) {
-          //var lastline = snippd[snippd.length-3].split(" ");
-          var lastline = snippd[snippd.length-3].split(/[ ]+/);
-        } else {
-          var lastline = " ";
-        }
-      } else {
-        //var importline = snippd[snippd.length-1].split(" ");
-        var importline = snippd[snippd.length-1].split(/[ ]+/);
-       	//var lastline = snippd[snippd.length-2].split(" ");
-       	var lastline = snippd[snippd.length-2].split(/[ ]+/);
+    var backnum = thisrule.real.backnum;
+    var longestsnip = backnum * 80; // 80 character word limit seems appropriate
+    var backcheck = bulkdsplit.match(/(\w+)(\W+)/gi);
+    var orofimport = "";
+		manipulated.backcheck = backcheck;
+    if (backcheck && backcheck.length > backnum) {
+      var first = backcheck[backcheck.length - (backnum + 1)];
+      var second = backcheck[backcheck.length - 1];
+			console.log("first:" + first + "..second:" + second);
+      var fstspot = backcheck.length - (backnum + 1);
+      while (fstspot < backcheck.length) {
+        orofimport = orofimport + backcheck[fstspot]
+        fstspot = fstspot + 1
       }
-
+      ofimport = [backcheck[backcheck.length - (backnum + 1)], backcheck[backcheck.length - 1]];
     } else {
-      //var importline = snippd[0].split(" ");
-      var importline = snippd[0].split(/[ ]+/);
-      var lastline = " ";
-    }
-
-if (snippd.length > 1 ){
-//lastlinechecks
-var x=1;
-} else {
-				if (importline.length > backnum) 
-				{
-
-					if ( importline.length > 1) {
-						if (importline[importline.length - 1] == "") {
-							console.log("HERE?");
-        			var ofimport = importline[0] + " " + importline[1];
-      			} else {
-										console.log("HERE?");
-        						var ofimport = importline[0];
-     							 }
-					}
-				
-				
-				} else {
-				ofimport = ofimport;
-				}
-}
-*/
-    console.log("!--");
-		console.log(snippd);
-	//	console.log(snippd.length);
-		//console.log(importline);
-		//console.log(lastline);
-		console.log('..'+ofimport+'..');
-    console.log("--!");
-
-
-		/*
-console.log('importy');
-console.log(importline);
-    if (importline.length > 2) {
-      if (importline[importline.length - 1] == "") {
-        var ofimport = importline[importline.length - 3] + " " + importline[importline.length - 2];
-      } else {
-        var ofimport = importline[importline.length - 2] + " " + importline[importline.length - 1];
+			if (backcheck ){
+      ofimport = backcheck;
+      var fstspot = 0;
+      while (fstspot < backcheck.length) {
+        orofimport = orofimport + backcheck[fstspot]
+        fstspot = fstspot + 1
       }
-    } else {
+			}
     }
-    if (ofimport.split(/[ ]+/).length == 1 && snippd.length > 1) {
-      ofimport = lastline[lastline.length - 1] + "\n " + ofimport;
-    }
-    if (ofimport == "") {
-      ofimport = " ";
-    }
-
-
-    //var bulkdsplit = ofimport.split(" ")[1];
-    */
-    var bulkdsplit=ofimport;
-    var bulkd = thisbox.value.split(bulkdsplit); //array of entire work surrounding important bit
-		break;
+    break;
 
 
   default:
     {
+						/*
       if (curspos - longestsplit < 0) { // snippd is a piece of the box's value, if that snippet is close to the beginning
         var snippd = (thisbox.value.substring(0, curspos + longestsplit)); // snippet to limit text iterated over
         var ofimportunnec = '';
@@ -1086,16 +1006,25 @@ console.log(importline);
       if (ofimportunnec.length == snippd.length || snippd.length == thisbox.value.length || snippd.length == longestsplit + ofimportunnec.length) {
         // this protects from the potential for the box's initial input being one of the forbidden expressions
         var ofimport = snippd;
+        var orofimport = ofimport;
       } else {
         var ofimport = snippd.substring(ofimportunnec.length, snippd.length);
+        var orofimport = ofimport;
       }
-      var bulkd = thisbox.value.split(ofimport); //array of entire work surrounding important bit
-    }//default
+			*/
+        var ofimport = bulkdsplit.substring(bulkdsplit.length-80, bulkdsplit.length);
+        var orofimport = ofimport;
+
+      //var bulkd = thisbox.value.split(ofimport); //array of entire work surrounding important bit
+    } //default
   } //switch
 
-	manipulated.curspos = curspos;
-  manipulated.ofimport = ofimport;
-  manipulated.bulkd = bulkd;
+  manipulated.curspos = curspos;
+  manipulated.bulkdsplit = bulkdsplit;
+  manipulated.bulkd = thisbox.value.split(bulkdsplit); //array of entire work surrounding important bit
+  manipulated.ofimport = ofimport; // important string
+  manipulated.orofimport = orofimport; // original important string
+
   return manipulated;
 }
 
@@ -1128,43 +1057,26 @@ function checkrule(thisbox, thisrule, manipulated) {
   return newmanip;
 }
 
-function newtext(thisbox, ofimport, bulkd, curspos) {
-	console.log('thisy');
-	console.log(thisbox.value);
-	console.log(ofimport);
-	console.log(bulkd);
-	if (bulkd[0] == "" || bulkd[1] == "" ){
-
-	if (bulkd[0] == "") {
-  thisbox.value = ofimport + bulkd[1];
-	}
-	if (bulkd[1] == "") {
-  thisbox.value = bulkd[0] + ofimport;
-	}
-	if (bulkd[0] == "" && bulkd[1] == "") {
-  thisbox.value = ofimport;
-	}
-	}else {
-					console.log("stillhere")
-  thisbox.value = bulkd[0] + ofimport + bulkd[1];
-	}
-	console.log('thissy');
-	console.log(thisbox.value);
-  if (bulkd.length > 2) {
-    // this protects against repetitious text: if we split on ofimport and the string of importance appears more than once, 
-    // then there will be more than two values for the boxd array, otherwise overlook...
-    for (var i = 2; i < bulkd.length; i++) {
-						if (bulkd[i] == ""){
-										console.log(thisbox.value);
-      thisbox.value = thisbox.value + ofimport;
-					console.log("llhere")
-						
-						}else{
-      thisbox.value = thisbox.value + ofimport + bulkd[i];
-					console.log("stire")
-						}
+function newtext(thisbox, manipulated) {
+  /*
+	console.log("NEWTEXT==");
+	console.log(manipulated.afterchange);
+	console.log(manipulated.orofimport);
+	console.log(manipulated.ofimport);
+	console.log(manipulated.bulkd);
+	console.log("==NEWTEXT");
+	*/
+	if ( manipulated.orofimport != manipulated.ofimport ) {
+  var newtext = manipulated.afterchange + manipulated.ofimport;
+  for (var i = 1; i < manipulated.bulkd.length; i++) {
+    if (manipulated.bulkd[i] != "") {
+      newtext = newtext + manipulated.bulkd[i];
     }
   }
+  thisbox.value = newtext;
+	} else {
+					thisbox.value=thisbox.value;
+	}
 }
 
 
@@ -1204,7 +1116,9 @@ function placent(thisbox) { // uses[ DOM, jQ{ #foryou.scrolld.animate } ]
   var centdiff = totwin / 2 - postop;
   var scrollspot = innerscrollhidejQ.scrollTop();
   var themove = scrollspot - centdiff;
-  innerscrollhidejQ.animate({scrollTop: themove}, 700);
+  innerscrollhidejQ.animate({
+    scrollTop: themove
+  }, 700);
 } // place this in center of window
 
 
