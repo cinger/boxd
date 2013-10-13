@@ -701,7 +701,7 @@ function repositioning(thisbox, manipulated, change) {
     return manipulated;
   } else {
     manipulated.afterchange = manipulated.bulkdsplit.substring(0, manipulated.bulkdsplit.length - manipulated.orofimport.length);
-    /*console.log("repositioning==");
+    console.log("repositioning==");
 		console.log(manipulated.bulkdsplit);
 		console.log(manipulated.bulkdsplit.length);
 		console.log(manipulated.orofimport.length);
@@ -710,12 +710,13 @@ function repositioning(thisbox, manipulated, change) {
 		console.log(manipulated.ofimport);
 		console.log(manipulated.orofimport);
 		console.log(change);
-		console.log("==repositioning");*/
+		console.log("==repositioning");
     var scrollpos = thisbox.scrollTop; //logs the current position of the scrollbar	
-    var olelen = manipulated.ofimport.length;
+    var olelen = manipulated.orofimport.length;
     manipulated.ofimport = change;
     var newlen = manipulated.ofimport.length;
     cursdisp = newlen - olelen;
+		console.log(newlen+".."+olelen);
     manipulated.cursdisp = cursdisp;
     manipulated.scrollpos = scrollpos;
     return manipulated;
@@ -791,7 +792,7 @@ function calculate(thisrule, manipulated, thisbox) {
 
 function pattern(thisrule, manipulated, thisbox) {
 
-  var pattlen = 1;
+  var pattlen = thisrule.real.pattlen;
   if (manipulated.backcheck) {
   if (manipulated.backcheck.length > thisrule.real.backnum) {
   if (thisrule.real.backnum > 1) {
@@ -904,6 +905,7 @@ function getdefaults(thisrule) {
     thisrule.real.lngsp = "backword";
     thisrule.real.extnt = "full";
     thisrule.real.backnum = 1;
+		thisrule.real.pattlen = 3;
   default: // in case flex defaults were forgotten
     if (thisrule.real.rvflg == "")
       thisrule.real.rvflg = "\\W";
@@ -984,38 +986,10 @@ function texttoman(thisbox, thisrule, manipulated, curspos, revflag) {
     }
     break;
 
-
   default:
     {
-						/*
-      if (curspos - longestsplit < 0) { // snippd is a piece of the box's value, if that snippet is close to the beginning
-        var snippd = (thisbox.value.substring(0, curspos + longestsplit)); // snippet to limit text iterated over
-        var ofimportunnec = '';
-      } else {
-        if (curspos + longestsplit > thisbox.value.length) { // if snippet is close to the end
-          var snippd = (thisbox.value.substring(curspos - longestsplit, thisbox.value.length)); // snippet to limit text iterated over
-        }
-        if (!snippd) { // if still yet to have been assigned, then assign it
-          var snippd = (thisbox.value.substring(curspos - longestsplit, curspos + longestsplit)); // snippet to limit text iterated over
-        }
-        //since the snip is character based we have to remove first match 
-        //to avoid false positives like a substr knot on k(not ..)
-        var ofimportunnec = snippd.substring(0, snippd.length - snippd.replace(new RegExp('(^|[a-z])*' + revflag, 'i'), '').length);
-      }
-
-      if (ofimportunnec.length == snippd.length || snippd.length == thisbox.value.length || snippd.length == longestsplit + ofimportunnec.length) {
-        // this protects from the potential for the box's initial input being one of the forbidden expressions
-        var ofimport = snippd;
-        var orofimport = ofimport;
-      } else {
-        var ofimport = snippd.substring(ofimportunnec.length, snippd.length);
-        var orofimport = ofimport;
-      }
-			*/
         var ofimport = bulkdsplit.substring(bulkdsplit.length-80, bulkdsplit.length);
         var orofimport = ofimport;
-
-      //var bulkd = thisbox.value.split(ofimport); //array of entire work surrounding important bit
     } //default
   } //switch
 
