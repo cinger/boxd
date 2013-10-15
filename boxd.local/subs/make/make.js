@@ -104,8 +104,8 @@ var boxfoc = "";
 var rulefoc = '';
 var game = "";
 var vald = 17; //used to nullify consecutive clicks on an already focused textbox,17 or undf
-var deftextquickset = document.getElementById('textdef');
-deftextquickset.style.height = ruleinputboxheight + 'px';
+//var deftextquickset = document.getElementById('textdef');
+//deftextquickset.style.height = ruleinputboxheight + 'px';
 var helpbox = document.getElementById('helper');
 var helpboxprompt = "click the red bar to show or hide this box<br /> click the blue bar,furthest left, to add rules to the game<br /> click the orange box, second from left, to save game to your games list<br />click the green bar, third from left, to publish the game to the public<br /> click the purple box, farthest right, to show the JSON for your game's ruleset"
 helpbox.innerHTML = helpboxprompt;
@@ -280,7 +280,13 @@ function fleshrule(thisbox) {
   dataobj.temp.rules[thisbox.id].real.repld = "";
   dataobj.temp.rules[thisbox.id].real.lngsp = "";
   dataobj.temp.rules[thisbox.id].real.rvflg = "";
-  // must declare empty values to ensure they exist, even if rule neglects them
+	dataobj.temp.rules[thisbox.id].real.dspsn = ""; 
+  dataobj.temp.rules[thisbox.id].real.extnt = "";
+	dataobj.temp.rules[thisbox.id].real.brkpt = "";
+  dataobj.temp.rules[thisbox.id].real.bcknm = "";
+	dataobj.temp.rules[thisbox.id].real.patln = "";
+	dataobj.temp.rules[thisbox.id].real.patou = "";
+  // must declare empty values to ensure they exist, even if rule neglects them, will delete when checking for defaults in getdefaults() function
 
   var optsnum = opts.length; //number of options
   var bildstring = ""; //the string used to build the real rule
@@ -392,7 +398,7 @@ $("#showhidedef").on('click', function () {
 $("#showhidehelp").on('click', function () {
   var state = ($("#help").css("visibility")); // determines the toggling effect
   var stateoth = ($("#def").css("visibility")); // determines the toggling effect
-
+/*
   if (stateoth == "hidden") {
     if (state == "hidden") { // if already hidden then show
       $(".innerscrollhide").css("height", "67%");
@@ -406,21 +412,21 @@ $("#showhidehelp").on('click', function () {
       $(".innerscrollhide").css("height", "94%");
       //$(".innerscrollhide").css("height","97%");		  
     }
-  } else {
+  } else {*/
     if (state == "hidden") { // if already hidden then show
-      $(".innerscrollhide").css("height", "40%");
+      $(".innerscrollhide").css("height", "60%");
       $("#help").css("visibility", "visible");
-      $("#help").css("height", "27%");
+      $("#help").css("height", "37%");
       $("#helper").css("padding", "0");
       $("#helper").css("margin", "0");
     } else { // if shown then hide
       $("#help").css("visibility", "hidden");
       $("#help").css("height", "0%");
-      $(".innerscrollhide").css("height", "67%");
-      //$(".innerscrollhide").css("height","97%");		  
+      //$(".innerscrollhide").css("height", "67%");
+      $(".innerscrollhide").css("height","97%");		  
     }
 
-  }
+  //}
 });
 
 function displayhelper(thisbox) {
@@ -701,7 +707,7 @@ function repositioning(thisbox, manipulated, change) {
     return manipulated;
   } else {
     manipulated.afterchange = manipulated.bulkdsplit.substring(0, manipulated.bulkdsplit.length - manipulated.orofimport.length);
-    console.log("repositioning==");
+    /*console.log("repositioning==");
 		console.log(manipulated.bulkdsplit);
 		console.log(manipulated.bulkdsplit.length);
 		console.log(manipulated.orofimport.length);
@@ -710,13 +716,12 @@ function repositioning(thisbox, manipulated, change) {
 		console.log(manipulated.ofimport);
 		console.log(manipulated.orofimport);
 		console.log(change);
-		console.log("==repositioning");
+		console.log("==repositioning");*/
     var scrollpos = thisbox.scrollTop; //logs the current position of the scrollbar	
     var olelen = manipulated.orofimport.length;
     manipulated.ofimport = change;
     var newlen = manipulated.ofimport.length;
-    cursdisp = newlen - olelen;
-		console.log(newlen+".."+olelen);
+    cursdisp = manipulated.cursdisp + newlen - olelen;
     manipulated.cursdisp = cursdisp;
     manipulated.scrollpos = scrollpos;
     return manipulated;
@@ -791,21 +796,49 @@ function calculate(thisrule, manipulated, thisbox) {
 }
 
 function pattern(thisrule, manipulated, thisbox) {
-
-  var pattlen = thisrule.real.pattlen;
+  var pattype = thisrule.real.patou;
+  var pattlen = thisrule.real.patln;
   if (manipulated.backcheck) {
-  if (manipulated.backcheck.length > thisrule.real.backnum) {
-  if (thisrule.real.backnum > 1) {
+  if (manipulated.backcheck.length > thisrule.real.bcknm) {
+  if (thisrule.real.bcknm > 1) {
     var midstring = manipulated.orofimport.substring(manipulated.ofimport[0].length, manipulated.orofimport.length - manipulated.ofimport[1].length)
   } else {
     var midstring = "";
   }
     if (manipulated.ofimport[1].length > pattlen) {
-      if (manipulated.ofimport[0].substring(0, pattlen) == manipulated.ofimport[1].substring(0, pattlen)) {
-        var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[1];
-      } else {
-        var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[0].substring(0,pattlen);
-      }
+      //if firstfirst
+			switch ( pattype) {
+				case "firstlast":
+			    if (manipulated.ofimport[0].substring(0, pattlen) == manipulated.ofimport[1].substring(manipulated.ofimport[1].length-1-pattlen, manipulated.ofimport[1].length-1)) {
+            var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[1];
+          } else {
+            var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[0].substring(0, pattlen);
+						manipulated.cursdisp = manipulated.cursdisp-pattlen;
+          }
+				break;
+				case "lastfirst":
+			    if ( manipulated.ofimport[0].substring(manipulated.ofimport[0].length-1-pattlen, manipulated.ofimport[0].length-1) == manipulated.ofimport[1].substring(0, pattlen)) {
+            var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[1];
+          } else {
+            var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[0].substring(manipulated.ofimport[0].length-1-pattlen,manipulated.ofimport[0].length-1);
+          }
+				break;
+				case "lastlast":
+			    if ( manipulated.ofimport[0].substring(manipulated.ofimport[0].length-1-pattlen, manipulated.ofimport[0].length-1) == manipulated.ofimport[1].substring(manipulated.ofimport[1].length-1-pattlen, manipulated.ofimport[1].length-1)) {
+            var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[1];
+          } else {
+            var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[0].substring(manipulated.ofimport[0].length-1-pattlen,manipulated.ofimport[0].length-1);
+						manipulated.cursdisp = manipulated.cursdisp-pattlen;
+          }
+				break;
+			  default: { //firstfirst
+			    if (manipulated.ofimport[0].substring(0, pattlen) == manipulated.ofimport[1].substring(0, pattlen)) {
+            var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[1];
+          } else {
+            var change = manipulated.ofimport[0] + midstring + manipulated.ofimport[0].substring(0,pattlen);
+          }
+			} //default
+			} //switch ( patttype )
     } else {
       var startpatt = manipulated.ofimport[0].substring(0, manipulated.ofimport[1].length);
       if (startpatt == manipulated.ofimport[1]) {
@@ -818,7 +851,6 @@ function pattern(thisrule, manipulated, thisbox) {
     var change = manipulated.ofimport.join("");
   }
 
-
   manipulated = repositioning(thisbox, manipulated, change);
 	return manipulated;
 	} else { // if the user attempts to start with punctuation
@@ -826,7 +858,6 @@ function pattern(thisrule, manipulated, thisbox) {
 	manipulated.orofimport= thisbox.value;
 	var change = "";
   manipulated = repositioning(thisbox, manipulated, change);
-
 	return manipulated;
 	}
 }
@@ -885,8 +916,8 @@ function temp(thisbox, pushd) {
   $.each(rules, function () {
     var rulenum = (this.id.substring(2)); //removes the li from the beginning of the id, from 'lirule#' to 'rule#'
     var thisrule = dataobj.temp.rules[rulenum];
-    if (thisrule) {
-      thisrule = getdefaults(thisrule);
+		thisrule = getdefaults(thisrule);
+		if (thisrule) {
       var revflag = thisrule.real.rvflg;
       testkeypress(thisbox, thisrule, pushd, revflag);
     }
@@ -897,21 +928,55 @@ function getdefaults(thisrule) {
   switch (thisrule.real.title) // in case of rules with mandatory defaults
   {
   case "calculate":
-    thisrule.real.rvflg = "\r";
-    thisrule.real.lngsp = "line";
+    thisrule.real.rvflg = "(\r)";  // review on newline, or carriage return
+    thisrule.real.lngsp = "line"; // calculate uses the line longest split
+		thisrule.real.dspsn = "new"; //new or inline, where to display the solution
     break;
   case "pattern":
-    thisrule.real.rvflg = "\\W";
-    thisrule.real.lngsp = "backword";
-    thisrule.real.extnt = "full";
-    thisrule.real.backnum = 1;
-		thisrule.real.pattlen = 3;
+    thisrule.real.rvflg = "(\\W+)";  // review on anti word pattern
+    thisrule.real.lngsp = "backword"; // patterns use the backword longest split
+    thisrule.real.extnt = "full"; // full or break, determining the extent to which the pattern should continue beyond a break point
+		thisrule.real.brkpt = "(\r|\.|,|!|?)"; // if extent is break, this is the breat point... default: newline, fullstop, comma, exclamation point, and question mark
+    thisrule.real.bcknm = 1; // number of words to check backwards
+		thisrule.real.patln = 1; // length of the pattern, corresponds to number of characters
+		thisrule.real.patou = "lastfirst"; // firstfirst or firstlast or lastfirst or lastlast, determining where, the french ou, to find the pattern
+		break;
   default: // in case flex defaults were forgotten
+		{
+for ( var ruleopt in thisrule.real){
+		switch ( ruleopt ) {
+				case "title":
+			  break;
+				case "strar":
+				break;
+        case "repld":
+				break;
+				//list to avoid default case
+				case "rvflg":
     if (thisrule.real.rvflg == "")
-      thisrule.real.rvflg = "\\W";
-    if (thisrule.real.lngsp == "")
-      thisrule.real.lngsp = "40";
-  }
+      thisrule.real.rvflg = "(\\W+)"; // review on anti word pattern
+				break;
+				case "lngsp":
+    if (thisrule.real.lngsp == "") 
+      thisrule.real.lngsp = "40";  // longest split is 40 characters
+				break;
+				case "rgxop":
+    if (thisrule.real.rgxop == "") 
+  thisrule.real.rgxop = "(\\b)"; // boundary preceding the desired string set
+				break;
+				case "rgxen":
+    if (thisrule.real.rgxen == "") 
+  thisrule.real.rgxen = "(?=\\W+)" // anti word pattern	
+				break;
+				case "rgxmd":
+    if (thisrule.real.rgxmd == "") 
+  thisrule.real.rgxmd = "gi";  // global and case insensitive
+				break;
+				default: { delete thisrule.real[ruleopt] }
+  }//switch (key)
+}//for key in rule
+  } //default
+}// switch (thisrule.title)
   return thisrule;
 }
 
@@ -919,8 +984,9 @@ function testkeypress(thisbox, thisrule, pushd, revflag) {
   // if the key pushed is of a character from the review flag, then perform the review
   if (new RegExp(revflag, 'i').test(pushd)) {
     var manipulated = {
-      'curspos': 0
-    };
+      'curspos': 0, 
+			'cursdisp' : 0
+    }  
     var getcurspos = (getcursor(thisbox));
     manipulated = texttoman(thisbox, thisrule, manipulated, getcurspos, revflag); //adds curspos, ofimport, bulkd to manipulated obj
     //returns new values into manipulated .ofimport and .cursdisp if rule is found
@@ -951,17 +1017,13 @@ function texttoman(thisbox, thisrule, manipulated, curspos, revflag) {
   }
   switch (longestsplit) {
   case "line":
-    var snippd = thisbox.value.substring(0, curspos).split("\n");
+    var snippd = thisbox.value.substring(0, curspos).split("\n");  // divides the textarea into an array, each element being a new line
     var ofimport = snippd[snippd.length - 2]; //last element is always undefined [ ... , "" ] because the review  flag is \r
     var orofimport = ofimport;
-    //var bulkdsplit = ofimport;
-    //var bulkd = thisbox.value.split(bulkdsplit); //array of entire work surrounding important bit
     break;
   case "backword":
-    //could add a descision on how many back words, every 2 words, or 3, or n... perhaps first words leading the value of n set the alliteration pattern to follow
-    var backnum = thisrule.real.backnum;
-    var longestsnip = backnum * 80; // 80 character word limit seems appropriate
-    var backcheck = bulkdsplit.match(/(\w+)(\W+)/gi);
+    var backnum = thisrule.real.bcknm;  // number determining how many words to check back for pattern
+    var backcheck = bulkdsplit.match(/(\w+)(\W+)/gi);  // divides text preceding the cursor into an array of words with trailing anti word patterns
     var orofimport = "";
 		manipulated.backcheck = backcheck;
     if (backcheck && backcheck.length > backnum) {

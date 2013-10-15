@@ -37,4 +37,7 @@ the (store) button stores the current contents of all boxes to your browser's lo
 the (print) button takes the contents of the local store and places it in plaintext into a word wrapped div in a seperate html in a json format for ease in further storage andor manipulation
 
 
-
+### cont wishlist
+[] rule adder... perhaps just more basic building blocks, an if statement rule will go a long way, then if more than a certain number of games use the rule it gets hardcded for speed
+[] backword :: a better way to determine word split
+[] a security guaranteed way to sandbox rules to avoid foul play
